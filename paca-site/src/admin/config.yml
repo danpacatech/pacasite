@@ -1,0 +1,62 @@
+# ── PACA content manager configuration ─────────────────────────
+# Editors visit  /admin/  on the live site to add and edit shows.
+
+backend:
+  name: git-gateway
+  branch: main
+  # ↓↓↓ Fill these three from your DecapBridge dashboard (decapbridge.com),
+  #     then uncomment them, to enable login on the live site.
+  # repo: your-username/paca-site
+  # identity_url: https://auth.decapbridge.com/sites/YOUR-SITE-ID
+  # gateway_url: https://gateway.decapbridge.com
+
+# Lets you test the CMS on your own computer with no login:
+#   1) run the site:   npm start
+#   2) in another tab: npm run cms   (starts the local editor proxy)
+#   3) open:           http://localhost:8080/admin/
+local_backend: true
+
+media_folder: "src/assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: shows
+    label: Shows
+    label_singular: Show
+    description: "Add or edit a performance. New shows appear automatically on the home page and What's On."
+    folder: "src/shows"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}}  —  {{date_label}}"
+    sortable_fields: [date_start, title]
+    fields:
+      - { label: "Title", name: title, widget: string }
+      - { label: "Discipline", name: discipline, widget: select, options: [Theatre, Music, "Visual Art", Prose, Dance], default: Theatre }
+      - { label: "Feature on the home page", name: featured, widget: boolean, default: false, hint: "Only feature one show at a time." }
+      - { label: "Status", name: status, widget: select, options: [upcoming, "now playing", past], default: upcoming, hint: "Set to 'past' to hide it from the calendar." }
+      - { label: "Date label", name: date_label, widget: string, required: false, hint: "Friendly text shown on cards, e.g. Jul 10–11 & 17–18." }
+      - { label: "Start date (used for sorting)", name: date_start, widget: datetime, required: false, date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Showtime", name: showtime, widget: string, required: false, default: "7:30 PM" }
+      - { label: "Short summary", name: summary, widget: text, hint: "One or two sentences for listing cards and the hero." }
+      - { label: "Poster / image", name: image, widget: image, required: false, hint: "Optional. Used as the card and detail background." }
+      - { label: "Ticket link", name: ticket_url, widget: string, required: false, hint: "Eventbrite URL. Leave blank to use the default tickets link." }
+      - { label: "Full description", name: body, widget: markdown }
+
+  - name: settings
+    label: Site Settings
+    files:
+      - name: contact
+        label: "Contact & Links"
+        file: "src/_data/site.json"
+        description: "Address, phone, and the links used across the whole site."
+        fields:
+          - { label: "Short name", name: name, widget: string }
+          - { label: "Full name", name: fullName, widget: string }
+          - { label: "Address", name: address, widget: string }
+          - { label: "Phone (display)", name: phone, widget: string }
+          - { label: "Phone (tel: link)", name: phoneHref, widget: string }
+          - { label: "Website URL", name: url, widget: string }
+          - { label: "Tickets URL (Eventbrite)", name: tickets, widget: string }
+          - { label: "Donate URL", name: donate, widget: string }
+          - { label: "Instagram URL", name: instagram, widget: string }
+          - { label: "Facebook URL", name: facebook, widget: string }

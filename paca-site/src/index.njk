@@ -1,0 +1,100 @@
+---
+layout: base.njk
+title: ""
+---
+{% set featured = collections.shows | featured | first %}
+{% set upcoming = collections.shows | notPast | limit(3) %}
+
+<section class="hero">
+  <img class="hero-mark" src="/assets/paca-circle.png" alt="">
+  <div class="wrap">
+    <div class="eyebrow"><span class="label">{{ site.fullName }}</span></div>
+    <h1>Theatre with<br><em>an edge.</em></h1>
+    <p class="lede">A black-box home for live, fearless work in downtown Erie. Theatre, music, visual art, prose and dance, made by the people who live here.</p>
+    <div class="cta">
+      {% if featured %}<span class="chip">● Next: {{ featured.data.title }} · {{ featured.data.date_label or (featured.data.date_start | dateDisp) }}</span>{% endif %}
+      <a class="btn btn-primary" href="{{ site.tickets }}" target="_blank" rel="noopener">Get Tickets</a>
+      <a class="btn btn-ghost" href="/whats-on/">See What's On</a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="track">
+    <span><b>Theatre</b></span><span><b>Music</b></span><span><b>Visual Art</b></span><span><b>Prose</b></span><span><b>Dance</b></span><span><b>Live &amp; Local</b></span>
+    <span><b>Theatre</b></span><span><b>Music</b></span><span><b>Visual Art</b></span><span><b>Prose</b></span><span><b>Dance</b></span><span><b>Live &amp; Local</b></span>
+  </div>
+</div>
+
+{% if featured %}
+<section class="block">
+  <div class="wrap">
+    <div class="feature rv">
+      <div class="label">Now playing · Featured</div>
+      <h3>{{ featured.data.title }}</h3>
+      <span class="chip">● {{ featured.data.date_label or (featured.data.date_start | dateDisp) }}{% if featured.data.showtime %} · {{ featured.data.showtime }}{% endif %}</span>
+      <p>{{ featured.data.summary }}</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="{{ featured.data.ticket_url or site.tickets }}" target="_blank" rel="noopener">Get Tickets</a>
+        <a class="btn btn-ghost" href="{{ featured.url }}">Show Details</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="block" id="disciplines">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="num">01</span><h2>Five disciplines, one stage</h2></div>
+    <div class="disc-grid">
+      <div class="disc rv"><span class="bar" style="background:var(--magenta)"></span><div class="inner"><span class="dot" style="background:var(--magenta)"></span><h4>Theatre</h4><p>Original plays, stagings and devised work with a point of view.</p></div></div>
+      <div class="disc rv"><span class="bar" style="background:var(--orange)"></span><div class="inner"><span class="dot" style="background:var(--orange)"></span><h4>Music</h4><p>Live shows from local bands and touring acts, loud and intimate.</p></div></div>
+      <div class="disc rv"><span class="bar" style="background:var(--lime)"></span><div class="inner"><span class="dot" style="background:var(--lime)"></span><h4>Visual Art</h4><p>Rotating exhibitions and installations from area artists.</p></div></div>
+      <div class="disc rv"><span class="bar" style="background:var(--cyan)"></span><div class="inner"><span class="dot" style="background:var(--cyan)"></span><h4>Prose</h4><p>Readings, spoken word and storytelling nights.</p></div></div>
+      <div class="disc rv"><span class="bar" style="background:var(--purple)"></span><div class="inner"><span class="dot" style="background:var(--purple)"></span><h4>Dance</h4><p>Movement and performance across styles and companies.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="shows">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="num">02</span><h2>What's on</h2><a class="more" href="/whats-on/">Full Calendar</a></div>
+    <div class="shows">
+      {% for show in upcoming %}
+      <div class="show rv">
+        <div class="art" style="{% if show.data.image %}background-image:url({{ show.data.image }}){% else %}background:linear-gradient(150deg,var(--ink-3),{{ show.data.discipline | disccolor }}){% endif %}"><span class="tag">{{ show.data.discipline }}</span></div>
+        <div class="body">
+          <div class="date">{{ show.data.date_label or (show.data.date_start | dateDisp) }}{% if show.data.showtime %} · {{ show.data.showtime }}{% endif %}</div>
+          <h4>{{ show.data.title }}</h4>
+          <p>{{ show.data.summary }}</p>
+          <a class="ln" href="{{ show.url }}">Details →</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="block" id="involve">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="num">03</span><h2>Get involved</h2></div>
+    <div class="involve">
+      <div class="inv rv"><div class="ic" style="color:var(--magenta)">♥</div><h4>Donate</h4><p>Every gift keeps the lights on and the stage open. 100% goes to PACA.</p><a href="{{ site.donate }}" target="_blank" rel="noopener">Support PACA →</a></div>
+      <div class="inv rv"><div class="ic" style="color:var(--lime)">✶</div><h4>Volunteer</h4><p>Ushers, crew, box office and hands-on help for every production.</p><a href="/get-involved/">Join the crew →</a></div>
+      <div class="inv rv"><div class="ic" style="color:var(--cyan)">◷</div><h4>Become a Member</h4><p>Resident artists and member businesses make the collective run.</p><a href="/get-involved/">Learn more →</a></div>
+      <div class="inv rv"><div class="ic" style="color:var(--orange)">▣</div><h4>Shop Merch</h4><p>PACA gear and work from local Erie artists and crafters.</p><a href="/get-involved/">Visit the store →</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="news">
+  <div class="wrap rv">
+    <h2>Never miss <em>a show</em></h2>
+    <p>Get show announcements and the occasional behind-the-curtain note. No spam, ever.</p>
+    <form name="newsletter" method="POST" data-netlify="true" class="form">
+      <input type="hidden" name="form-name" value="newsletter">
+      <input type="email" name="email" placeholder="you@example.com" aria-label="Email address" required>
+      <button class="btn btn-primary" type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>

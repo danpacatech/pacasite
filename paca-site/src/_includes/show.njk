@@ -1,0 +1,22 @@
+---
+layout: base.njk
+---
+<section class="show-detail">
+  <div class="wrap">
+    <a class="back" href="/whats-on/">← Back to What's On</a>
+    <div class="meta">
+      <span class="disc-tag" style="background:{{ discipline | disccolor }}">{{ discipline }}</span>
+      <span class="label">{{ date_label or (date_start | dateDisp) }}{% if showtime %} · {{ showtime }}{% endif %}</span>
+    </div>
+    <h1>{{ title }}</h1>
+    {% if image %}<div class="hero-img" style="background-image:url({{ image }})"></div>{% endif %}
+    <div class="prose">
+      {% if summary %}<p style="font-size:1.25rem;color:var(--cream)">{{ summary }}</p>{% endif %}
+      {{ content | safe }}
+    </div>
+    <div class="cta">
+      <a class="btn btn-primary" href="{{ ticket_url or site.tickets }}" target="_blank" rel="noopener">Get Tickets</a>
+      <a class="btn btn-ghost" href="/whats-on/">More Shows</a>
+    </div>
+  </div>
+</section>

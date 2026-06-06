@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% if title %}{{ title }} · {% endif %}{{ site.name }} — {{ site.fullName }}</title>
+<meta name="description" content="{{ description or 'A black-box theatre and arts collective in downtown Erie. Theatre, music, visual art, prose and dance at 1505 State Street.' }}">
+<link rel="icon" type="image/png" href="/assets/paca-circle.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,400..700&family=Hanken+Grotesk:wght@300;400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<div class="grain"></div>
+<div class="spot" id="spot"></div>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="/"><img class="seal-img" src="/assets/paca-circle.png" alt="PACA">PACA</a>
+      <div class="navlinks" id="nav">
+        <a href="/whats-on/">What's On</a>
+        <a href="/get-involved/">Get Involved</a>
+        <a href="/visit/">Visit</a>
+        <a class="btn btn-primary" href="{{ site.tickets }}" target="_blank" rel="noopener">Tickets</a>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu">≡</button>
+    </nav>
+  </div>
+</header>
+
+{{ content | safe }}
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a class="brand" href="/"><img class="seal-img" src="/assets/paca-circle.png" alt="PACA">PACA</a>
+        <p>{{ site.fullName }}. A black-box theatre and arts collective in downtown Erie, Pennsylvania.</p>
+      </div>
+      <div class="fcol">
+        <h5>Explore</h5>
+        <a href="/whats-on/">What's On</a>
+        <a href="/get-involved/">Get Involved</a>
+        <a href="/visit/">Visit</a>
+      </div>
+      <div class="fcol">
+        <h5>Connect</h5>
+        <a href="{{ site.tickets }}" target="_blank" rel="noopener">Tickets</a>
+        <a href="{{ site.donate }}" target="_blank" rel="noopener">Donate</a>
+        <a href="{{ site.instagram }}">Instagram</a>
+        <a href="{{ site.facebook }}">Facebook</a>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© {{ "" | year }} {{ site.fullName }}</span>
+      <span>{{ site.address }} · {{ site.phone }}</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const spot=document.getElementById('spot');
+addEventListener('mousemove',e=>{spot.style.setProperty('--mx',e.clientX+'px');spot.style.setProperty('--my',e.clientY+'px');});
+const nav=document.getElementById('nav'),mb=document.getElementById('menuBtn');
+if(mb){mb.addEventListener('click',()=>nav.classList.toggle('open'));nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));}
+const io=new IntersectionObserver((es)=>es.forEach((en,i)=>{if(en.isIntersecting){en.target.style.transitionDelay=(i%6*60)+'ms';en.target.classList.add('in');io.unobserve(en.target);}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

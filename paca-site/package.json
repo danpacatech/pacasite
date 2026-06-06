@@ -1,0 +1,15 @@
+{
+  "name": "paca-site",
+  "version": "1.0.0",
+  "description": "PACA — Performing Artists Collective Alliance website (Eleventy + Decap CMS)",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "cms": "decap-server"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "decap-server": "^3.1.4"
+  }
+}

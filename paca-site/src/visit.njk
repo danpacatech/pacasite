@@ -1,0 +1,30 @@
+---
+layout: base.njk
+title: Visit
+description: Find PACA at 1505 State Street in downtown Erie, PA. Box office, parking, and directions.
+---
+<section class="page-head">
+  <div class="wrap">
+    <div class="eyebrow label">Plan your night</div>
+    <h1>Visit <em>PACA</em></h1>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="visit">
+      <a class="map rv" href="https://maps.google.com/?q=1505+State+Street+Erie+PA" target="_blank" rel="noopener"><span class="pin">1505 State St · Erie, PA</span></a>
+      <div class="rv">
+        <h2>Find us downtown</h2>
+        <div class="row"><span class="k">Where</span><span>{{ site.address }}</span></div>
+        <div class="row"><span class="k">Call</span><span><a href="{{ site.phoneHref }}" style="color:var(--magenta)">{{ site.phone }}</a></span></div>
+        <div class="row"><span class="k">Box office</span><span>Opens one hour before each performance</span></div>
+        <div class="row"><span class="k">Parking</span><span>Street and nearby lots within a short walk</span></div>
+        <div class="cta" style="margin-top:26px;display:flex;gap:14px;flex-wrap:wrap">
+          <a class="btn btn-primary" href="https://maps.google.com/?q=1505+State+Street+Erie+PA" target="_blank" rel="noopener">Get Directions</a>
+          <a class="btn btn-ghost" href="{{ site.tickets }}" target="_blank" rel="noopener">Buy Tickets</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

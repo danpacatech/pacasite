@@ -1,0 +1,36 @@
+---
+layout: base.njk
+title: What's On
+description: Upcoming theatre, music, visual art, prose and dance at PACA in downtown Erie.
+---
+{% set upcoming = collections.shows | notPast %}
+
+<section class="page-head">
+  <div class="wrap">
+    <div class="eyebrow label">The calendar</div>
+    <h1>What's <em>on</em></h1>
+    <p>Everything coming up at 1505 State Street. Grab tickets early, our black box is small on purpose.</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    {% if upcoming.length %}
+    <div class="shows">
+      {% for show in upcoming %}
+      <div class="show rv">
+        <div class="art" style="{% if show.data.image %}background-image:url({{ show.data.image }}){% else %}background:linear-gradient(150deg,var(--ink-3),{{ show.data.discipline | disccolor }}){% endif %}"><span class="tag">{{ show.data.discipline }}</span></div>
+        <div class="body">
+          <div class="date">{{ show.data.date_label or (show.data.date_start | dateDisp) }}{% if show.data.showtime %} · {{ show.data.showtime }}{% endif %}</div>
+          <h4>{{ show.data.title }}</h4>
+          <p>{{ show.data.summary }}</p>
+          <a class="ln" href="{{ show.url }}">Details →</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="color:var(--fog);font-size:1.1rem">No shows are posted yet. Check back soon.</p>
+    {% endif %}
+  </div>
+</section>
