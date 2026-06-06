@@ -3,8 +3,8 @@ title: Gallery Night!
 discipline: Visual Art
 featured: true
 status: upcoming
-date_label: June 25
-date_start: 2026-06-06
+date_label: June 26
+date_start: 2026-06-26
 showtime: 5:00
 summary: Spend a summer evening with us. We're opening the whole building for a
   night of art, music, and good company, and you're invited to wander all of it.
