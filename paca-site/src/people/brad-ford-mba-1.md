@@ -1,6 +1,6 @@
 ---
 name: Brad Ford, MBA
 role: Board Member
-group: Staff
+group: Board
 order: 7
 ---
