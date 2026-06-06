@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{% if title %}{{ title }} · {% endif %}{{ site.name }} — {{ site.fullName }}</title>
+<title>{{ site.name }} - {% if title %}{{ title }}{% else %}{{ site.fullName }}{% endif %}</title>
 <meta name="description" content="{{ description or 'A black-box theatre and arts collective in downtown Erie. Theatre, music, visual art, prose and dance at 1505 State Street.' }}">
 <link rel="icon" type="image/png" href="/assets/paca-circle.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">

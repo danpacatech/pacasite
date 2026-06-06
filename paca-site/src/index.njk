@@ -12,7 +12,7 @@ title: ""
     <h1>Theatre with<br><em>an edge.</em></h1>
     <p class="lede">A black-box home for live, fearless work in downtown Erie. Theatre, music, visual art, prose and dance, made by the people who live here.</p>
     <div class="cta">
-      {% if featured %}<span class="chip">● Next: {{ featured.data.title }} · {{ featured.data.date_label or (featured.data.date_start | dateDisp) }}</span>{% endif %}
+      {% if featured %}<a class="chip" href="{{ featured.url }}">● Next: {{ featured.data.title }} · {{ featured.data.date_label or (featured.data.date_start | dateDisp) }}</a>{% endif %}
       <a class="btn btn-primary" href="{{ site.tickets }}" target="_blank" rel="noopener">Get Tickets</a>
       <a class="btn btn-ghost" href="/whats-on/">See What's On</a>
     </div>
