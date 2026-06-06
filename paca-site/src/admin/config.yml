@@ -93,15 +93,25 @@ collections:
 
   - name: gallery
     label: "Gallery"
-    label_singular: "Gallery image"
+    label_singular: "Photo"
     folder: "paca-site/src/gallery"
     create: true
     slug: "{{title}}"
-    sortable_fields: [order, title]
+    sortable_fields: [year, order, title]
     fields:
       - { label: "Title", name: title, widget: string }
       - { label: "Image", name: image, widget: image }
+      - { label: "Category", name: category, widget: select, options: [Productions, Events, "The Space", People, Other], default: Productions }
+      - { label: "Production / event name", name: production, widget: string, required: false }
+      - { label: "Year", name: year, widget: number, required: false, value_type: int }
       - { label: "Caption", name: caption, widget: string, required: false }
-      - { label: "For sale", name: for_sale, widget: boolean, default: false }
-      - { label: "Price", name: price, widget: string, required: false, hint: "e.g. $250. Leave blank if not for sale." }
-      - { label: "Order (low number = first)", name: order, widget: number, default: 1, value_type: int }
+      - { label: "Order (within a year)", name: order, widget: number, default: 1, value_type: int }
+
+  - name: auditions
+    label: "Auditions"
+    files:
+      - name: info
+        label: "Audition Info"
+        file: "paca-site/src/auditions/auditions.md"
+        fields:
+          - { label: "Audition information", name: body, widget: markdown }
