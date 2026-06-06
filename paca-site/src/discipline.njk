@@ -21,6 +21,7 @@ eleventyComputed:
     <div class="eyebrow label">Discipline</div>
     <h1>{{ discipline }}</h1>
     <p>Upcoming {{ discipline }} at PACA. <a href="/whats-on/" style="color:var(--magenta)">See everything &rarr;</a></p>
+    {% if discipline == "Visual Art" %}<p style="color:var(--cream)">A rotating assortment of art is always on display in our gallery spaces, and some of it is for sale.</p>{% endif %}
   </div>
 </section>
 
