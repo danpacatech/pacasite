@@ -1,6 +1,6 @@
 ---
 name: Darrel Vandeveld, Esq.
 role: Board Member
-group: Staff
+group: Board
 order: 6
 ---
