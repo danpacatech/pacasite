@@ -9,7 +9,7 @@ layout: base.njk
       <span class="label">{{ date_label or (date_start | dateDisp) }}{% if showtime %} · {{ showtime }}{% endif %}</span>
     </div>
     <h1>{{ title }}</h1>
-    {% if image %}<div class="hero-img" style="background-image:url({{ image }})"></div>{% endif %}
+    {% if image %}<img class="poster" src="{{ image }}" alt="{{ title }}">{% endif %}
     <div class="prose">
       {% if summary %}<p style="font-size:1.25rem;color:var(--cream)">{{ summary }}</p>{% endif %}
       {{ content | safe }}
