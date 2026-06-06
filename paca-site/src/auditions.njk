@@ -1,0 +1,25 @@
+---
+layout: base.njk
+title: Auditions
+description: Audition and casting information for PACA productions in downtown Erie, PA.
+---
+{% set doc = collections.auditionsdoc | first %}
+
+<section class="page-head">
+  <div class="wrap">
+    <div class="eyebrow label">Get involved</div>
+    <h1>Auditions <em>&amp; casting</em></h1>
+  </div>
+</section>
+
+<section class="block" style="border-bottom:none">
+  <div class="wrap">
+    <div class="prose rv">
+      {% if doc %}{{ doc.templateContent | safe }}{% else %}<p style="color:var(--fog)">Audition information is coming soon. Add it in the CMS under Auditions.</p>{% endif %}
+    </div>
+    <div class="cta rv" style="margin-top:38px;display:flex;gap:14px;flex-wrap:wrap">
+      <a class="btn btn-primary" href="mailto:hello@paca1505.org?subject=Auditions">Email about auditions</a>
+      <a class="btn btn-ghost" href="/whats-on/">See upcoming shows</a>
+    </div>
+  </div>
+</section>

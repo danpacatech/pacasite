@@ -1,8 +1,8 @@
 ---
-name: Margo Wolfe, Ph.D.
+name: Jane Doe
 role: Board President
 group: Board
-photo: ""
 order: 1
-bio: ""
+photo: ""
+bio: "Sample board member. Replace in the CMS."
 ---

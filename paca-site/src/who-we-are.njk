@@ -1,11 +1,11 @@
 ---
 layout: base.njk
 title: Who We Are
-description: The story of PACA, our board and staff, and a look inside our gallery spaces in downtown Erie.
+description: The story of PACA, our board and staff, and a photo gallery of past productions in downtown Erie.
 ---
 {% set hist = collections.aboutdoc | first %}
 {% set people = collections.people | sort(false, false, "data.order") %}
-{% set gallery = collections.gallery | sort(false, false, "data.order") %}
+{% set gallery = collections.gallery | sort(true, false, "data.year") %}
 
 <section class="page-head">
   <div class="wrap">
@@ -33,8 +33,8 @@ description: The story of PACA, our board and staff, and a look inside our galle
     <h3 class="team-group">Board</h3>
     <div class="team">
       {% for p in people %}{% if p.data.group == "Board" %}
-      <div class="member rv">
-        {% if p.data.photo %}<img class="m-photo" src="{{ p.data.photo }}" alt="{{ p.data.name }}">{% else %}<div class="m-photo m-ph"></div>{% endif %}
+      <div class="member rv{% if not p.data.photo %} no-photo{% endif %}">
+        {% if p.data.photo %}<img class="m-photo" src="{{ p.data.photo }}" alt="{{ p.data.name }}">{% endif %}
         <div class="m-name">{{ p.data.name }}</div>
         <div class="m-role">{{ p.data.role }}</div>
         {% if p.data.bio %}<p class="m-bio">{{ p.data.bio }}</p>{% endif %}
@@ -49,8 +49,8 @@ description: The story of PACA, our board and staff, and a look inside our galle
     <h3 class="team-group">Staff</h3>
     <div class="team">
       {% for p in people %}{% if p.data.group == "Staff" %}
-      <div class="member rv">
-        {% if p.data.photo %}<img class="m-photo" src="{{ p.data.photo }}" alt="{{ p.data.name }}">{% else %}<div class="m-photo m-ph"></div>{% endif %}
+      <div class="member rv{% if not p.data.photo %} no-photo{% endif %}">
+        {% if p.data.photo %}<img class="m-photo" src="{{ p.data.photo }}" alt="{{ p.data.name }}">{% endif %}
         <div class="m-name">{{ p.data.name }}</div>
         <div class="m-role">{{ p.data.role }}</div>
         {% if p.data.bio %}<p class="m-bio">{{ p.data.bio }}</p>{% endif %}
@@ -66,22 +66,51 @@ description: The story of PACA, our board and staff, and a look inside our galle
 <section class="block" id="gallery" style="border-bottom:none">
   <div class="wrap">
     <div class="sec-head rv"><span class="num">03</span><h2>Gallery</h2></div>
-    <p class="rv" style="color:var(--fog);max-width:60ch;margin:-24px 0 32px">A rotating assortment of art is always on display in our gallery spaces, and some of it is for sale.</p>
+    <p class="rv" style="color:var(--fog);max-width:60ch;margin:-24px 0 30px">A look back at past productions and moments from PACA's history.</p>
     {% if gallery.length %}
-    <div class="gallery">
+    <div class="gfilters rv" id="gfilters">
+      <button class="gchip active" data-filter="all">All</button>
+    </div>
+    <div class="gallery" id="gallery-grid">
       {% for g in gallery %}
-      <figure class="gitem rv">
-        {% if g.data.image %}<img src="{{ g.data.image }}" alt="{{ g.data.title }}">{% endif %}
+      <figure class="gitem" data-category="{{ g.data.category | slugify }}" data-catlabel="{{ g.data.category }}">
+        {% if g.data.image %}<img src="{{ g.data.image }}" alt="{{ g.data.title }}" loading="lazy" data-caption="{{ g.data.title }}{% if g.data.production %} &middot; {{ g.data.production }}{% endif %}{% if g.data.year %} ({{ g.data.year }}){% endif %}">{% endif %}
         <figcaption>
           <span class="gt">{{ g.data.title }}</span>
+          {% if g.data.production or g.data.year %}<span class="gmeta">{% if g.data.production %}{{ g.data.production }}{% endif %}{% if g.data.production and g.data.year %} &middot; {% endif %}{% if g.data.year %}{{ g.data.year }}{% endif %}</span>{% endif %}
           {% if g.data.caption %}<span class="gc">{{ g.data.caption }}</span>{% endif %}
-          {% if g.data.for_sale %}<span class="gsale">For sale{% if g.data.price %} · {{ g.data.price }}{% endif %}</span>{% endif %}
         </figcaption>
       </figure>
       {% endfor %}
     </div>
     {% else %}
-    <p style="color:var(--fog)">Add gallery images in the CMS under Gallery.</p>
+    <p style="color:var(--fog)">Add gallery photos in the CMS under Gallery.</p>
     {% endif %}
   </div>
 </section>
+
+<div class="lightbox" id="lightbox"><span class="lb-close" id="lb-close">&times;</span><img id="lb-img" src="" alt=""><div class="lb-cap" id="lb-cap"></div></div>
+
+<script>
+(function(){
+  var grid=document.getElementById('gallery-grid');
+  if(!grid){return;}
+  var items=grid.querySelectorAll('.gitem');
+  var filters=document.getElementById('gfilters');
+  var seen={};
+  items.forEach(function(it){
+    var slug=it.getAttribute('data-category'),label=it.getAttribute('data-catlabel');
+    if(slug && !seen[slug]){seen[slug]=true;
+      var b=document.createElement('button');b.className='gchip';b.setAttribute('data-filter',slug);b.textContent=label;filters.appendChild(b);}
+  });
+  var chips=filters.querySelectorAll('.gchip');
+  chips.forEach(function(c){c.addEventListener('click',function(){
+    chips.forEach(function(x){x.classList.remove('active');});c.classList.add('active');
+    var f=c.getAttribute('data-filter');
+    items.forEach(function(it){it.style.display=(f==='all'||it.getAttribute('data-category')===f)?'':'none';});
+  });});
+  var lb=document.getElementById('lightbox'),lbi=document.getElementById('lb-img'),lbc=document.getElementById('lb-cap');
+  grid.querySelectorAll('img').forEach(function(img){img.addEventListener('click',function(){lbi.src=img.getAttribute('src');lbc.textContent=img.getAttribute('data-caption')||'';lb.classList.add('open');});});
+  if(lb){lb.addEventListener('click',function(){lb.classList.remove('open');});}
+})();
+</script>
