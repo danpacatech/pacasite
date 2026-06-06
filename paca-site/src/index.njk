@@ -29,15 +29,18 @@ title: ""
 {% if featured %}
 <section class="block">
   <div class="wrap">
-    <div class="feature rv">
-      <div class="label">Now playing · Featured</div>
-      <h3>{{ featured.data.title }}</h3>
-      <span class="chip">● {{ featured.data.date_label or (featured.data.date_start | dateDisp) }}{% if featured.data.showtime %} · {{ featured.data.showtime }}{% endif %}</span>
-      <p>{{ featured.data.summary }}</p>
-      <div class="cta">
-        <a class="btn btn-primary" href="{{ featured.data.ticket_url or site.tickets }}" target="_blank" rel="noopener">Get Tickets</a>
-        <a class="btn btn-ghost" href="{{ featured.url }}">Show Details</a>
+    <div class="feature rv{% if featured.data.image %} has-img{% endif %}">
+      <div class="feature-text">
+        <div class="label">Now playing · Featured</div>
+        <h3>{{ featured.data.title }}</h3>
+        <span class="chip">● {{ featured.data.date_label or (featured.data.date_start | dateDisp) }}{% if featured.data.showtime %} · {{ featured.data.showtime }}{% endif %}</span>
+        <p>{{ featured.data.summary }}</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="{{ featured.data.ticket_url or site.tickets }}" target="_blank" rel="noopener">Get Tickets</a>
+          <a class="btn btn-ghost" href="{{ featured.url }}">Show Details</a>
+        </div>
       </div>
+      {% if featured.data.image %}<div class="feature-img"><img src="{{ featured.data.image }}" alt="{{ featured.data.title }}"></div>{% endif %}
     </div>
   </div>
 </section>
