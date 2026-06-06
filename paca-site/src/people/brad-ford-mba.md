@@ -1,6 +1,6 @@
 ---
-name: Charlie Sacco, Esq.
-role: Board Member
+name: Karen Schelinski
+role: Vice President
 group: Board
-order: 1
+order: 2
 ---
