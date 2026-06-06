@@ -183,3 +183,22 @@ footer .seal-img{width:36px;height:36px}
   .navlinks a{font-size:1.05rem}
   .menu-btn{display:block}
 }
+
+/* who we are: board & staff */
+.team-group{font-family:var(--display);font-weight:400;font-size:1.5rem;margin:6px 0 18px;color:var(--cream)}
+.team{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:24px;margin-bottom:44px}
+.member{text-align:left}
+.m-photo{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:14px;border:1px solid var(--line);display:block}
+.m-ph{background:linear-gradient(150deg,var(--ink-3),var(--ink-2))}
+.m-name{font-family:var(--display);font-size:1.2rem;margin-top:12px}
+.m-role{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--magenta);margin-top:4px}
+.m-bio{color:var(--fog);font-size:.92rem;margin-top:10px;line-height:1.55}
+
+/* who we are: gallery */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+.gitem{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--ink-2)}
+.gitem img{width:100%;display:block;aspect-ratio:4/3;object-fit:cover}
+.gitem figcaption{padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.gitem .gt{font-family:var(--display);font-size:1.05rem}
+.gitem .gc{color:var(--fog);font-size:.88rem}
+.gitem .gsale{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);background:var(--lime);padding:4px 10px;border-radius:999px;align-self:flex-start;margin-top:6px}

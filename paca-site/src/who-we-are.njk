@@ -1,0 +1,87 @@
+---
+layout: base.njk
+title: Who We Are
+description: The story of PACA, our board and staff, and a look inside our gallery spaces in downtown Erie.
+---
+{% set hist = collections.aboutdoc | first %}
+{% set people = collections.people | sort(false, false, "data.order") %}
+{% set gallery = collections.gallery | sort(false, false, "data.order") %}
+
+<section class="page-head">
+  <div class="wrap">
+    <div class="eyebrow label">Who we are</div>
+    <h1>Who we <em>are</em></h1>
+  </div>
+</section>
+
+<section class="block" id="history">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="num">01</span><h2>Our story</h2></div>
+    <div class="prose rv">
+      {% if hist %}{{ hist.templateContent | safe }}{% else %}<p style="color:var(--fog)">Add PACA's history in the CMS under Who We Are.</p>{% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="block" id="board-staff">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="num">02</span><h2>Board &amp; staff</h2></div>
+
+    {% set hasBoard = false %}
+    {% for p in people %}{% if p.data.group == "Board" %}{% set hasBoard = true %}{% endif %}{% endfor %}
+    {% if hasBoard %}
+    <h3 class="team-group">Board</h3>
+    <div class="team">
+      {% for p in people %}{% if p.data.group == "Board" %}
+      <div class="member rv">
+        {% if p.data.photo %}<img class="m-photo" src="{{ p.data.photo }}" alt="{{ p.data.name }}">{% else %}<div class="m-photo m-ph"></div>{% endif %}
+        <div class="m-name">{{ p.data.name }}</div>
+        <div class="m-role">{{ p.data.role }}</div>
+        {% if p.data.bio %}<p class="m-bio">{{ p.data.bio }}</p>{% endif %}
+      </div>
+      {% endif %}{% endfor %}
+    </div>
+    {% endif %}
+
+    {% set hasStaff = false %}
+    {% for p in people %}{% if p.data.group == "Staff" %}{% set hasStaff = true %}{% endif %}{% endfor %}
+    {% if hasStaff %}
+    <h3 class="team-group">Staff</h3>
+    <div class="team">
+      {% for p in people %}{% if p.data.group == "Staff" %}
+      <div class="member rv">
+        {% if p.data.photo %}<img class="m-photo" src="{{ p.data.photo }}" alt="{{ p.data.name }}">{% else %}<div class="m-photo m-ph"></div>{% endif %}
+        <div class="m-name">{{ p.data.name }}</div>
+        <div class="m-role">{{ p.data.role }}</div>
+        {% if p.data.bio %}<p class="m-bio">{{ p.data.bio }}</p>{% endif %}
+      </div>
+      {% endif %}{% endfor %}
+    </div>
+    {% endif %}
+
+    {% if not hasBoard and not hasStaff %}<p style="color:var(--fog)">Add board members and staff in the CMS under Board &amp; Staff.</p>{% endif %}
+  </div>
+</section>
+
+<section class="block" id="gallery" style="border-bottom:none">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="num">03</span><h2>Gallery</h2></div>
+    <p class="rv" style="color:var(--fog);max-width:60ch;margin:-24px 0 32px">A rotating assortment of art is always on display in our gallery spaces, and some of it is for sale.</p>
+    {% if gallery.length %}
+    <div class="gallery">
+      {% for g in gallery %}
+      <figure class="gitem rv">
+        {% if g.data.image %}<img src="{{ g.data.image }}" alt="{{ g.data.title }}">{% endif %}
+        <figcaption>
+          <span class="gt">{{ g.data.title }}</span>
+          {% if g.data.caption %}<span class="gc">{{ g.data.caption }}</span>{% endif %}
+          {% if g.data.for_sale %}<span class="gsale">For sale{% if g.data.price %} · {{ g.data.price }}{% endif %}</span>{% endif %}
+        </figcaption>
+      </figure>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="color:var(--fog)">Add gallery images in the CMS under Gallery.</p>
+    {% endif %}
+  </div>
+</section>
