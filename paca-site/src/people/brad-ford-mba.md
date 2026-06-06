@@ -1,6 +1,6 @@
 ---
-name: Karen Schelinski
-role: Vice President
+name: Betsy Butoryak
+role: "Secretary "
 group: Board
-order: 2
+order: 3
 ---
