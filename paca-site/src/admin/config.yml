@@ -66,3 +66,42 @@ collections:
           - { label: "Donate URL", name: donate, widget: string }
           - { label: "Instagram URL", name: instagram, widget: string }
           - { label: "Facebook URL", name: facebook, widget: string }
+          
+  - name: about
+    label: "Who We Are"
+    files:
+      - name: history
+        label: "PACA History"
+        file: "paca-site/src/about/history.md"
+        fields:
+          - { label: "History", name: body, widget: markdown }
+
+  - name: people
+    label: "Board & Staff"
+    label_singular: "Person"
+    folder: "paca-site/src/people"
+    create: true
+    slug: "{{name}}"
+    sortable_fields: [order, name]
+    fields:
+      - { label: "Name", name: name, widget: string }
+      - { label: "Role / Title", name: role, widget: string }
+      - { label: "Group", name: group, widget: select, options: [Board, Staff], default: Staff }
+      - { label: "Photo", name: photo, widget: image, required: false }
+      - { label: "Order (low number = first)", name: order, widget: number, default: 1, value_type: int }
+      - { label: "Short bio", name: bio, widget: text, required: false }
+
+  - name: gallery
+    label: "Gallery"
+    label_singular: "Gallery image"
+    folder: "paca-site/src/gallery"
+    create: true
+    slug: "{{title}}"
+    sortable_fields: [order, title]
+    fields:
+      - { label: "Title", name: title, widget: string }
+      - { label: "Image", name: image, widget: image }
+      - { label: "Caption", name: caption, widget: string, required: false }
+      - { label: "For sale", name: for_sale, widget: boolean, default: false }
+      - { label: "Price", name: price, widget: string, required: false, hint: "e.g. $250. Leave blank if not for sale." }
+      - { label: "Order (low number = first)", name: order, widget: number, default: 1, value_type: int }
