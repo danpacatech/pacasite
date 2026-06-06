@@ -3,7 +3,13 @@
 
 backend:
   name: git-gateway
+  repo: danpacatech/pacasite
   branch: main
+  auth_type: pkce
+  base_url: https://auth.decapbridge.com
+  auth_endpoint: /sites/0cf071f2-d976-4ff2-86dc-1721af24a682/pkce
+  auth_token_endpoint: /sites/0cf071f2-d976-4ff2-86dc-1721af24a682/token
+  gateway_url: https://gateway.decapbridge.com
   # ↓↓↓ Fill these three from your DecapBridge dashboard (decapbridge.com),
   #     then uncomment them, to enable login on the live site.
   # repo: your-username/paca-site
@@ -14,7 +20,7 @@ backend:
 #   1) run the site:   npm start
 #   2) in another tab: npm run cms   (starts the local editor proxy)
 #   3) open:           http://localhost:8080/admin/
-local_backend: true
+
 
 media_folder: "src/assets/uploads"
 public_folder: "/assets/uploads"
