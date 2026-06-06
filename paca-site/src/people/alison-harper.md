@@ -1,6 +1,6 @@
 ---
 name: Alison Harper
 role: Board Member
-group: Staff
+group: Board
 order: 5
 ---
