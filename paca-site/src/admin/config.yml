@@ -22,7 +22,7 @@ backend:
 #   3) open:           http://localhost:8080/admin/
 
 
-media_folder: "src/assets/uploads"
+media_folder: "paca-site/src/assets/uploads"
 public_folder: "/assets/uploads"
 
 collections:
@@ -30,7 +30,7 @@ collections:
     label: Shows
     label_singular: Show
     description: "Add or edit a performance. New shows appear automatically on the home page and What's On."
-    folder: "src/shows"
+    folder: "paca-site/src/shows"
     create: true
     slug: "{{slug}}"
     summary: "{{title}}  —  {{date_label}}"
@@ -53,7 +53,7 @@ collections:
     files:
       - name: contact
         label: "Contact & Links"
-        file: "src/_data/site.json"
+        file: "paca-site/src/_data/site.json"
         description: "Address, phone, and the links used across the whole site."
         fields:
           - { label: "Short name", name: name, widget: string }
