@@ -94,7 +94,7 @@ section{position:relative;z-index:2}
 
 /* disciplines */
 .disc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
-.disc{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);min-height:230px;cursor:pointer;background:linear-gradient(155deg,var(--ink-3),var(--ink-2));transition:transform .45s var(--ease),border-color .45s var(--ease)}
+.disc{display:block;position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);min-height:230px;cursor:pointer;background:linear-gradient(155deg,var(--ink-3),var(--ink-2));transition:transform .45s var(--ease),border-color .45s var(--ease)}
 .disc:hover{transform:translateY(-6px)}
 .disc .bar{position:absolute;top:0;left:0;width:100%;height:5px;transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
 .disc:hover .bar{transform:scaleX(1)}

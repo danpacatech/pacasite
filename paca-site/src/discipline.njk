@@ -1,0 +1,47 @@
+---
+layout: base.njk
+disciplineList:
+  - Theatre
+  - Music
+  - Visual Art
+  - Prose
+  - Dance
+pagination:
+  data: disciplineList
+  size: 1
+  alias: discipline
+permalink: "/disciplines/{{ discipline | slugify }}/"
+eleventyComputed:
+  title: "{{ discipline }}"
+---
+{% set matches = collections.shows | notPast | byDiscipline(discipline) %}
+
+<section class="page-head">
+  <div class="wrap">
+    <div class="eyebrow label">Discipline</div>
+    <h1>{{ discipline }}</h1>
+    <p>Upcoming {{ discipline }} at PACA. <a href="/whats-on/" style="color:var(--magenta)">See everything &rarr;</a></p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    {% if matches.length %}
+    <div class="shows">
+      {% for show in matches %}
+      <div class="show rv">
+        <div class="art" style="{% if show.data.image %}background-image:url({{ show.data.image }}){% else %}background:linear-gradient(150deg,var(--ink-3),{{ show.data.discipline | disccolor }}){% endif %}"><span class="tag">{{ show.data.discipline }}</span></div>
+        <div class="body">
+          <div class="date">{{ show.data.date_label or (show.data.date_start | dateDisp) }}{% if show.data.showtime %} · {{ show.data.showtime }}{% endif %}</div>
+          <h4>{{ show.data.title }}</h4>
+          <p>{{ show.data.summary }}</p>
+          <a class="ln" href="{{ show.url }}">Details &rarr;</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="color:var(--fog);font-size:1.1rem">No upcoming {{ discipline }} right now. <a href="/whats-on/" style="color:var(--magenta)">See all shows &rarr;</a></p>
+    {% endif %}
+  </div>
+</section>

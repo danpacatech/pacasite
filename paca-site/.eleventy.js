@@ -14,6 +14,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("featured", (arr) => (arr || []).filter((i) => i.data.featured));
   eleventyConfig.addFilter("notPast", (arr) => (arr || []).filter((i) => (i.data.status || "upcoming") !== "past"));
   eleventyConfig.addFilter("limit", (arr, n) => (arr || []).slice(0, n));
+  eleventyConfig.addFilter("byDiscipline", (arr, name) => (arr || []).filter((i) => i.data.discipline === name));
 
   eleventyConfig.addFilter("dateDisp", (d) => {
     if (!d) return "";
