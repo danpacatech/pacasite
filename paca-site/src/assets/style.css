@@ -249,3 +249,9 @@ footer .seal-img{width:36px;height:36px}
 .tc-row{display:flex;gap:16px;font-size:1.02rem}
 .tc-k{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fog);width:90px;flex:none;padding-top:3px}
 .tc-row a{color:var(--magenta)}
+
+/* checkbox group in forms */
+.rform .field-checks{grid-column:1 / -1}
+.checks{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:6px}
+.checks label{display:flex;align-items:center;gap:8px;margin:0;font-family:var(--body);font-size:.96rem;letter-spacing:normal;text-transform:none;color:var(--cream);cursor:pointer}
+.rform .checks input[type=checkbox]{width:18px;height:18px;accent-color:var(--magenta);padding:0;margin:0;border-radius:4px}

@@ -17,9 +17,20 @@ description: Audition and casting information for PACA productions in downtown E
     <div class="prose rv">
       {% if doc %}{{ doc.templateContent | safe }}{% else %}<p style="color:var(--fog)">Audition information is coming soon. Add it in the CMS under Auditions.</p>{% endif %}
     </div>
-    <div class="cta rv" style="margin-top:38px;display:flex;gap:14px;flex-wrap:wrap">
-      <a class="btn btn-primary" href="mailto:paca1505@gmail.com?subject=Auditions">Email about auditions</a>
-      <a class="btn btn-ghost" href="/whats-on/">See upcoming shows</a>
-    </div>
+    <div class="sec-head rv" style="margin-top:50px"><h2>Express interest</h2></div>
+    <p class="rv" style="color:var(--fog);max-width:60ch;margin:-24px 0 30px">Not sure where to start? Send this and we'll reach out about current and upcoming casting.</p>
+    <form name="audition-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="rform rv">
+      <input type="hidden" name="form-name" value="audition-inquiry">
+      <p hidden><label>Leave this empty: <input name="bot-field"></label></p>
+      <div><label>Name *</label><input type="text" name="name" required></div>
+      <div><label>Email *</label><input type="email" name="email" required></div>
+      <div><label>Phone</label><input type="tel" name="phone"></div>
+      <div><label>Age range (if a minor)</label><input type="text" name="age_range" placeholder="optional"></div>
+      <div class="full"><label>Production or roles you're interested in</label><input type="text" name="interest"></div>
+      <div class="full"><label>Performing experience</label><textarea name="experience" placeholder="A short background, or none needed."></textarea></div>
+      <div class="full"><label>Anything else?</label><textarea name="message"></textarea></div>
+      <div class="full"><button class="btn btn-primary" type="submit">Send</button></div>
+    </form>
+    <div class="rv" style="margin-top:24px"><a class="ln" href="/whats-on/" style="font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fog)">See upcoming shows →</a></div>
   </div>
 </section>

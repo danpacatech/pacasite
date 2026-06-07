@@ -1,0 +1,38 @@
+---
+layout: base.njk
+title: Volunteer
+description: Volunteer with PACA in downtown Erie. Ushering, crew, box office, front of house, and more.
+---
+<section class="page-head">
+  <div class="wrap">
+    <div class="eyebrow label">Get involved</div>
+    <h1>Volunteer <em>with us</em></h1>
+    <p>PACA runs on the people who show up. Tell us how you'd like to help and we'll be in touch.</p>
+  </div>
+</section>
+
+<section class="block" style="border-bottom:none">
+  <div class="wrap">
+    <form name="volunteer" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="rform rv">
+      <input type="hidden" name="form-name" value="volunteer">
+      <p hidden><label>Leave this empty: <input name="bot-field"></label></p>
+      <div><label>Name *</label><input type="text" name="name" required></div>
+      <div><label>Email *</label><input type="email" name="email" required></div>
+      <div><label>Phone</label><input type="tel" name="phone"></div>
+      <div class="full field-checks">
+        <label>Areas you're interested in</label>
+        <div class="checks">
+          <label><input type="checkbox" name="interests" value="Ushering"> Ushering</label>
+          <label><input type="checkbox" name="interests" value="Crew &amp; tech"> Crew &amp; tech</label>
+          <label><input type="checkbox" name="interests" value="Box office"> Box office</label>
+          <label><input type="checkbox" name="interests" value="Load-in / strike"> Load-in / strike</label>
+          <label><input type="checkbox" name="interests" value="Front of house"> Front of house</label>
+          <label><input type="checkbox" name="interests" value="Special events"> Special events</label>
+        </div>
+      </div>
+      <div class="full"><label>Availability</label><input type="text" name="availability" placeholder="e.g. weeknights, weekends"></div>
+      <div class="full"><label>Anything else?</label><textarea name="message"></textarea></div>
+      <div class="full"><button class="btn btn-primary" type="submit">Sign me up</button></div>
+    </form>
+  </div>
+</section>
