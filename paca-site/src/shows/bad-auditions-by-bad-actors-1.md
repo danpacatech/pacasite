@@ -3,8 +3,8 @@ title: Bad Auditions by Bad Actors
 discipline: Theatre
 featured: false
 status: upcoming
-date_label: July 17
-date_start: 2026-07-17
+date_label: July 18
+date_start: 2026-07-18
 showtime: 7:30 PM
 summary: "Newbie director Carol has one day to find the leads for a community
   theater production of Romeo and Juliet. "
