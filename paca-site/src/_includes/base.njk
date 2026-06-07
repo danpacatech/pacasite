@@ -4,7 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ site.name }} - {% if title %}{{ title }}{% else %}{{ site.fullName }}{% endif %}</title>
-<meta name="description" content="{{ description or 'A black-box theatre and arts collective in downtown Erie. Theatre, music, visual art, prose and dance at 1505 State Street.' }}">
+{% set desc = description or 'A black-box theatre and arts collective in downtown Erie. Theatre, music, visual art, prose and dance at 1505 State Street.' %}
+<meta name="description" content="{{ desc }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ site.name }}">
+<meta property="og:title" content="{% if title %}{{ title }} - {{ site.name }}{% else %}{{ site.fullName }}{% endif %}">
+<meta property="og:description" content="{{ desc }}">
+<meta property="og:url" content="{{ site.url }}{{ page.url }}">
+<meta property="og:image" content="{{ site.url }}/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% if title %}{{ title }} - {{ site.name }}{% else %}{{ site.fullName }}{% endif %}">
+<meta name="twitter:description" content="{{ desc }}">
+<meta name="twitter:image" content="{{ site.url }}/assets/og-image.png">
 <link rel="icon" type="image/png" href="/assets/paca-circle.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
