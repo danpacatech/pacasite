@@ -16,7 +16,7 @@ description: The story of PACA, our board and staff, and a photo gallery of past
 
 <section class="block" id="history">
   <div class="wrap">
-    <div class="sec-head rv"><span class="num">01</span><h2>Our story</h2></div>
+    <div class="sec-head rv"><h2>Our story</h2></div>
     <div class="prose rv">
       {% if hist %}{{ hist.templateContent | safe }}{% else %}<p style="color:var(--fog)">Add PACA's history in the CMS under Who We Are.</p>{% endif %}
     </div>
@@ -25,7 +25,7 @@ description: The story of PACA, our board and staff, and a photo gallery of past
 
 <section class="block" id="board-staff">
   <div class="wrap">
-    <div class="sec-head rv"><span class="num">02</span><h2>Board &amp; staff</h2></div>
+    <div class="sec-head rv"><h2>Board &amp; staff</h2></div>
 
     {% set hasBoard = false %}
     {% for p in people %}{% if p.data.group == "Board" %}{% set hasBoard = true %}{% endif %}{% endfor %}
@@ -65,7 +65,7 @@ description: The story of PACA, our board and staff, and a photo gallery of past
 
 <section class="block" id="gallery" style="border-bottom:none">
   <div class="wrap">
-    <div class="sec-head rv"><span class="num">03</span><h2>Gallery</h2></div>
+    <div class="sec-head rv"><h2>Gallery</h2></div>
     <p class="rv" style="color:var(--fog);max-width:60ch;margin:-24px 0 30px">A look back at past productions and moments from PACA's history.</p>
     {% if gallery.length %}
     <div class="gfilters rv" id="gfilters">
