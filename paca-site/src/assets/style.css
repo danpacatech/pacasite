@@ -215,3 +215,15 @@ footer .seal-img{width:36px;height:36px}
 .lb-cap{color:var(--cream);font-family:var(--mono);font-size:.8rem;letter-spacing:.06em;margin-top:18px;text-align:center}
 .lb-close{position:absolute;top:22px;right:30px;font-size:2.6rem;color:var(--fog);cursor:pointer;line-height:1}
 .lb-close:hover{color:var(--magenta)}
+
+/* prose images (rental page, etc.) */
+.prose img{border-radius:14px;border:1px solid var(--line);margin:20px 0;max-height:460px}
+
+/* rental / inquiry form */
+.rform{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:760px}
+.rform .full{grid-column:1 / -1}
+.rform label{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fog);margin-bottom:8px}
+.rform input,.rform textarea{width:100%;background:var(--ink-2);border:1px solid var(--line);border-radius:12px;padding:13px 16px;color:var(--cream);font-family:var(--body);font-size:.98rem}
+.rform input:focus,.rform textarea:focus{outline:none;border-color:var(--magenta)}
+.rform textarea{min-height:120px;resize:vertical}
+@media(max-width:620px){.rform{grid-template-columns:1fr}}

@@ -90,6 +90,15 @@ collections:
       - { label: "Photo", name: photo, widget: image, required: false }
       - { label: "Order (low number = first)", name: order, widget: number, default: 1, value_type: int }
       - { label: "Short bio", name: bio, widget: text, required: false }
+     
+  - name: rent
+    label: "Rent Our Spaces"
+    files:
+      - name: info
+        label: "Rental Page Info"
+        file: "paca-site/src/rent/rent.md"
+        fields:
+          - { label: "Rental info (text and photos)", name: body, widget: markdown }
 
   - name: gallery
     label: "Gallery"
