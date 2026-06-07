@@ -227,3 +227,25 @@ footer .seal-img{width:36px;height:36px}
 .rform input:focus,.rform textarea:focus{outline:none;border-color:var(--magenta)}
 .rform textarea{min-height:120px;resize:vertical}
 @media(max-width:620px){.rform{grid-template-columns:1fr}}
+
+/* what's here: tenant directory */
+.tenants{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+.tenant-card{position:relative;display:flex;flex-direction:column;border-radius:18px;border:1px solid var(--line);background:var(--ink-2);padding:24px;transition:transform .4s var(--ease),border-color .4s var(--ease)}
+.tenant-card:hover{transform:translateY(-5px);border-color:rgba(255,255,255,.22)}
+.unit-badge{align-self:flex-start;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);background:var(--yellow);padding:5px 12px;border-radius:999px;font-weight:600;margin-bottom:16px}
+.tenant-logo{height:84px;display:flex;align-items:center;justify-content:flex-start;margin-bottom:14px}
+.tenant-logo img{max-height:84px;max-width:100%;object-fit:contain}
+.tlogo-ph{width:60px;height:60px;border-radius:14px;background:linear-gradient(150deg,var(--ink-3),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.7rem;color:var(--cream)}
+.tenant-name{font-family:var(--display);font-size:1.4rem;line-height:1.1}
+.tenant-type{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--magenta);margin-top:6px}
+.tenant-sum{color:var(--fog);font-size:.92rem;margin-top:10px}
+.tenant-ln{font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cream);margin-top:auto;padding-top:16px}
+.tenant-card:hover .tenant-ln{color:var(--magenta)}
+/* what's here: tenant detail */
+.tenant-hero{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-bottom:30px}
+.tenant-hero-logo{width:120px;height:120px;border-radius:18px;border:1px solid var(--line);background:var(--ink-2);display:flex;align-items:center;justify-content:center;padding:14px;flex:none}
+.tenant-hero-logo img{max-width:100%;max-height:100%;object-fit:contain}
+.tenant-contact{margin-top:30px;border-top:1px solid var(--line);padding-top:24px;display:flex;flex-direction:column;gap:12px;max-width:480px}
+.tc-row{display:flex;gap:16px;font-size:1.02rem}
+.tc-k{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fog);width:90px;flex:none;padding-top:3px}
+.tc-row a{color:var(--magenta)}

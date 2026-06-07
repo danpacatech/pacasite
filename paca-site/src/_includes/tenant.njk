@@ -1,0 +1,29 @@
+---
+layout: base.njk
+---
+<section class="show-detail">
+  <div class="wrap">
+    <a class="back" href="/whats-here/">← Back to What's Here</a>
+    <div class="tenant-hero">
+      {% if logo %}<div class="tenant-hero-logo"><img src="{{ logo }}" alt="{{ name }}"></div>{% endif %}
+      <div>
+        {% if unit %}<span class="unit-badge">{{ unit }}</span>{% endif %}
+        <h1>{{ name }}</h1>
+        {% if type %}<div class="tenant-type">{{ type }}</div>{% endif %}
+      </div>
+    </div>
+    <div class="prose">
+      {% if summary %}<p style="font-size:1.2rem;color:var(--cream)">{{ summary }}</p>{% endif %}
+      {{ content | safe }}
+    </div>
+    <div class="tenant-contact">
+      {% if phone %}<div class="tc-row"><span class="tc-k">Phone</span><a href="tel:{{ phone }}">{{ phone }}</a></div>{% endif %}
+      {% if email %}<div class="tc-row"><span class="tc-k">Email</span><a href="mailto:{{ email }}">{{ email }}</a></div>{% endif %}
+      {% if unit %}<div class="tc-row"><span class="tc-k">Find them</span><span>Unit {{ unit }} · 1505 State St, Erie</span></div>{% endif %}
+    </div>
+    <div class="cta" style="margin-top:30px;display:flex;gap:14px;flex-wrap:wrap">
+      {% if website %}<a class="btn btn-primary" href="{{ website }}" target="_blank" rel="noopener">Visit their website</a>{% endif %}
+      <a class="btn btn-ghost" href="/whats-here/">All tenants</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,35 @@
+---
+layout: base.njk
+title: What's Here
+description: Meet the artists, makers, and businesses with studios and spaces at PACA, 1505 State Street in downtown Erie.
+---
+{% set tenants = collections.tenant | sort(false, false, "data.unit") %}
+
+<section class="page-head">
+  <div class="wrap">
+    <div class="eyebrow label">The building</div>
+    <h1>What's <em>here</em></h1>
+    <p>PACA is home to a collective of artists, makers, and businesses. Here's who you'll find in the building at 1505 State Street.</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    {% if tenants.length %}
+    <div class="tenants">
+      {% for t in tenants %}
+      <a class="tenant-card" href="{% if t.data.link_out and t.data.website %}{{ t.data.website }}{% else %}{{ t.url }}{% endif %}"{% if t.data.link_out and t.data.website %} target="_blank" rel="noopener"{% endif %}>
+        {% if t.data.unit %}<span class="unit-badge">{{ t.data.unit }}</span>{% endif %}
+        <div class="tenant-logo">{% if t.data.logo %}<img src="{{ t.data.logo }}" alt="{{ t.data.name }}">{% else %}<span class="tlogo-ph">{{ t.data.name | first }}</span>{% endif %}</div>
+        <div class="tenant-name">{{ t.data.name }}</div>
+        {% if t.data.type %}<div class="tenant-type">{{ t.data.type }}</div>{% endif %}
+        {% if t.data.summary %}<p class="tenant-sum">{{ t.data.summary }}</p>{% endif %}
+        <span class="tenant-ln">{% if t.data.link_out and t.data.website %}Visit website ↗{% else %}View →{% endif %}</span>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="color:var(--fog);font-size:1.1rem">The tenant directory is coming soon.</p>
+    {% endif %}
+  </div>
+</section>
