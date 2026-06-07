@@ -3,7 +3,7 @@ title: Bad Auditions by Bad Actors
 discipline: Theatre
 featured: false
 status: upcoming
-date_label: July 10,11, 17,18
+date_label: July 10
 date_start: 2026-07-10
 showtime: 7:30 PM
 summary: "Newbie director Carol has one day to find the leads for a community
