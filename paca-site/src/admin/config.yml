@@ -124,3 +124,22 @@ collections:
         file: "paca-site/src/auditions/auditions.md"
         fields:
           - { label: "Audition information", name: body, widget: markdown }
+          
+  - name: tenants
+    label: "What's Here (Tenants)"
+    label_singular: "Tenant"
+    folder: "paca-site/src/tenants"
+    create: true
+    slug: "{{unit}}"
+    sortable_fields: [unit, name]
+    fields:
+      - { label: "Name", name: name, widget: string }
+      - { label: "Unit / address", name: unit, widget: string, hint: "e.g. 2N1. Sorts the directory and becomes the page address." }
+      - { label: "Type", name: type, widget: string, required: false, hint: "e.g. Visual Artist, Music, Business" }
+      - { label: "Logo", name: logo, widget: image, required: false }
+      - { label: "Short summary", name: summary, widget: text, required: false, hint: "One line for the directory card." }
+      - { label: "Phone", name: phone, widget: string, required: false }
+      - { label: "Email", name: email, widget: string, required: false }
+      - { label: "Website", name: website, widget: string, required: false }
+      - { label: "Directory links straight to their website", name: link_out, widget: boolean, default: false }
+      - { label: "Full description / services", name: body, widget: markdown, required: false }
