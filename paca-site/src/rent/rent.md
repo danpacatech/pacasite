@@ -6,6 +6,6 @@ We have a variety of art studios available. Generally all studios include utilit
 
 For more information, contact Mark Tanenbaum at 814-434-0687 or paca1505@gmail.com.
 
-![PACA studio space](https://cdn.firespring.com/images/8eb9dfa8-196f-4d1b-9d8c-842a3f9ebabe.jpg)
+![PACA studio space](/assets/uploads/qahddogo.jpg.webp)
 
-![PACA studio space](https://cdn.firespring.com/images/557a7a97-0d46-4748-a297-55c4b09d785b.jpg)
+![PACA studio space](/assets/uploads/r6lu1zoa.jpg.webp)
