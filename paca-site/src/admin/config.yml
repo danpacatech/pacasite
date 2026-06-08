@@ -66,6 +66,7 @@ collections:
           - { label: "Donate URL", name: donate, widget: string }
           - { label: "Instagram URL", name: instagram, widget: string }
           - { label: "Facebook URL", name: facebook, widget: string }
+          - { label: "Merch URL (Square)", name: merch, widget: string, required: false, hint: "Square Online store link. Leave blank to fall back to the merch email." }
           
   - name: about
     label: "Who We Are"
