@@ -27,7 +27,7 @@ public_folder: "/assets/uploads"
 
 collections:
   - name: shows
-    label: Shows
+    label: Shows & Events
     label_singular: Show
     description: "Add or edit a performance. New shows appear automatically on the home page and What's On."
     folder: "paca-site/src/shows"
@@ -37,7 +37,7 @@ collections:
     sortable_fields: [date_start, title]
     fields:
       - { label: "Title", name: title, widget: string }
-      - { label: "Discipline", name: discipline, widget: select, options: [Theatre, Music, "Visual Art", Prose, Dance], default: Theatre }
+      - { label: "Discipline", name: discipline, widget: select, options: [Theatre, Music, "Visual Art", Prose, Dance, Event, Party, Other], default: Theatre }
       - { label: "Feature on the home page", name: featured, widget: boolean, default: false, hint: "Only feature one show at a time." }
       - { label: "Status", name: status, widget: select, options: [upcoming, "now playing", past], default: upcoming, hint: "Set to 'past' to hide it from the calendar." }
       - { label: "Date label", name: date_label, widget: string, required: false, hint: "Friendly text shown on cards, e.g. Jul 10–11 & 17–18." }
@@ -143,3 +143,32 @@ collections:
       - { label: "Website", name: website, widget: string, required: false }
       - { label: "Directory links straight to their website", name: link_out, widget: boolean, default: false }
       - { label: "Full description / services", name: body, widget: markdown, required: false }
+  
+  - name: homepage
+    label: Homepage
+    files:
+      - name: hero
+        label: "Hero & Announcement"
+        file: "paca-site/src/_data/home.json"
+        description: "The big text at the top of the home page, plus an optional announcement bar."
+        fields:
+          - { label: "Announcement (optional)", name: announcement, widget: string, required: false, hint: "Leave blank for none. When filled, it shows as a bar at the very top of the home page." }
+          - { label: "Announcement link (optional)", name: announcement_link, widget: string, required: false }
+          - { label: "Headline line 1", name: hero_line1, widget: string }
+          - { label: "Headline line 2 (italic accent)", name: hero_line2, widget: string, required: false }
+          - { label: "Intro paragraph", name: hero_blurb, widget: text }
+  
+  - name: sponsors
+    label: Sponsors
+    label_singular: Sponsor
+    description: "Logos shown in the 'Special thanks to' bar at the bottom of every page."
+    folder: "paca-site/src/sponsors"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{name}}"
+    sortable_fields: [order, name]
+    fields:
+      - { label: "Name", name: name, widget: string }
+      - { label: "Logo", name: logo, widget: image }
+      - { label: "Link (optional)", name: url, widget: string, required: false }
+      - { label: "Order (lower shows first)", name: order, widget: number, default: 1, value_type: int }       
