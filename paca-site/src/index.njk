@@ -3,14 +3,16 @@ layout: base.njk
 title: ""
 ---
 {% set featured = collections.shows | featured | first %}
-{% set upcoming = collections.shows | notPast | limit(3) %}
 
 <section class="hero">
   <img class="hero-mark" src="/assets/paca-circle.png" alt="">
   <div class="wrap">
+    {% if home.announcement %}
+    <div class="announce">{% if home.announcement_link %}<a href="{{ home.announcement_link }}">{{ home.announcement }}</a>{% else %}{{ home.announcement }}{% endif %}</div>
+    {% endif %}
     <div class="eyebrow"><span class="label">{{ site.fullName }}</span></div>
-    <h1>Theatre with<br><em>an edge.</em></h1>
-    <p class="lede">A black-box home for live, fearless work in downtown Erie. Theatre, music, visual art, prose and dance, made by the people who live here.</p>
+    <h1>{{ home.hero_line1 }}{% if home.hero_line2 %}<br><em>{{ home.hero_line2 }}</em>{% endif %}</h1>
+    <p class="lede">{{ home.hero_blurb }}</p>
     <div class="cta">
       {% if featured %}<a class="chip" href="{{ featured.url }}">● Next: {{ featured.data.title }} · {{ featured.data.date_label or (featured.data.date_start | dateDisp) }}</a>{% endif %}
       <a class="btn btn-primary" href="{{ site.tickets }}" target="_blank" rel="noopener">Get Tickets</a>
@@ -18,13 +20,6 @@ title: ""
     </div>
   </div>
 </section>
-
-<div class="marquee">
-  <div class="track">
-    <span><b>Theatre</b></span><span><b>Music</b></span><span><b>Visual Art</b></span><span><b>Prose</b></span><span><b>Dance</b></span><span><b>Live &amp; Local</b></span>
-    <span><b>Theatre</b></span><span><b>Music</b></span><span><b>Visual Art</b></span><span><b>Prose</b></span><span><b>Dance</b></span><span><b>Live &amp; Local</b></span>
-  </div>
-</div>
 
 {% if featured %}
 <section class="block">
@@ -55,25 +50,6 @@ title: ""
       <a class="disc rv" href="/disciplines/visual-art/"><span class="bar" style="background:var(--lime)"></span><div class="inner"><span class="dot" style="background:var(--lime)"></span><h4>Visual Art</h4><p>Rotating exhibitions and installations from area artists.</p></div></a>
       <a class="disc rv" href="/disciplines/prose/"><span class="bar" style="background:var(--cyan)"></span><div class="inner"><span class="dot" style="background:var(--cyan)"></span><h4>Prose</h4><p>Readings, spoken word and storytelling nights.</p></div></a>
       <a class="disc rv" href="/disciplines/dance/"><span class="bar" style="background:var(--purple)"></span><div class="inner"><span class="dot" style="background:var(--purple)"></span><h4>Dance</h4><p>Movement and performance across styles and companies.</p></div></a>
-    </div>
-  </div>
-</section>
-
-<section class="block" id="shows">
-  <div class="wrap">
-    <div class="sec-head rv"><h2>What's on</h2><a class="more" href="/whats-on/">Full Calendar</a></div>
-    <div class="shows">
-      {% for show in upcoming %}
-      <div class="show rv">
-        <div class="art" style="{% if show.data.image %}background-image:url({{ show.data.image }}){% else %}background:linear-gradient(150deg,var(--ink-3),{{ show.data.discipline | disccolor }}){% endif %}"><span class="tag">{{ show.data.discipline }}</span></div>
-        <div class="body">
-          <div class="date">{{ show.data.date_label or (show.data.date_start | dateDisp) }}{% if show.data.showtime %} · {{ show.data.showtime }}{% endif %}</div>
-          <h4>{{ show.data.title }}</h4>
-          <p>{{ show.data.summary }}</p>
-          <a class="ln" href="{{ show.url }}">Details →</a>
-        </div>
-      </div>
-      {% endfor %}
     </div>
   </div>
 </section>

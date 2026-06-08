@@ -78,6 +78,18 @@
   </div>
 </footer>
 
+{% if collections.sponsors and collections.sponsors.length %}
+<div class="sponsors">
+  <span class="sponsors-label">Special thanks to</span>
+  <div class="sponsors-viewport">
+    <div class="sponsors-track">
+      {% for s in collections.sponsors %}<span class="sponsor">{% if s.data.url %}<a href="{{ s.data.url }}" target="_blank" rel="noopener">{% endif %}<img src="{{ s.data.logo }}" alt="{{ s.data.name }}">{% if s.data.url %}</a>{% endif %}</span>{% endfor %}
+      {% for s in collections.sponsors %}<span class="sponsor" aria-hidden="true">{% if s.data.url %}<a href="{{ s.data.url }}" target="_blank" rel="noopener">{% endif %}<img src="{{ s.data.logo }}" alt="">{% if s.data.url %}</a>{% endif %}</span>{% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
 <script>
 const spot=document.getElementById('spot');
 addEventListener('mousemove',e=>{spot.style.setProperty('--mx',e.clientX+'px');spot.style.setProperty('--my',e.clientY+'px');});

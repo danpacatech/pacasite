@@ -10,6 +10,11 @@ module.exports = function (eleventyConfig) {
     })
   );
 
+  // Sponsors collection, sorted by order
+  eleventyConfig.addCollection("sponsors", (api) =>
+    api.getFilteredByGlob("src/sponsors/*.md").sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
+  );
+
   // --- Filters ---
   eleventyConfig.addFilter("featured", (arr) => (arr || []).filter((i) => i.data.featured));
   eleventyConfig.addFilter("notPast", (arr) => (arr || []).filter((i) => (i.data.status || "upcoming") !== "past"));
@@ -28,6 +33,8 @@ module.exports = function (eleventyConfig) {
     "Visual Art": "var(--lime)",
     "Prose": "var(--cyan)",
     "Dance": "var(--purple)",
+    "Event": "var(--yellow)",
+    "Party": "var(--orange)",
   };
   eleventyConfig.addFilter("disccolor", (d) => DISC[d] || "var(--magenta)");
 
