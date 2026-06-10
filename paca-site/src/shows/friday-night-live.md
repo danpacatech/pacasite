@@ -9,7 +9,7 @@ showtime: 5:00
 summary: Spend a summer evening with us. We're opening the whole building for a
   night of art, music, and good company, and you're invited to wander all of it.
 image: /assets/uploads/paca_gallery-night_june26.png
-ticket_url: ""
+ticket_url: https://tickets.eriereader.com/events/gallery-night-6-9-2026
 ---
 Gallery Night at PACA
 Doors at 5 PM
