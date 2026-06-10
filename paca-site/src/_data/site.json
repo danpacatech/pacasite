@@ -1,12 +1,12 @@
 {
+  "facebook": "#",
+  "tickets": "https://tickets.eriereader.com/organizations/performing-artists-collective-alliance",
   "name": "PACA",
-  "fullName": "Performing Artists Collective Alliance",
-  "address": "1505 State Street, Erie, PA 16501",
   "phone": "(814) 616-PACA",
-  "phoneHref": "tel:+18146167222",
   "url": "https://paca1505.org",
-  "tickets": "https://www.eventbrite.com/o/paca",
   "donate": "https://www.zeffy.com",
   "instagram": "#",
-  "facebook": "#"
+  "address": "1505 State Street, Erie, PA 16501",
+  "phoneHref": "tel:+18146167222",
+  "fullName": "Performing Artists Collective Alliance"
 }
