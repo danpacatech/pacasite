@@ -5,7 +5,7 @@ title: ""
 {% set featured = collections.shows | featured | first %}
 
 <section class="hero">
-  <img class="hero-mark" src="/assets/paca-circle.png" alt="">
+  <span class="hero-mark"><img src="/assets/paca-circle.png" alt=""></span>
   <div class="wrap">
     {% if home.announcement %}
     <div class="announce">{% if home.announcement_link %}<a href="{{ home.announcement_link }}">{{ home.announcement }}</a>{% else %}{{ home.announcement }}{% endif %}</div>

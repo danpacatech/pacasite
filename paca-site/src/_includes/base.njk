@@ -4,18 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ site.name }} - {% if title %}{{ title }}{% else %}{{ site.fullName }}{% endif %}</title>
-{% set desc = description or 'A black-box theatre and arts collective in downtown Erie. Theatre, music, visual art, prose and dance at 1505 State Street.' %}
+{% set desc = description or summary or 'A black-box theatre and arts collective in downtown Erie. Theatre, music, visual art, prose and dance at 1505 State Street.' %}
+{% set shareImg = site.url + "/assets/og-image.png" %}
+{% if image %}{% set shareImg = site.url + image %}{% endif %}
 <meta name="description" content="{{ desc }}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{{ site.name }}">
 <meta property="og:title" content="{% if title %}{{ title }} - {{ site.name }}{% else %}{{ site.fullName }}{% endif %}">
 <meta property="og:description" content="{{ desc }}">
 <meta property="og:url" content="{{ site.url }}{{ page.url }}">
-<meta property="og:image" content="{{ site.url }}/assets/og-image.png">
+<meta property="og:image" content="{{ shareImg }}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{% if title %}{{ title }} - {{ site.name }}{% else %}{{ site.fullName }}{% endif %}">
 <meta name="twitter:description" content="{{ desc }}">
-<meta name="twitter:image" content="{{ site.url }}/assets/og-image.png">
+<meta name="twitter:image" content="{{ shareImg }}">
 <link rel="icon" type="image/png" href="/assets/paca-circle.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,12 +33,16 @@
     <nav>
       <a class="brand" href="/"><img class="seal-img" src="/assets/paca-circle.png" alt="PACA">PACA</a>
       <div class="navlinks" id="nav">
-        <a href="/whats-on/">What's On</a>
-        <a href="/who-we-are/">Who We Are</a>
-        <a href="/get-involved/">Get Involved</a>
-        <a href="/visit/">Visit</a>
-        <a href="/whats-here/">What's Here</a>
-        <a href="/rent-our-spaces/">Rentals</a>
+        {% set navitems = [
+          { label: "What's On", url: "/whats-on/", match: ["/whats-on/", "/shows/", "/disciplines/"] },
+          { label: "Who We Are", url: "/who-we-are/", match: ["/who-we-are/"] },
+          { label: "Get Involved", url: "/get-involved/", match: ["/get-involved/", "/volunteer/", "/auditions/"] },
+          { label: "Visit", url: "/visit/", match: ["/visit/"] },
+          { label: "What's Here", url: "/whats-here/", match: ["/whats-here/"] },
+          { label: "Rentals", url: "/rent-our-spaces/", match: ["/rent-our-spaces/"] }
+        ] %}
+        {% for n in navitems %}<a href="{{ n.url }}"{% if page.url | isActive(n.match) %} class="active" aria-current="page"{% endif %}>{{ n.label }}</a>
+        {% endfor %}
         <a class="btn btn-ghost" href="{{ site.merch or 'mailto:paca1505@gmail.com?subject=Merch' }}"{% if site.merch %} target="_blank" rel="noopener"{% endif %}>Merch</a>
         <a class="btn btn-primary" href="{{ site.tickets }}" target="_blank" rel="noopener">Tickets</a>
       </div>
@@ -62,13 +68,14 @@
         <a href="/visit/">Visit</a>
         <a href="/whats-here/">What's Here</a>
         <a href="/rent-our-spaces/">Rent Our Spaces</a>
+        <a href="/archive/">Past Productions</a>
       </div>
       <div class="fcol">
         <h5>Connect</h5>
         <a href="{{ site.tickets }}" target="_blank" rel="noopener">Tickets</a>
         <a href="{{ site.donate }}" target="_blank" rel="noopener">Donate</a>
-        <a href="{{ site.instagram }}">Instagram</a>
-        <a href="{{ site.facebook }}">Facebook</a>
+        {% if site.instagram and site.instagram != "#" %}<a href="{{ site.instagram }}" target="_blank" rel="noopener">Instagram</a>{% endif %}
+        {% if site.facebook and site.facebook != "#" %}<a href="{{ site.facebook }}" target="_blank" rel="noopener">Facebook</a>{% endif %}
       </div>
     </div>
     <div class="fbot">
@@ -97,6 +104,24 @@ const nav=document.getElementById('nav'),mb=document.getElementById('menuBtn');
 if(mb){mb.addEventListener('click',()=>nav.classList.toggle('open'));nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));}
 const io=new IntersectionObserver((es)=>es.forEach((en,i)=>{if(en.isIntersecting){en.target.style.transitionDelay=(i%6*60)+'ms';en.target.classList.add('in');io.unobserve(en.target);}}),{threshold:.12});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+// Random hero logo personality, fresh on every visit
+(function(){
+  var wrap=document.querySelector('.hero-mark'); if(!wrap) return;
+  var logo=wrap.querySelector('img')||wrap;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){logo.style.animation='none';return;}
+  var M=[{n:'float',b:6,t:'ease-in-out'},{n:'bouncy',b:1.8,t:'cubic-bezier(.34,1.4,.5,1)'},{n:'throb',b:2.4,t:'ease-in-out'},{n:'wobble',b:3,t:'ease-in-out'},{n:'spin',b:13,t:'linear'},{n:'follow'}];
+  var C=[null,{n:'rainbow',b:8,t:'linear'},{n:'glow',b:3.2,t:'ease-in-out'},{n:'neon',b:1.4,t:'ease-in-out'}];
+  var p=function(a){return a[Math.floor(Math.random()*a.length)];};
+  var m=p(M),c=p(C),s=0.8+Math.random()*0.7,an=[];
+  if(m.n!=='follow')an.push(m.n+' '+(m.b/s).toFixed(2)+'s '+m.t+' infinite');
+  if(c)an.push(c.n+' '+(c.b/s).toFixed(2)+'s '+c.t+' infinite');
+  logo.style.animation=an.length?an.join(', '):'none';
+  if(m.n==='follow'){
+    var hero=wrap.closest('.hero')||document.body; logo.style.transition='transform .25s ease';
+    hero.addEventListener('mousemove',function(e){var r=hero.getBoundingClientRect();var dx=(e.clientX-(r.left+r.width/2))/r.width*60;var dy=(e.clientY-(r.top+r.height/2))/r.height*40;logo.style.transform='translate('+dx+'px,'+dy+'px) rotate('+(dx/16)+'deg)';});
+  }
+})();
 </script>
 </body>
 </html>

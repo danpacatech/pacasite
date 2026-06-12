@@ -15,7 +15,45 @@ module.exports = function (eleventyConfig) {
     api.getFilteredByGlob("src/sponsors/*.md").sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
   );
 
+  // Past productions: archive entries + shows marked "past", grouped by year (newest first)
+  eleventyConfig.addCollection("pastByYear", (api) => {
+    const arch = api.getFilteredByGlob("src/archive/*.md").map((i) => ({
+      title: i.data.title, year: parseInt(i.data.year, 10) || 0, discipline: i.data.discipline,
+      image: i.data.image, blurb: i.data.blurb, url: null }));
+    const shows = api.getFilteredByGlob("src/shows/*.md")
+      .filter((s) => (s.data.status || "") === "past")
+      .map((s) => ({ title: s.data.title, year: s.data.date_start ? new Date(s.data.date_start).getUTCFullYear() : 0,
+        discipline: s.data.discipline, image: s.data.image, blurb: s.data.summary, url: s.url }));
+    const all = arch.concat(shows).filter((x) => x.year);
+    const byYear = {};
+    all.forEach((x) => { (byYear[x.year] = byYear[x.year] || []).push(x); });
+    return Object.keys(byYear).sort((a, b) => b - a).map((y) => ({
+      year: parseInt(y, 10), items: byYear[y].sort((a, b) => (a.title || "").localeCompare(b.title || "")) }));
+  });
+
   // --- Filters ---
+  eleventyConfig.addFilter("isActive", (pageUrl, prefixes) =>
+    (prefixes || []).some((p) => pageUrl === p || pageUrl.indexOf(p) === 0)
+  );
+
+  // Add-to-calendar links (treats stored time as wall-clock / floating local)
+  const _stamp = (d) => { const x = new Date(d); const p = (n) => String(n).padStart(2, "0");
+    return x.getUTCFullYear() + p(x.getUTCMonth() + 1) + p(x.getUTCDate()) + "T" + p(x.getUTCHours()) + p(x.getUTCMinutes()) + "00"; };
+  const _end = (s, e) => { if (e) return new Date(e); const x = new Date(s); x.setUTCHours(x.getUTCHours() + 2); return x; };
+  const _clean = (s) => String(s || "").replace(/[\r\n,;]+/g, " ").trim();
+  eleventyConfig.addFilter("gcalHref", (start, end, title, desc, loc) => {
+    if (!start) return "";
+    const params = new URLSearchParams({ action: "TEMPLATE", text: _clean(title),
+      dates: _stamp(start) + "/" + _stamp(_end(start, end)), details: _clean(desc), location: _clean(loc) });
+    return "https://calendar.google.com/calendar/render?" + params.toString();
+  });
+  eleventyConfig.addFilter("icsHref", (start, end, title, desc, loc) => {
+    if (!start) return "";
+    const ics = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//PACA//EN", "BEGIN:VEVENT",
+      "UID:" + _stamp(start) + "@paca1505.org", "DTSTART:" + _stamp(start), "DTEND:" + _stamp(_end(start, end)),
+      "SUMMARY:" + _clean(title), "DESCRIPTION:" + _clean(desc), "LOCATION:" + _clean(loc), "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+    return "data:text/calendar;charset=utf8," + encodeURIComponent(ics);
+  });
   eleventyConfig.addFilter("featured", (arr) => (arr || []).filter((i) => i.data.featured));
   eleventyConfig.addFilter("notPast", (arr) => (arr || []).filter((i) => (i.data.status || "upcoming") !== "past"));
   eleventyConfig.addFilter("limit", (arr, n) => (arr || []).slice(0, n));

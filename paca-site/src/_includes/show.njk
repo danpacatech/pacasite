@@ -10,13 +10,33 @@ layout: base.njk
     </div>
     <h1>{{ title }}</h1>
     {% if image %}<img class="poster" src="{{ image }}" alt="{{ title }}">{% endif %}
+    {% if runtime or price or content_warning %}
+    <ul class="show-facts">
+      {% if runtime %}<li><span>Run time</span>{{ runtime }}</li>{% endif %}
+      {% if price %}<li><span>Tickets</span>{{ price }}</li>{% endif %}
+      {% if content_warning %}<li><span>Content note</span>{{ content_warning }}</li>{% endif %}
+    </ul>
+    {% endif %}
     <div class="prose">
       {% if summary %}<p style="font-size:1.25rem;color:var(--cream)">{{ summary }}</p>{% endif %}
       {{ content | safe }}
     </div>
+    {% if credits %}
+    <div class="show-credits">
+      <h3>Cast &amp; creative</h3>
+      <div class="credits-body">{{ credits }}</div>
+    </div>
+    {% endif %}
     <div class="cta">
       <a class="btn btn-primary" href="{{ ticket_url or site.tickets }}" target="_blank" rel="noopener">Get Tickets</a>
       <a class="btn btn-ghost" href="/whats-on/">More Shows</a>
     </div>
+    {% if date_start %}
+    <div class="addcal">
+      <span>Add to calendar</span>
+      <a href="{{ date_start | gcalHref(date_end, title, summary, site.address) }}" target="_blank" rel="noopener">Google</a>
+      <a href="{{ date_start | icsHref(date_end, title, summary, site.address) }}" download="paca-event.ics">Apple / Outlook</a>
+    </div>
+    {% endif %}
   </div>
 </section>

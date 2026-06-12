@@ -1,0 +1,38 @@
+---
+layout: base.njk
+title: Past Productions
+description: A look back at past shows, music, art and events at PACA in downtown Erie.
+---
+<section class="page-head">
+  <div class="wrap">
+    <div class="eyebrow"><span class="label">The history wall</span></div>
+    <h1>Past <em>productions</em></h1>
+    <p class="lede">A running record of what's happened on and around our stage. Older seasons are still being added.</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    {% if collections.pastByYear.length %}
+    {% for grp in collections.pastByYear %}
+    <div class="arc-year rv">
+      <h2 class="arc-yr">{{ grp.year }}</h2>
+      <div class="arc-grid">
+        {% for it in grp.items %}
+        <div class="arc-item">
+          {% if it.image %}<div class="arc-thumb" style="background-image:url({{ it.image }})"></div>{% else %}<div class="arc-thumb arc-noimg" style="background:linear-gradient(150deg,var(--ink-3),{{ it.discipline | disccolor }})"><span>{{ it.discipline }}</span></div>{% endif %}
+          <div class="arc-body">
+            <span class="arc-disc">{{ it.discipline }}</span>
+            <h3>{% if it.url %}<a href="{{ it.url }}">{{ it.title }}</a>{% else %}{{ it.title }}{% endif %}</h3>
+            {% if it.blurb %}<p>{{ it.blurb }}</p>{% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p style="color:var(--fog);font-size:1.1rem">The archive is just getting started. Check back soon.</p>
+    {% endif %}
+  </div>
+</section>

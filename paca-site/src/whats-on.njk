@@ -19,7 +19,7 @@ description: Upcoming theatre, music, visual art, prose and dance at PACA in dow
     <div class="shows">
       {% for show in upcoming %}
       <div class="show rv">
-        <div class="art" style="{% if show.data.image %}background-image:url({{ show.data.image }}){% else %}background:linear-gradient(150deg,var(--ink-3),{{ show.data.discipline | disccolor }}){% endif %}"><span class="tag">{{ show.data.discipline }}</span></div>
+        <div class="art" style="{% if show.data.image %}--art-img:url('{{ show.data.image }}'){% else %}background:linear-gradient(150deg,var(--ink-3),{{ show.data.discipline | disccolor }}){% endif %}"><span class="tag">{{ show.data.discipline }}</span></div>
         <div class="body">
           <div class="date">{{ show.data.date_label or (show.data.date_start | dateDisp) }}{% if show.data.showtime %} · {{ show.data.showtime }}{% endif %}</div>
           <h4>{{ show.data.title }}</h4>
