@@ -74,8 +74,8 @@
         <h5>Connect</h5>
         <a href="{{ site.tickets }}" target="_blank" rel="noopener">Tickets</a>
         <a href="{{ site.donate }}" target="_blank" rel="noopener">Donate</a>
-        {% if site.instagram and site.instagram != "#" %}<a href="{{ site.instagram }}" target="_blank" rel="noopener">Instagram</a>{% endif %}
-        {% if site.facebook and site.facebook != "#" %}<a href="{{ site.facebook }}" target="_blank" rel="noopener">Facebook</a>{% endif %}
+        <a href="{{ site.instagram if (site.instagram and site.instagram != '#') else 'https://www.instagram.com/paca1505/' }}" target="_blank" rel="noopener">Instagram</a>
+        <a href="{{ site.facebook if (site.facebook and site.facebook != '#') else 'https://www.facebook.com/paca1505/' }}" target="_blank" rel="noopener">Facebook</a>
       </div>
     </div>
     <div class="fbot">
