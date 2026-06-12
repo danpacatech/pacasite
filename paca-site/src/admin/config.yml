@@ -27,25 +27,29 @@ public_folder: "/assets/uploads"
 
 collections:
   - name: shows
-    label: Shows & Events
-    label_singular: Show
-    description: "Add or edit a performance. New shows appear automatically on the home page and What's On."
+    label: "Shows & Events"
+    label_singular: "Show / Event"
     folder: "paca-site/src/shows"
     create: true
     slug: "{{slug}}"
-    summary: "{{title}}  —  {{date_label}}"
+    summary: "{{title}}"
     sortable_fields: [date_start, title]
     fields:
       - { label: "Title", name: title, widget: string }
       - { label: "Discipline", name: discipline, widget: select, options: [Theatre, Music, "Visual Art", Prose, Dance, Event, Party, Other], default: Theatre }
-      - { label: "Feature on the home page", name: featured, widget: boolean, default: false, hint: "Only feature one show at a time." }
-      - { label: "Status", name: status, widget: select, options: [upcoming, "now playing", past], default: upcoming, hint: "Set to 'past' to hide it from the calendar." }
-      - { label: "Date label", name: date_label, widget: string, required: false, hint: "Friendly text shown on cards, e.g. Jul 10–11 & 17–18." }
-      - { label: "Start date (used for sorting)", name: date_start, widget: datetime, required: false, date_format: "YYYY-MM-DD", time_format: false }
-      - { label: "Showtime", name: showtime, widget: string, required: false, default: "7:30 PM" }
-      - { label: "Short summary", name: summary, widget: text, hint: "One or two sentences for listing cards and the hero." }
-      - { label: "Poster / image", name: image, widget: image, required: false, hint: "Optional. Used as the card and detail background." }
-      - { label: "Ticket link", name: ticket_url, widget: string, required: false, hint: "Eventbrite URL. Leave blank to use the default tickets link." }
+      - { label: "Feature on the home page", name: featured, widget: boolean, default: false, hint: "Only one at a time. Turning a new one on means turning the old one off." }
+      - { label: "Status", name: status, widget: select, options: [upcoming, past], default: upcoming, hint: "Set to past to remove it from What's On and drop it into Past Productions." }
+      - { label: "Display date text", name: date_label, widget: string, required: false, hint: "How the dates read on the page, e.g. Jul 10 to 11. Leave blank to show the start date." }
+      - { label: "Start (date and time)", name: date_start, widget: datetime, date_format: "YYYY-MM-DD", time_format: "h:mm a", format: "YYYY-MM-DDTHH:mm", picker_utc: false, required: false, hint: "The actual first performance. Drives ordering, the calendar button, and the archive." }
+      - { label: "End (date and time, optional)", name: date_end, widget: datetime, date_format: "YYYY-MM-DD", time_format: "h:mm a", format: "YYYY-MM-DDTHH:mm", picker_utc: false, required: false, hint: "Used for the calendar. Defaults to two hours after start." }
+      - { label: "Showtime text (optional)", name: showtime, widget: string, required: false, hint: "Friendly time shown on the page, e.g. 7:30 PM." }
+      - { label: "Short summary", name: summary, widget: text, required: false, hint: "One or two sentences for the cards." }
+      - { label: "Poster image", name: image, widget: image, required: false }
+      - { label: "Ticket link (optional)", name: ticket_url, widget: string, required: false, hint: "This event's own ticket page. Leave blank to use the site's default Tickets link." }
+      - { label: "Run time (optional)", name: runtime, widget: string, required: false, hint: "e.g. 90 minutes, no intermission" }
+      - { label: "Ticket price (optional)", name: price, widget: string, required: false, hint: "e.g. $15 general, $10 students" }
+      - { label: "Content note (optional)", name: content_warning, widget: string, required: false }
+      - { label: "Cast & creative (optional)", name: credits, widget: text, required: false, hint: "One per line, e.g. Director: ... then Cast: ..." }
       - { label: "Full description", name: body, widget: markdown }
 
   - name: settings
@@ -158,7 +162,23 @@ collections:
           - { label: "Headline line 1", name: hero_line1, widget: string }
           - { label: "Headline line 2 (italic accent)", name: hero_line2, widget: string, required: false }
           - { label: "Intro paragraph", name: hero_blurb, widget: text }
-  
+ 
+  - name: archive
+    label: "Past Productions"
+    label_singular: "Past Production"
+    description: "The history wall. Add shows from any past season, as far back as you like."
+    folder: "paca-site/src/archive"
+    create: true
+    slug: "{{year}}-{{slug}}"
+    summary: "{{year}} - {{title}}"
+    sortable_fields: [year, title]
+    fields:
+      - { label: "Title", name: title, widget: string }
+      - { label: "Year", name: year, widget: number, value_type: int, hint: "Just the year, e.g. 2014." }
+      - { label: "Discipline", name: discipline, widget: select, options: [Theatre, Music, "Visual Art", Prose, Dance, Event, Party, Other], default: Theatre }
+      - { label: "Image (optional)", name: image, widget: image, required: false }
+      - { label: "Short blurb (optional)", name: blurb, widget: text, required: false }
+ 
   - name: sponsors
     label: Sponsors
     label_singular: Sponsor
