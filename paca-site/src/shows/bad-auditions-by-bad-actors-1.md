@@ -4,7 +4,7 @@ discipline: Theatre
 featured: false
 status: upcoming
 date_label: July 10-11. 17-18
-date_start: 2026-07-10T00:00
+date_start: 2026-07-10T19:30
 date_end: ""
 showtime: 7:30 PM
 summary: "Newbie director Carol has one day to find the leads for a community
