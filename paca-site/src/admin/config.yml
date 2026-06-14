@@ -130,24 +130,35 @@ collections:
         fields:
           - { label: "Audition information", name: body, widget: markdown }
           
-  - name: tenants
-    label: "What's Here (Tenants)"
+  - -name: tenants
+    label: "What's Here"
     label_singular: "Tenant"
+    description: "Artists, makers, and businesses in the building. Each one gets a directory card and its own page."
     folder: "paca-site/src/tenants"
     create: true
     slug: "{{unit}}"
+    summary: "{{name}}  ·  Unit {{unit}}"
     sortable_fields: [unit, name]
     fields:
       - { label: "Name", name: name, widget: string }
-      - { label: "Unit / address", name: unit, widget: string, hint: "e.g. 2N1. Sorts the directory and becomes the page address." }
-      - { label: "Type", name: type, widget: string, required: false, hint: "e.g. Visual Artist, Music, Business" }
-      - { label: "Logo", name: logo, widget: image, required: false }
-      - { label: "Short summary", name: summary, widget: text, required: false, hint: "One line for the directory card." }
-      - { label: "Phone", name: phone, widget: string, required: false }
-      - { label: "Email", name: email, widget: string, required: false }
-      - { label: "Website", name: website, widget: string, required: false }
-      - { label: "Directory links straight to their website", name: link_out, widget: boolean, default: false }
-      - { label: "Full description / services", name: body, widget: markdown, required: false }
+      - { label: "Unit / studio #", name: unit, widget: string, hint: "e.g. 2N1. Used for the page address and to sort." }
+      - { label: "What they do", name: type, widget: string, required: false, hint: "A word or two, e.g. Painter, Recording studio." }
+      - { label: "Logo (optional)", name: logo, widget: image, required: false, hint: "Small branding mark shown at the top of their page." }
+      - { label: "Short summary", name: summary, widget: text, required: false, hint: "One or two sentences for the directory card." }
+      - label: "Photos"
+        name: gallery
+        widget: list
+        required: false
+        label_singular: "Photo"
+        summary: "{{fields.caption}}"
+        fields:
+          - { label: "Image", name: image, widget: image }
+          - { label: "Caption (optional)", name: caption, widget: string, required: false }
+      - { label: "Phone (optional)", name: phone, widget: string, required: false }
+      - { label: "Email (optional)", name: email, widget: string, required: false }
+      - { label: "Website (optional)", name: website, widget: string, required: false }
+      - { label: "Link the card straight to their website", name: link_out, widget: boolean, default: false, hint: "If on, the directory card links to their own site instead of their PACA page." }
+      - { label: "Full description", name: body, widget: markdown }
   
   - name: homepage
     label: Homepage
