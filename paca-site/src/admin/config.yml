@@ -130,7 +130,7 @@ collections:
         fields:
           - { label: "Audition information", name: body, widget: markdown }
           
-  - -name: tenants
+  - name: tenants
     label: "What's Here"
     label_singular: "Tenant"
     description: "Artists, makers, and businesses in the building. Each one gets a directory card and its own page."
