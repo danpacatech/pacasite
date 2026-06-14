@@ -321,3 +321,9 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .arc-body h3 a{color:var(--cream)}
 .arc-body h3 a:hover{color:var(--magenta)}
 .arc-body p{color:var(--fog);font-size:.9rem;margin:7px 0 0}
+
+/* tenant photo gallery */
+.tenant-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:26px 0 4px}
+.tg-item{margin:0}
+.tg-item img{width:100%;height:auto;border-radius:12px;display:block;border:1px solid var(--line)}
+.tg-item figcaption{font-family:var(--mono);font-size:.72rem;color:var(--fog);margin-top:6px}

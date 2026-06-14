@@ -16,6 +16,16 @@ layout: base.njk
       {% if summary %}<p style="font-size:1.2rem;color:var(--cream)">{{ summary }}</p>{% endif %}
       {{ content | safe }}
     </div>
+    {% if gallery and gallery.length %}
+    <div class="tenant-gallery">
+      {% for p in gallery %}
+      <figure class="tg-item">
+        <img src="{{ p.image }}" alt="{{ p.caption or name }}" loading="lazy">
+        {% if p.caption %}<figcaption>{{ p.caption }}</figcaption>{% endif %}
+      </figure>
+      {% endfor %}
+    </div>
+    {% endif %}
     <div class="tenant-contact">
       {% if phone %}<div class="tc-row"><span class="tc-k">Phone</span><a href="tel:{{ phone }}">{{ phone }}</a></div>{% endif %}
       {% if email %}<div class="tc-row"><span class="tc-k">Email</span><a href="mailto:{{ email }}">{{ email }}</a></div>{% endif %}
