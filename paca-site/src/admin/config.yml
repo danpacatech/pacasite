@@ -36,7 +36,7 @@ collections:
     sortable_fields: [date_start, title]
     fields:
       - { label: "Title", name: title, widget: string }
-      - { label: "Discipline", name: discipline, widget: select, options: [Theatre, Music, "Visual Art", Prose, Dance, Event, Party, Other], default: Theatre }
+      - { label: "Discipline", name: discipline, widget: select, options: [Theatre, Music, "Visual Art", Prose, Dance, Event, Party, Auditions, Other], default: Theatre }
       - { label: "Feature on the home page", name: featured, widget: boolean, default: false, hint: "Only one at a time. Turning a new one on means turning the old one off." }
       - { label: "Status", name: status, widget: select, options: [upcoming, past], default: upcoming, hint: "Set to past to remove it from What's On and drop it into Past Productions." }
       - { label: "Display date text", name: date_label, widget: string, required: false, hint: "How the dates read on the page, e.g. Jul 10 to 11. Leave blank to show the start date." }
