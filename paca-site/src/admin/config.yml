@@ -60,7 +60,7 @@ collections:
         file: "paca-site/src/_data/site.json"
         description: "Address, phone, and the links used across the whole site."
         fields:
-          - { label: "Site theme", name: theme, widget: select, options: [default, fall, winter, summer, pride, halloween], default: default, hint: "Recolors the whole site. Save and give it a minute to rebuild." }
+          - { label: "Site theme", name: theme, widget: select, options: [default, fall, winter, summer, pride, halloween, cabaret], default: default, hint: "Recolors the whole site. Save and give it a minute to rebuild." }
           - { label: "Short name", name: name, widget: string }
           - { label: "Full name", name: fullName, widget: string }
           - { label: "Address", name: address, widget: string }
