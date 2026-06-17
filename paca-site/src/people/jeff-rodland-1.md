@@ -1,6 +1,6 @@
 ---
 name: Jeff Rodland
-role: Interim Artistic Director
+role: Artistic Director
 group: Staff
 photo: /assets/uploads/jeffr.png.webp
 order: 2
