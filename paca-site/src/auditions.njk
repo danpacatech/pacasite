@@ -17,6 +17,23 @@ description: Audition and casting information for PACA productions in downtown E
     <div class="prose rv">
       {% if doc %}{{ doc.templateContent | safe }}{% else %}<p style="color:var(--fog)">Audition information is coming soon. Add it in the CMS under Auditions.</p>{% endif %}
     </div>
+    {% set auds = collections.shows | notPast | byDiscipline("Auditions") %}
+    {% if auds.length %}
+    <div class="sec-head rv" style="margin-top:50px"><h2>Open casting calls</h2></div>
+    <div class="shows">
+      {% for show in auds %}
+      <div class="show rv">
+        <div class="art" style="{% if show.data.image %}--art-img:url('{{ show.data.image }}'){% else %}background:linear-gradient(150deg,var(--ink-3),{{ show.data.discipline | disccolor }}){% endif %}"><span class="tag">{{ show.data.discipline }}</span></div>
+        <div class="body">
+          <div class="date">{{ show.data.date_label or (show.data.date_start | dateDisp) }}{% if show.data.showtime %} · {{ show.data.showtime }}{% endif %}</div>
+          <h4>{{ show.data.title }}</h4>
+          <p>{{ show.data.summary }}</p>
+          <a class="ln" href="{{ show.url }}">Details &rarr;</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
     <div class="sec-head rv" style="margin-top:50px"><h2>Express interest</h2></div>
     <p class="rv" style="color:var(--fog);max-width:60ch;margin:-24px 0 30px">Not sure where to start? Send this and we'll reach out about current and upcoming casting.</p>
     <form name="audition-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="rform rv">

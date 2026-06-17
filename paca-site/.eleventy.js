@@ -6,7 +6,7 @@ module.exports = function (eleventyConfig) {
   // Shows collection, sorted by start date
   eleventyConfig.addCollection("shows", (api) =>
     api.getFilteredByGlob("src/shows/*.md").sort((a, b) => {
-      return new Date(a.data.date_start || 0) - new Date(b.data.date_start || 0);
+      return new Date(a.data.date_start || "2999-12-31") - new Date(b.data.date_start || "2999-12-31");
     })
   );
 
@@ -73,6 +73,7 @@ module.exports = function (eleventyConfig) {
     "Dance": "var(--purple)",
     "Event": "var(--yellow)",
     "Party": "var(--orange)",
+    "Auditions": "var(--cyan)",
   };
   eleventyConfig.addFilter("disccolor", (d) => DISC[d] || "var(--magenta)");
 
