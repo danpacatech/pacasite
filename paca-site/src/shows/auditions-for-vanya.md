@@ -4,6 +4,8 @@ discipline: Theatre
 featured: false
 status: upcoming
 date_label: June 27
+date_start: 2026-06-27T11:00
+date_end: 2026-06-27T13:00
 showtime: 11 AM to 1 PM
 summary: ""
 image: /assets/uploads/723573880_1628322142628384_2841113359714792548_n.jpg
