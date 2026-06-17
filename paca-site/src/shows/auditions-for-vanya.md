@@ -1,6 +1,6 @@
 ---
 title: Auditions for Vanya
-discipline: Theatre
+discipline: Auditions
 featured: false
 status: upcoming
 date_label: June 27
