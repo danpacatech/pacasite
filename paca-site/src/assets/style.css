@@ -380,3 +380,32 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   --header-bg:rgba(8,6,10,.72); --menu-bg:rgba(8,6,10,.98); --chip-bg:rgba(8,6,10,.6);
   --glow:rgba(255,117,24,.14);
 }
+[data-theme="cabaret"]{
+  --ink:#0c0808; --ink-2:#15100d; --ink-3:#201712;
+  --cream:#f4e9d6; --paper:#e7d8bd; --fog:#b09a7e; --fog-2:#7a6650;
+  --purple:#6a2c5a; --magenta:#cf2a3f; --yellow:#e8c34a;
+  --cyan:#3a8c8c; --orange:#d4a017; --lime:#7e8c3a;
+  --line:rgba(244,233,214,.13); --line-strong:rgba(244,233,214,.28);
+  --btn-ink:#f8efe0; --on-accent:#f8efe0;
+  --header-bg:rgba(12,8,8,.72); --menu-bg:rgba(12,8,8,.98); --chip-bg:rgba(12,8,8,.6);
+  --glow:rgba(207,42,63,.13);
+}
+
+/* ===== Cabaret show dressing (active only under the cabaret theme) ===== */
+[data-theme="cabaret"] .spot{
+  background:
+    radial-gradient(900px 520px at 50% -4%, rgba(207,42,63,.22), transparent 62%),
+    radial-gradient(420px circle at var(--mx,50%) var(--my,16%), rgba(232,195,74,.12), transparent 60%);
+}
+[data-theme="cabaret"] header{border-top:3px solid var(--yellow)}
+[data-theme="cabaret"] header::after{
+  content:"";position:absolute;left:0;right:0;bottom:-7px;height:8px;pointer-events:none;z-index:41;
+  background:radial-gradient(circle at center, var(--yellow) 0 2px, rgba(232,195,74,0) 2.7px);
+  background-size:26px 8px;background-repeat:repeat-x;background-position:center;
+  filter:drop-shadow(0 0 4px rgba(232,195,74,.85));
+  animation:cabGlow 2.6s ease-in-out infinite;
+}
+[data-theme="cabaret"] .sec-head h2::after{content:" ◆";color:var(--yellow);font-size:.6em;opacity:.85;vertical-align:middle}
+[data-theme="cabaret"] .hero .eyebrow::after{background:linear-gradient(90deg,var(--yellow),transparent)}
+@keyframes cabGlow{0%,100%{opacity:.7}50%{opacity:1}}
+@media(prefers-reduced-motion:reduce){[data-theme="cabaret"] header::after{animation:none}}
