@@ -564,4 +564,9 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 }
 
 /* donate page form */
-.donate-form{max-width:560px;margin:8px auto 0}
+.donate-form{max-width:480px;margin:8px auto 0}
+.donate-form .paymentspring-form,
+.donate-form .paymentspring-inline,
+.donate-form .paymentspring-form .container,
+.donate-form .paymentspring-sub-container,
+.donate-form .paymentspring-content{max-width:100%!important;width:100%!important}
