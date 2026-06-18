@@ -60,7 +60,7 @@ collections:
         file: "paca-site/src/_data/site.json"
         description: "Address, phone, and the links used across the whole site."
         fields:
-          - { label: "Site theme", name: theme, widget: select, options: [default, fall, winter, summer, pride, halloween, cabaret], default: default, hint: "Recolors the whole site. Save and give it a minute to rebuild." }
+          - { label: "Site theme", name: theme, widget: select, default: default, hint: "Recolors the whole site. Save and give it a minute to rebuild.", options: [ { label: "Default", value: default }, { label: "Fall", value: fall }, { label: "Winter", value: winter }, { label: "Summer", value: summer }, { label: "Pride", value: pride }, { label: "Halloween", value: halloween }, { label: "Cabaret", value: cabaret }, { label: "Bad Auditions", value: bad-auditions }, { label: "Attack of the PACA", value: attack }, { label: "Uncle Vanya", value: vanya }, { label: "The Irish", value: irish }, { label: "The Goat", value: goat }, { label: "Mean Girls", value: meangirls }, { label: "Who's Holiday", value: "whos-holiday" } ] }
           - { label: "Short name", name: name, widget: string }
           - { label: "Full name", name: fullName, widget: string }
           - { label: "Address", name: address, widget: string }
