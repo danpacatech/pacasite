@@ -1,0 +1,37 @@
+---
+layout: base.njk
+title: Tenant Requests
+description: Maintenance and repair requests for PACA building tenants at 1505 State Street, Erie.
+---
+<section class="page-head">
+  <div class="wrap">
+    <div class="eyebrow label">For building tenants</div>
+    <h1>Repairs &amp; <em>requests</em></h1>
+    <p>Something need fixing, or have a question about the building? Send it here, add a photo or two, and it comes straight to us.</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <form name="tenant-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" class="rform rv">
+      <input type="hidden" name="form-name" value="tenant-request">
+      <p hidden><label>Leave this empty: <input name="bot-field"></label></p>
+      <div><label>Your name *</label><input type="text" name="name" required></div>
+      <div><label>Unit / studio # *</label><input type="text" name="unit" required></div>
+      <div><label>Email *</label><input type="email" name="email" required></div>
+      <div><label>Phone</label><input type="tel" name="phone"></div>
+      <div class="full"><label>Type of request</label>
+        <select name="type">
+          <option>Repair</option>
+          <option>Maintenance</option>
+          <option>Building issue</option>
+          <option>Question</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="full"><label>What's going on? *</label><textarea name="description" required placeholder="Describe the issue and where in your space it is."></textarea></div>
+      <div class="full"><label>Photos (optional)</label><input type="file" name="photos" accept="image/*" multiple></div>
+      <div class="full"><button class="btn btn-primary" type="submit">Send request</button></div>
+    </form>
+  </div>
+</section>
