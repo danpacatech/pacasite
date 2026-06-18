@@ -409,3 +409,156 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 [data-theme="cabaret"] .hero .eyebrow::after{background:linear-gradient(90deg,var(--yellow),transparent)}
 @keyframes cabGlow{0%,100%{opacity:.7}50%{opacity:1}}
 @media(prefers-reduced-motion:reduce){[data-theme="cabaret"] header::after{animation:none}}
+
+/* ===== Per-show themes (rest of 2026 season) ===== */
+[data-theme="bad-auditions"]{ /* comedy, spotlight chaos, bright pop */
+  --ink:#0e0c10; --ink-2:#161219; --ink-3:#201826;
+  --cream:#fbf4ef; --paper:#ece2d8; --fog:#b0a2b0; --fog-2:#6f6680;
+  --purple:#8a5cf0; --magenta:#ff2e88; --yellow:#ffd400;
+  --cyan:#2bd4d4; --orange:#ff8a3d; --lime:#9be15d;
+  --line:rgba(255,255,255,.11); --line-strong:rgba(255,255,255,.25);
+  --btn-ink:#16080f; --on-accent:#16080f;
+  --header-bg:rgba(14,12,16,.7); --menu-bg:rgba(14,12,16,.97); --chip-bg:rgba(14,12,16,.6);
+  --glow:rgba(255,46,136,.11);
+}
+[data-theme="attack"]{ /* Attack of the PACA, 1950s creature feature */
+  --ink:#060a07; --ink-2:#0c130d; --ink-3:#121d13;
+  --cream:#eafbe6; --paper:#cfe2cc; --fog:#90a890; --fog-2:#5d6f5d;
+  --purple:#7a2cc4; --magenta:#e23b2b; --yellow:#d8ff2a;
+  --cyan:#39d0c0; --orange:#ff7a1a; --lime:#5dff3a;
+  --line:rgba(190,255,180,.12); --line-strong:rgba(190,255,180,.26);
+  --btn-ink:#f3fff0; --on-accent:#f3fff0;
+  --header-bg:rgba(6,10,7,.74); --menu-bg:rgba(6,10,7,.98); --chip-bg:rgba(6,10,7,.62);
+  --glow:rgba(93,255,58,.12);
+}
+[data-theme="vanya"]{ /* Uncle Vanya, faded autumnal estate, melancholy */
+  --ink:#12130f; --ink-2:#191a14; --ink-3:#23241b;
+  --cream:#ece6d6; --paper:#d7cfba; --fog:#a89e87; --fog-2:#74684f;
+  --purple:#7a6a82; --magenta:#b07a6a; --yellow:#cbb56a;
+  --cyan:#6f8f8a; --orange:#c39a52; --lime:#8a9a6b;
+  --line:rgba(236,230,214,.12); --line-strong:rgba(236,230,214,.24);
+  --btn-ink:#f3eee2; --on-accent:#f3eee2;
+  --header-bg:rgba(18,19,15,.72); --menu-bg:rgba(18,19,15,.97); --chip-bg:rgba(18,19,15,.6);
+  --glow:rgba(176,122,106,.09);
+}
+[data-theme="irish"]{ /* The Irish and How They Got That Way, warm pub, green/gold */
+  --ink:#0a120c; --ink-2:#0f190f; --ink-3:#152116;
+  --cream:#f3ecd8; --paper:#dcd2b6; --fog:#a3a585; --fog-2:#6f7553;
+  --purple:#7a4a2a; --magenta:#1f9d4d; --yellow:#e8c24a;
+  --cyan:#3a9aa0; --orange:#e07b2a; --lime:#7ab33a;
+  --line:rgba(243,236,216,.12); --line-strong:rgba(243,236,216,.26);
+  --btn-ink:#f3ecd8; --on-accent:#f3ecd8;
+  --header-bg:rgba(10,18,12,.72); --menu-bg:rgba(10,18,12,.98); --chip-bg:rgba(10,18,12,.6);
+  --glow:rgba(31,157,77,.11);
+}
+[data-theme="goat"]{ /* The Goat, Albee, cold clinical light with a wound of red */
+  --ink:#e9e9ec; --ink-2:#fafafb; --ink-3:#dedee3;
+  --cream:#1a1a1f; --paper:#cfcfd6; --fog:#6b6b75; --fog-2:#9a9aa3;
+  --purple:#6a5f78; --magenta:#b3122a; --yellow:#b9a96a;
+  --cyan:#5f7f88; --orange:#9a6b5a; --lime:#7f8a72;
+  --line:rgba(20,20,30,.14); --line-strong:rgba(20,20,30,.28);
+  --btn-ink:#ffffff; --on-accent:#ffffff;
+  --header-bg:rgba(233,233,236,.84); --menu-bg:rgba(233,233,236,.98); --chip-bg:rgba(255,255,255,.72);
+  --glow:rgba(179,18,42,.08);
+}
+[data-theme="meangirls"]{ /* Mean Girls Jr., Y2K hot pink Burn Book */
+  --ink:#160810; --ink-2:#210f18; --ink-3:#2b1420;
+  --cream:#fdeef6; --paper:#e6cdd9; --fog:#c79bb0; --fog-2:#8a6076;
+  --purple:#a64dff; --magenta:#ff1f8e; --yellow:#ffd23f;
+  --cyan:#34d1e0; --orange:#ff6fa8; --lime:#b6e23a;
+  --line:rgba(255,230,245,.12); --line-strong:rgba(255,230,245,.27);
+  --btn-ink:#ffffff; --on-accent:#ffffff;
+  --header-bg:rgba(22,8,16,.72); --menu-bg:rgba(22,8,16,.98); --chip-bg:rgba(22,8,16,.6);
+  --glow:rgba(255,31,142,.13);
+}
+[data-theme="whos-holiday"]{ /* Who's Holiday, twisted adult Grinch holiday */
+  --ink:#0a0d0a; --ink-2:#10160f; --ink-3:#161d14;
+  --cream:#f1ece0; --paper:#d3d0bd; --fog:#9aa088; --fog-2:#67705a;
+  --purple:#7a3a6a; --magenta:#d6243b; --yellow:#e8c34a;
+  --cyan:#2aa1a1; --orange:#e0712a; --lime:#3fb83f;
+  --line:rgba(241,236,224,.12); --line-strong:rgba(241,236,224,.26);
+  --btn-ink:#f1ece0; --on-accent:#f1ece0;
+  --header-bg:rgba(10,13,10,.72); --menu-bg:rgba(10,13,10,.98); --chip-bg:rgba(10,13,10,.6);
+  --glow:rgba(214,36,59,.11);
+}
+
+/* ===== Per-show dressing (each appears only under its own theme) ===== */
+/* Bad Auditions: clashing audition spotlights */
+[data-theme="bad-auditions"] .spot{
+  background:
+   radial-gradient(520px circle at 22% 6%, rgba(255,46,136,.16), transparent 60%),
+   radial-gradient(520px circle at 80% 2%, rgba(43,212,212,.14), transparent 60%),
+   radial-gradient(460px circle at 50% 26%, rgba(255,212,0,.10), transparent 60%);
+}
+[data-theme="bad-auditions"] header{border-top:3px solid var(--magenta)}
+[data-theme="bad-auditions"] .sec-head h2::after{content:" ★";color:var(--yellow);font-size:.55em;vertical-align:middle}
+
+/* Attack of the PACA: radioactive glow + B-movie flicker */
+[data-theme="attack"] .spot{
+  background:
+   radial-gradient(720px 440px at 50% 106%, rgba(93,255,58,.20), transparent 62%),
+   radial-gradient(420px circle at 50% -6%, rgba(226,59,43,.16), transparent 60%);
+}
+[data-theme="attack"] header{border-top:3px solid var(--lime)}
+[data-theme="attack"] .hero h1{animation:atkFlicker 5s steps(1) infinite}
+[data-theme="attack"] .sec-head h2::after{content:" ☠";color:var(--lime);font-size:.55em;vertical-align:middle}
+@keyframes atkFlicker{0%,96%,100%{opacity:1}96.5%{opacity:.55}97%{opacity:1}98%{opacity:.4}98.4%{opacity:1}}
+
+/* Uncle Vanya: candlelit warmth + soft vignette */
+[data-theme="vanya"] .spot{
+  background:radial-gradient(560px circle at 50% 2%, rgba(195,154,82,.10), transparent 60%);
+  box-shadow:inset 0 0 260px 70px rgba(0,0,0,.45);
+}
+[data-theme="vanya"] header{border-top:3px solid var(--orange)}
+[data-theme="vanya"] .sec-head h2::after{content:" ❧";color:var(--orange);font-size:.62em;vertical-align:middle}
+
+/* The Irish: pub hearth glow + shamrock */
+[data-theme="irish"] .spot{
+  background:
+   radial-gradient(640px 420px at 50% 104%, rgba(224,123,42,.16), transparent 62%),
+   radial-gradient(420px circle at 50% 0%, rgba(31,157,77,.10), transparent 60%);
+}
+[data-theme="irish"] header{border-top:3px solid var(--yellow)}
+[data-theme="irish"] .sec-head h2::after{content:" ☘";color:var(--magenta);font-size:.6em;vertical-align:middle}
+
+/* The Goat: clinical light, a wound of red */
+[data-theme="goat"] .spot{background:radial-gradient(760px 520px at 50% -10%, rgba(20,20,30,.06), transparent 60%)}
+[data-theme="goat"] header{border-top:3px solid var(--magenta)}
+[data-theme="goat"] .sec-head h2::after{content:" †";color:var(--magenta);font-size:.6em;vertical-align:middle}
+
+/* Mean Girls: Y2K pink glow + sparkle */
+[data-theme="meangirls"] .spot{
+  background:
+   radial-gradient(520px circle at 50% -4%, rgba(255,31,142,.20), transparent 60%),
+   radial-gradient(420px circle at 82% 18%, rgba(166,77,255,.12), transparent 60%);
+}
+[data-theme="meangirls"] header{border-top:3px solid var(--magenta)}
+[data-theme="meangirls"] .sec-head h2::after{content:" ✧";color:var(--yellow);font-size:.6em;vertical-align:middle;animation:mgSparkle 1.8s ease-in-out infinite}
+@keyframes mgSparkle{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* Who's Holiday: string of holiday lights */
+[data-theme="whos-holiday"] header{border-top:3px solid var(--lime)}
+[data-theme="whos-holiday"] header::after{
+  content:"";position:absolute;left:0;right:0;bottom:-7px;height:8px;pointer-events:none;z-index:41;
+  background:
+   radial-gradient(circle at center, var(--magenta) 0 2px, rgba(0,0,0,0) 2.7px),
+   radial-gradient(circle at center, var(--lime) 0 2px, rgba(0,0,0,0) 2.7px),
+   radial-gradient(circle at center, var(--yellow) 0 2px, rgba(0,0,0,0) 2.7px);
+  background-size:78px 8px,78px 8px,78px 8px;
+  background-position:0 center,26px center,52px center;
+  background-repeat:repeat-x;
+  filter:drop-shadow(0 0 4px rgba(255,255,255,.45));
+  animation:cabGlow 2.6s ease-in-out infinite;
+}
+[data-theme="whos-holiday"] .spot{
+  background:
+   radial-gradient(700px 460px at 50% -6%, rgba(214,36,59,.16), transparent 60%),
+   radial-gradient(520px circle at 50% 8%, rgba(63,184,63,.10), transparent 60%);
+}
+[data-theme="whos-holiday"] .sec-head h2::after{content:" ❄";color:var(--cyan);font-size:.6em;vertical-align:middle}
+
+@media(prefers-reduced-motion:reduce){
+  [data-theme="attack"] .hero h1,
+  [data-theme="meangirls"] .sec-head h2::after,
+  [data-theme="whos-holiday"] header::after{animation:none}
+}
