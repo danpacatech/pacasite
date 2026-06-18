@@ -63,12 +63,10 @@
       </div>
       <div class="fcol">
         <h5>Explore</h5>
-        <a href="/whats-on/">What's On</a>
         <a href="/who-we-are/">Who We Are</a>
         <a href="/get-involved/">Get Involved</a>
         <a href="/visit/">Visit</a>
         <a href="/whats-here/">What's Here</a>
-        <a href="/rent-our-spaces/">Rent Our Spaces</a>
         <a href="/archive/">Past Productions</a>
       </div>
       <div class="fcol">
@@ -77,6 +75,8 @@
         <a href="/donate/">Donate</a>
         <a href="{{ site.instagram if (site.instagram and site.instagram != '#') else 'https://www.instagram.com/paca1505/' }}" target="_blank" rel="noopener">Instagram</a>
         <a href="{{ site.facebook if (site.facebook and site.facebook != '#') else 'https://www.facebook.com/paca1505/' }}" target="_blank" rel="noopener">Facebook</a>
+        {% if site.youtube and site.youtube != '#' %}<a href="{{ site.youtube }}" target="_blank" rel="noopener">YouTube</a>{% endif %}
+        {% if site.tiktok and site.tiktok != '#' %}<a href="{{ site.tiktok }}" target="_blank" rel="noopener">TikTok</a>{% endif %}
       </div>
     </div>
     <div class="fbot">

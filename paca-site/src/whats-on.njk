@@ -34,3 +34,28 @@ description: Upcoming theatre, music, visual art, prose and dance at PACA in dow
     {% endif %}
   </div>
 </section>
+
+{% if collections.pastByYear.length %}
+<section class="block" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head rv"><h2>Past productions</h2></div>
+    {% for grp in collections.pastByYear %}
+    <h3 class="pastyr rv">{{ grp.year }}</h3>
+    <div class="shows">
+      {% for item in grp.items %}
+      <div class="show rv">
+        <div class="art" style="{% if item.image %}--art-img:url('{{ item.image }}'){% else %}background:linear-gradient(150deg,var(--ink-3),{{ item.discipline | disccolor }}){% endif %}"><span class="tag">{{ item.discipline }}</span></div>
+        <div class="body">
+          <div class="date">{{ grp.year }}</div>
+          <h4>{{ item.title }}</h4>
+          {% if item.blurb %}<p>{{ item.blurb }}</p>{% endif %}
+          {% if item.url %}<a class="ln" href="{{ item.url }}">Details →</a>{% endif %}
+          {% if item.playbill %}<a class="ln" href="{{ item.playbill }}" target="_blank" rel="noopener">Playbill (PDF) →</a>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

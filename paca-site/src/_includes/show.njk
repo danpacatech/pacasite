@@ -30,6 +30,7 @@ layout: base.njk
     <div class="cta">
       <a class="btn btn-primary" href="{{ ticket_url or site.tickets }}" target="_blank" rel="noopener">Get Tickets</a>
       <a class="btn btn-ghost" href="/whats-on/">More Shows</a>
+      {% if playbill %}<a class="btn btn-ghost" href="{{ playbill }}" target="_blank" rel="noopener">Playbill (PDF)</a>{% endif %}
     </div>
     {% if date_start %}
     <div class="addcal">

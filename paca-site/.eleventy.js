@@ -19,11 +19,11 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addCollection("pastByYear", (api) => {
     const arch = api.getFilteredByGlob("src/archive/*.md").map((i) => ({
       title: i.data.title, year: parseInt(i.data.year, 10) || 0, discipline: i.data.discipline,
-      image: i.data.image, blurb: i.data.blurb, url: null }));
+      image: i.data.image, blurb: i.data.blurb, playbill: i.data.playbill || null, url: null }));
     const shows = api.getFilteredByGlob("src/shows/*.md")
       .filter((s) => (s.data.status || "") === "past")
       .map((s) => ({ title: s.data.title, year: s.data.date_start ? new Date(s.data.date_start).getUTCFullYear() : 0,
-        discipline: s.data.discipline, image: s.data.image, blurb: s.data.summary, url: s.url }));
+        discipline: s.data.discipline, image: s.data.image, blurb: s.data.summary, playbill: s.data.playbill || null, url: s.url }));
     const all = arch.concat(shows).filter((x) => x.year);
     const byYear = {};
     all.forEach((x) => { (byYear[x.year] = byYear[x.year] || []).push(x); });

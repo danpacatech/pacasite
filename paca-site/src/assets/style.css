@@ -571,3 +571,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .rform select:focus{outline:none;border-color:var(--magenta)}
 .rform input[type=file]{padding:11px 14px;cursor:pointer}
 .rform input[type=file]::file-selector-button{background:var(--ink-3);color:var(--cream);border:1px solid var(--line);border-radius:8px;padding:7px 12px;margin-right:12px;font-family:var(--mono);font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+
+/* past productions year subhead on What's On */
+.pastyr{font-family:var(--display);font-weight:340;font-size:clamp(1.4rem,3vw,2rem);color:var(--magenta);margin:34px 0 16px}
+.show .body .ln + .ln{margin-left:18px}
