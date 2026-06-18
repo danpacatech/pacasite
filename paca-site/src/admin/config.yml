@@ -51,6 +51,7 @@ collections:
       - { label: "Content note (optional)", name: content_warning, widget: string, required: false }
       - { label: "Cast & creative (optional)", name: credits, widget: text, required: false, hint: "One per line, e.g. Director: ... then Cast: ..." }
       - { label: "Full description", name: body, widget: markdown }
+      - { label: "Playbill (PDF, optional)", name: playbill, widget: file, required: false, hint: "Upload the playbill PDF. The link only appears when a file is set." }
 
   - name: settings
     label: Site Settings
@@ -72,6 +73,9 @@ collections:
           - { label: "Instagram URL", name: instagram, widget: string }
           - { label: "Facebook URL", name: facebook, widget: string }
           - { label: "Merch URL (Square)", name: merch, widget: string, required: false, hint: "Square Online store link. Leave blank to fall back to the merch email." }
+          - { label: "YouTube URL", name: youtube, widget: string, required: false, hint: "Leave blank to hide the footer link." }
+          - { label: "TikTok URL", name: tiktok, widget: string, required: false, hint: "Leave blank to hide the footer link." }
+          - { label: "What's Here intro", name: whatshere_intro, widget: text, required: false, hint: "The paragraph under the What's Here heading. Leave blank for the default." }
           
   - name: about
     label: "Who We Are"
@@ -190,7 +194,8 @@ collections:
       - { label: "Discipline", name: discipline, widget: select, options: [Theatre, Music, "Visual Art", Prose, Dance, Event, Party, Other], default: Theatre }
       - { label: "Image (optional)", name: image, widget: image, required: false }
       - { label: "Short blurb (optional)", name: blurb, widget: text, required: false }
- 
+      - { label: "Playbill (PDF, optional)", name: playbill, widget: file, required: false, hint: "Upload the playbill PDF. The link only appears when a file is set." }
+
   - name: sponsors
     label: Sponsors
     label_singular: Sponsor
