@@ -562,3 +562,6 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   [data-theme="meangirls"] .sec-head h2::after,
   [data-theme="whos-holiday"] header::after{animation:none}
 }
+
+/* donate page form */
+.donate-form{max-width:560px;margin:8px auto 0}

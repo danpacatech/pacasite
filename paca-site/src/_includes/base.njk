@@ -22,6 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,400..700&family=Hanken+Grotesk:wght@300;400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+{% if paymentspring %}<link rel="stylesheet" type="text/css" href="https://checkout.paymentspring.com/assets/application.css">{% endif %}
 <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
@@ -73,7 +74,7 @@
       <div class="fcol">
         <h5>Connect</h5>
         <a href="{{ site.tickets }}" target="_blank" rel="noopener">Tickets</a>
-        <a href="{{ site.donate }}" target="_blank" rel="noopener">Donate</a>
+        <a href="/donate/">Donate</a>
         <a href="{{ site.instagram if (site.instagram and site.instagram != '#') else 'https://www.instagram.com/paca1505/' }}" target="_blank" rel="noopener">Instagram</a>
         <a href="{{ site.facebook if (site.facebook and site.facebook != '#') else 'https://www.facebook.com/paca1505/' }}" target="_blank" rel="noopener">Facebook</a>
       </div>
