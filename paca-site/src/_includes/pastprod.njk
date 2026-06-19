@@ -1,0 +1,27 @@
+---
+layout: base.njk
+---
+<section class="show-detail">
+  <div class="wrap">
+    <a class="back" href="/archive/">← Back to Past Productions</a>
+    <div class="meta">
+      <span class="disc-tag" style="background:{{ discipline | disccolor }}">{{ discipline }}</span>
+      <span class="label">{{ year }}</span>
+    </div>
+    <h1>{{ title }}</h1>
+    {% if image %}<img class="poster" src="{{ image }}" alt="{{ title }}">{% endif %}
+    <div class="prose">
+      {% if blurb %}<p style="font-size:1.25rem;color:var(--cream)">{{ blurb }}</p>{% endif %}
+      {% if recap %}{{ recap | markdownify | safe }}{% endif %}
+    </div>
+    {% if gallery and gallery.length %}
+    <div class="show-gallery">
+      {% for src in gallery %}<img src="{{ src }}" alt="{{ title }} production photo" loading="lazy">{% endfor %}
+    </div>
+    {% endif %}
+    <div class="cta">
+      <a class="btn btn-ghost" href="/archive/">More Past Shows</a>
+      {% if playbill %}<a class="btn btn-ghost" href="{{ playbill }}" target="_blank" rel="noopener">Playbill (PDF)</a>{% endif %}
+    </div>
+  </div>
+</section>
