@@ -1,1 +1,1 @@
-{ "layout": "pastprod.njk", "permalink": "/past/{{ title | slug }}/" }
+{ "layout": "pastprod.njk" }
