@@ -16,6 +16,9 @@ module.exports = function (eleventyConfig) {
   );
 
   // Past productions: archive entries + shows marked "past", grouped by year (newest first)
+  const mdLib = require("markdown-it")({ html: true, breaks: true, linkify: true });
+  eleventyConfig.addFilter("markdownify", (str) => (str ? mdLib.render(str) : ""));
+
   eleventyConfig.addCollection("pastByYear", (api) => {
     const arch = api.getFilteredByGlob("src/archive/*.md").map((i) => ({
       title: i.data.title, year: parseInt(i.data.year, 10) || 0, discipline: i.data.discipline,

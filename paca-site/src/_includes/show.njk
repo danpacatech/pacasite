@@ -19,12 +19,20 @@ layout: base.njk
     {% endif %}
     <div class="prose">
       {% if summary %}<p style="font-size:1.25rem;color:var(--cream)">{{ summary }}</p>{% endif %}
+      {% if recap %}{{ recap | markdownify | safe }}{% endif %}
       {{ content | safe }}
     </div>
     {% if credits %}
     <div class="show-credits">
       <h3>Cast &amp; creative</h3>
       <div class="credits-body">{{ credits }}</div>
+    </div>
+    {% endif %}
+    {% if gallery and gallery.length %}
+    <div class="show-gallery">
+      {% for src in gallery %}
+      <img src="{{ src }}" alt="{{ title }} production photo" loading="lazy">
+      {% endfor %}
     </div>
     {% endif %}
     <div class="cta">
