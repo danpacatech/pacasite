@@ -196,6 +196,8 @@ collections:
       - { label: "Discipline", name: discipline, widget: select, options: [Theatre, Music, "Visual Art", Prose, Dance, Event, Party, Other], default: Theatre }
       - { label: "Image (optional)", name: image, widget: image, required: false }
       - { label: "Short blurb (optional)", name: blurb, widget: text, required: false }
+      - { label: "Full description (optional)", name: recap, widget: text, required: false, hint: "A longer write-up or recap. Supports basic Markdown." }
+      - { label: "Photo gallery (optional)", name: gallery, widget: image, required: false, multiple: true, hint: "Select multiple photos at once." }     
       - { label: "Playbill (PDF, optional)", name: playbill, widget: file, required: false, hint: "Upload the playbill PDF. The link only appears when a file is set." }
 
   - name: sponsors
