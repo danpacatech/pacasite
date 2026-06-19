@@ -1,6 +1,6 @@
 ---
 title: BIG BOY ON THE ROOF!!!!
 year: 2026
-discipline: Theatre
+discipline: Event
 image: /assets/uploads/bb.jpg
 ---
