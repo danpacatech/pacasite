@@ -27,6 +27,13 @@ module.exports = function (eleventyConfig) {
     return "https://" + u.replace(/^\/+/, "");
   });
 
+  eleventyConfig.addFilter("absUrl", (path, base) => {
+    if (!path) return "";
+    if (/^https?:\/\//i.test(path)) return path;
+    base = String(base || "").replace(/\/+$/, "");
+    return base + "/" + String(path).replace(/^\/+/, "");
+  });
+
   eleventyConfig.addCollection("pastByYear", (api) => {
     const arch = api.getFilteredByGlob("src/archive/*.md").map((i) => ({
       title: i.data.title, year: parseInt(i.data.year, 10) || 0, discipline: i.data.discipline,
