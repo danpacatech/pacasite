@@ -585,3 +585,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .tenant-socials a{color:var(--cream);display:inline-flex;width:42px;height:42px;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:11px;transition:background .15s var(--ease),color .15s var(--ease),border-color .15s var(--ease)}
 .tenant-socials a:hover{color:var(--btn-ink);background:var(--magenta);border-color:var(--magenta)}
 .tenant-socials svg{width:20px;height:20px;display:block}
+
+/* skip-to-content link (keyboard / screen reader) */
+.skip-link{position:absolute;left:-9999px;top:0;z-index:200;background:var(--magenta);color:var(--btn-ink);padding:11px 18px;border-radius:0 0 12px 0;font-family:var(--mono);font-size:.82rem;letter-spacing:.04em;text-decoration:none}
+.skip-link:focus{left:0}

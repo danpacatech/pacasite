@@ -19,6 +19,35 @@
 <meta name="twitter:description" content="{{ desc }}">
 <meta name="twitter:image" content="{{ shareImg }}">
 <link rel="icon" type="image/png" href="/assets/paca-circle.png">
+<link rel="apple-touch-icon" href="/assets/paca-circle.png">
+<meta name="theme-color" content="#2B0B3E">
+<link rel="canonical" href="{{ page.url | absUrl(site.url) }}">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ site.fullName | dump | safe }},
+  "alternateName": "PACA",
+  "url": {{ site.url | dump | safe }},
+  "logo": {{ ("/assets/paca-circle.png" | absUrl(site.url)) | dump | safe }},
+  "email": "paca1505@gmail.com",
+  "telephone": {{ site.phone | dump | safe }},
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "1505 State Street",
+    "addressLocality": "Erie",
+    "addressRegion": "PA",
+    "postalCode": "16501",
+    "addressCountry": "US"
+  },
+  "sameAs": [
+    {{ (site.instagram if (site.instagram and site.instagram != '#') else 'https://www.instagram.com/paca1505/') | dump | safe }},
+    {{ (site.facebook if (site.facebook and site.facebook != '#') else 'https://www.facebook.com/paca1505/') | dump | safe }}{% if site.youtube and site.youtube != '#' %},
+    {{ site.youtube | dump | safe }}{% endif %}{% if site.tiktok and site.tiktok != '#' %},
+    {{ site.tiktok | dump | safe }}{% endif %}
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,400..700&family=Hanken+Grotesk:wght@300;400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -26,6 +55,7 @@
 <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to main content</a>
 <div class="grain"></div>
 <div class="spot" id="spot"></div>
 
@@ -52,7 +82,9 @@
   </div>
 </header>
 
+<main id="main">
 {{ content | safe }}
+</main>
 
 <footer>
   <div class="wrap">
