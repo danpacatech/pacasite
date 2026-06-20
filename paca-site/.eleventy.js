@@ -34,6 +34,16 @@ module.exports = function (eleventyConfig) {
     return base + "/" + String(path).replace(/^\/+/, "");
   });
 
+  eleventyConfig.addFilter("schemaDate", (d) => {
+    if (!d) return "";
+    const dt = new Date(d);
+    if (isNaN(dt)) return "";
+    const p = (n) => String(n).padStart(2, "0");
+    const Y = dt.getUTCFullYear(), M = p(dt.getUTCMonth() + 1), D = p(dt.getUTCDate());
+    const h = dt.getUTCHours(), m = dt.getUTCMinutes();
+    return (h === 0 && m === 0) ? `${Y}-${M}-${D}` : `${Y}-${M}-${D}T${p(h)}:${p(m)}:00`;
+  });
+
   eleventyConfig.addCollection("pastByYear", (api) => {
     const arch = api.getFilteredByGlob("src/archive/*.md").map((i) => ({
       title: i.data.title, year: parseInt(i.data.year, 10) || 0, discipline: i.data.discipline,

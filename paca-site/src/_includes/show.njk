@@ -1,6 +1,40 @@
 ---
 layout: base.njk
 ---
+{% if date_start %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TheaterEvent",
+  "name": {{ title | dump | safe }},
+  "startDate": {{ date_start | schemaDate | dump | safe }},
+  "endDate": {{ (date_end or date_start) | schemaDate | dump | safe }},
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  {% if summary %}"description": {{ summary | dump | safe }},{% endif %}
+  {% if image %}"image": [{{ (image | absUrl(site.url)) | dump | safe }}],{% endif %}
+  "location": {
+    "@type": "Place",
+    "name": "PACA (Performing Artists Collective Alliance)",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "1505 State Street",
+      "addressLocality": "Erie",
+      "addressRegion": "PA",
+      "postalCode": "16501",
+      "addressCountry": "US"
+    }
+  },
+  "organizer": { "@type": "Organization", "name": "PACA", "url": {{ site.url | dump | safe }} },
+  "performer": { "@type": "PerformingGroup", "name": "PACA" }{% if ticket_url or site.tickets %},
+  "offers": {
+    "@type": "Offer",
+    "url": {{ (ticket_url or site.tickets) | dump | safe }},
+    "availability": "https://schema.org/InStock"
+  }{% endif %}
+}
+</script>
+{% endif %}
 <section class="show-detail">
   <div class="wrap">
     <a class="back" href="/whats-on/">← Back to What's On</a>
