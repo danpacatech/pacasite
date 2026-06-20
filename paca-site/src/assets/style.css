@@ -579,3 +579,9 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 /* show photo gallery (past productions) - uncropped masonry */
 .show-gallery{columns:3 220px;column-gap:14px;margin:30px 0}
 .show-gallery img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);display:block;margin:0 0 14px;break-inside:avoid}
+
+/* tenant social icons */
+.tenant-socials{display:flex;gap:12px;align-items:center;margin-top:20px;flex-wrap:wrap}
+.tenant-socials a{color:var(--cream);display:inline-flex;width:42px;height:42px;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:11px;transition:background .15s var(--ease),color .15s var(--ease),border-color .15s var(--ease)}
+.tenant-socials a:hover{color:var(--btn-ink);background:var(--magenta);border-color:var(--magenta)}
+.tenant-socials svg{width:20px;height:20px;display:block}

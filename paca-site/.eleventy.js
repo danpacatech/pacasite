@@ -19,6 +19,14 @@ module.exports = function (eleventyConfig) {
   const mdLib = require("markdown-it")({ html: true, breaks: true, linkify: true });
   eleventyConfig.addFilter("markdownify", (str) => (str ? mdLib.render(str) : ""));
 
+  eleventyConfig.addFilter("extlink", (u) => {
+    if (!u) return "";
+    u = String(u).trim();
+    if (/^(https?:|mailto:|tel:)/i.test(u)) return u;
+    if (/^\/\//.test(u)) return "https:" + u;
+    return "https://" + u.replace(/^\/+/, "");
+  });
+
   eleventyConfig.addCollection("pastByYear", (api) => {
     const arch = api.getFilteredByGlob("src/archive/*.md").map((i) => ({
       title: i.data.title, year: parseInt(i.data.year, 10) || 0, discipline: i.data.discipline,
