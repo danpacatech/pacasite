@@ -166,7 +166,13 @@ collections:
       - { label: "Website (optional)", name: website, widget: string, required: false }
       - { label: "Link the card straight to their website", name: link_out, widget: boolean, default: false, hint: "If on, the directory card links to their own site instead of their PACA page." }
       - { label: "Full description", name: body, widget: markdown }
-  
+      - { label: "Instagram URL", name: instagram, widget: string, required: false, hint: "Optional. Shows an Instagram icon when filled." }
+      - { label: "Facebook URL", name: facebook, widget: string, required: false }
+      - { label: "TikTok URL", name: tiktok, widget: string, required: false }
+      - { label: "YouTube URL", name: youtube, widget: string, required: false }
+      - { label: "X / Twitter URL", name: twitter, widget: string, required: false }
+      - { label: "LinkedIn URL", name: linkedin, widget: string, required: false }
+      
   - name: homepage
     label: Homepage
     files:
