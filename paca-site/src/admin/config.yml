@@ -219,4 +219,19 @@ collections:
       - { label: "Name", name: name, widget: string }
       - { label: "Logo", name: logo, widget: image }
       - { label: "Link (optional)", name: url, widget: string, required: false }
-      - { label: "Order (lower shows first)", name: order, widget: number, default: 1, value_type: int }       
+      - { label: "Order (lower shows first)", name: order, widget: number, default: 1, value_type: int }     
+      
+    - label: "Board Sections"
+        name: "board"
+        file: "src/_data/board.json"
+        description: "Sections for the hidden board portal."
+        fields:
+          - label: "Sections"
+            name: "sections"
+            widget: "list"
+            label_singular: "Section"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Name", name: name, widget: string }
+              - { label: "Slug (permanent id: lowercase, hyphens, no spaces)", name: slug, widget: string }
+              - { label: "Group heading (optional)", name: group, widget: string, required: false }      
