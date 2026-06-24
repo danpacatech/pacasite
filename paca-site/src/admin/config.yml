@@ -237,3 +237,20 @@ collections:
               - { label: "Name", name: name, widget: string }
               - { label: "Slug (permanent id: lowercase, hyphens, no spaces)", name: slug, widget: string }
               - { label: "Group heading (optional)", name: group, widget: string, required: false }
+
+  - name: sops
+    label: "Tech SOPs"
+    label_singular: "SOP"
+    description: "Standard operating procedures for the hidden Tech page. Upload a PDF (or paste a link), give it a title and category."
+    folder: "paca-site/src/sops"
+    create: true
+    slug: "{{title}}"
+    summary: "{{category}}  ·  {{title}}"
+    sortable_fields: [category, order, title]
+    fields:
+      - { label: "Title", name: title, widget: string }
+      - { label: "Category", name: category, widget: select, default: General, options: [Lighting, Sound, "Stage / Rigging", "Projection / Video", "Front of House", "Opening / Closing", General, Other] }
+      - { label: "Order (low number = first)", name: order, widget: number, default: 1, value_type: int }
+      - { label: "PDF document", name: file, widget: file, required: false, hint: "Upload or replace the SOP PDF here." }
+      - { label: "External link (optional)", name: link, widget: string, required: false, hint: "Use instead of a PDF, e.g. a Google Doc. The PDF wins if both are set." }
+      - { label: "Short description (optional)", name: description, widget: text, required: false }

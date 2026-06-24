@@ -1,0 +1,48 @@
+---
+layout: base.njk
+title: Tech
+description: Standard operating procedures and tech documents for PACA staff and volunteers.
+noindex: true
+eleventyExcludeFromCollections: true
+---
+<section class="page-head">
+  <div class="wrap">
+    <div class="eyebrow label">Staff resources</div>
+    <h1>Tech &amp; <em>SOPs</em></h1>
+    <p>Standard operating procedures for running the space. Tap any document to open or download it on your phone. Printed copies are posted in the booth.</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    {% if collections.sopGroups.length %}
+      {% for g in collections.sopGroups %}
+      <h2 class="sop-cat">{{ g.category }}</h2>
+      <div class="sop-list">
+        {% for s in g.items %}
+          {% set href = s.data.file or (s.data.link | extlink) %}
+          {% if href %}
+          <a class="sop-item" href="{{ href }}" target="_blank" rel="noopener">
+            <span class="sop-info">
+              <span class="sop-t">{{ s.data.title }}</span>
+              {% if s.data.description %}<span class="sop-d">{{ s.data.description }}</span>{% endif %}
+            </span>
+            <span class="sop-go">{% if s.data.file %}View / Download &darr;{% else %}Open &nearr;{% endif %}</span>
+          </a>
+          {% else %}
+          <div class="sop-item sop-empty">
+            <span class="sop-info">
+              <span class="sop-t">{{ s.data.title }}</span>
+              {% if s.data.description %}<span class="sop-d">{{ s.data.description }}</span>{% endif %}
+            </span>
+            <span class="sop-go">No file yet</span>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endfor %}
+    {% else %}
+    <p style="color:var(--fog);font-size:1.1rem">No SOPs uploaded yet. Add them in the CMS under "Tech SOPs."</p>
+    {% endif %}
+  </div>
+</section>

@@ -21,6 +21,7 @@
 <link rel="icon" type="image/png" href="/assets/paca-circle.png">
 <link rel="apple-touch-icon" href="/assets/paca-circle.png">
 <meta name="theme-color" content="#2B0B3E">
+{% if noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
 <link rel="canonical" href="{{ page.url | absUrl(site.url) }}">
 <script type="application/ld+json">
 {

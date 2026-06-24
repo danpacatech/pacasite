@@ -15,6 +15,17 @@ module.exports = function (eleventyConfig) {
     api.getFilteredByGlob("src/sponsors/*.md").sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
   );
 
+  // Tech SOPs, grouped by category in a sensible running order
+  eleventyConfig.addCollection("sopGroups", (api) => {
+    const items = api.getFilteredByGlob("src/sops/*.md").sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+    const order = ["Lighting", "Sound", "Stage / Rigging", "Projection / Video", "Front of House", "Opening / Closing", "General", "Other"];
+    const groups = {};
+    items.forEach((i) => { const c = i.data.category || "Other"; (groups[c] = groups[c] || []).push(i); });
+    return Object.keys(groups)
+      .sort((a, b) => ((order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99)) || a.localeCompare(b))
+      .map((c) => ({ category: c, items: groups[c] }));
+  });
+
   // Past productions: archive entries + shows marked "past", grouped by year (newest first)
   const mdLib = require("markdown-it")({ html: true, breaks: true, linkify: true });
   eleventyConfig.addFilter("markdownify", (str) => (str ? mdLib.render(str) : ""));
