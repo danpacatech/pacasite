@@ -28,6 +28,7 @@ eleventyExcludeFromCollections: true
   textarea{width:100%;min-height:74px;resize:vertical}
   .blink{animation:bl 1s steps(2) infinite}@keyframes bl{50%{opacity:0}}
   .hidden{display:none}
+  #matrix{position:fixed;inset:0;width:100%;height:100%;z-index:9999;background:#000;transition:opacity .85s ease;pointer-events:none}
   .err{color:var(--warn)}
   hr{border:none;border-top:1px dashed var(--dim);margin:16px 0}
   h2.sec{color:var(--amber);text-shadow:0 0 6px rgba(255,176,0,.45);font-size:14px;letter-spacing:.12em;margin:0 0 12px}
@@ -52,6 +53,7 @@ eleventyExcludeFromCollections: true
 </style>
 </head>
 <body>
+<canvas id="matrix" class="hidden"></canvas>
 <div class="crt">
   <pre class="banner">██████╗  █████╗  ██████╗ █████╗
 ██╔══██╗██╔══██╗██╔════╝██╔══██╗
@@ -255,23 +257,53 @@ eleventyExcludeFromCollections: true
 
   function mkRefresh(fn){ var b = el("button",{class:"ghost",text:"\u21bb Refresh"}); b.onclick = fn; return b; }
 
-  function unlock(code){
+  function playMatrix(reveal){
+    var c = $("matrix");
+    if(!c || !c.getContext){ reveal(); return; }
+    c.classList.remove("hidden"); c.style.opacity = "1";
+    var ctx = c.getContext("2d");
+    function size(){ c.width = window.innerWidth; c.height = window.innerHeight; }
+    size(); window.addEventListener("resize", size);
+    var chars = "PACA0123456789\u30A2\u30A4\u30A6\u30A8\u30AA\u30AB\u30AD\u30AF\u30B1\u30B3\u30B5\u30B7\u30B9\u30BB\u30BD\u30BF\u30C1\u30C4\u30C6\u30CA\u30CB\u30CC\u30CD\u30CF\u30D2\u30DB\u30DE\u30DF\u30E0\u30E1\u30E2\u30E4\u30E6\u30E8".split("");
+    var fs = 16, cols = Math.max(1, Math.floor(c.width / fs));
+    var drops = []; for(var i=0;i<cols;i++) drops[i] = Math.floor(Math.random() * -50);
+    var timer = setInterval(function(){
+      ctx.fillStyle = "rgba(0,0,0,0.09)"; ctx.fillRect(0,0,c.width,c.height);
+      ctx.font = fs + "px 'Courier New', monospace";
+      for(var i=0;i<drops.length;i++){
+        var x = i*fs, y = drops[i]*fs;
+        ctx.fillStyle = "#d8ffe2"; ctx.fillText(chars[Math.floor(Math.random()*chars.length)], x, y);
+        ctx.fillStyle = "#2bd957"; ctx.fillText(chars[Math.floor(Math.random()*chars.length)], x, y - fs);
+        if(y > c.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }, 45);
+    setTimeout(function(){
+      reveal();
+      c.style.opacity = "0";
+      setTimeout(function(){ clearInterval(timer); window.removeEventListener("resize", size); c.classList.add("hidden"); }, 850);
+    }, 2000);
+  }
+
+  function unlock(code, animate){
     if(!code) return;
     KEY = code;
     api("threads",{params:{boardId:"__verify__"}}).then(function(){
       sessionStorage.setItem("boardKey", KEY);
-      hide($("login")); show($("app"));
-      renderCal(); renderSections();
+      var reveal = function(){ hide($("login")); show($("app")); renderCal(); renderSections(); };
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if(animate && !reduce){ hide($("login")); playMatrix(reveal); }
+      else { reveal(); }
     }).catch(function(e){
       KEY=""; sessionStorage.removeItem("boardKey"); show($("loginErr"));
     });
   }
 
-  $("enter").addEventListener("click", function(){ unlock($("code").value.trim()); });
-  $("code").addEventListener("keydown", function(e){ if(e.key==="Enter") unlock($("code").value.trim()); });
+  $("enter").addEventListener("click", function(){ unlock($("code").value.trim(), true); });
+  $("code").addEventListener("keydown", function(e){ if(e.key==="Enter") unlock($("code").value.trim(), true); });
   $("logout").addEventListener("click", function(){ KEY=""; sessionStorage.removeItem("boardKey"); hide($("app")); show($("login")); $("code").value=""; hide($("loginErr")); });
 
-  if(KEY){ unlock(KEY); }
+  if(KEY){ unlock(KEY, false); }
 </script>
 </body>
 </html>
