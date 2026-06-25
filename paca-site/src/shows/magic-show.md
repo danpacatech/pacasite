@@ -7,9 +7,9 @@ date_label: July 25
 date_start: 2026-07-25T19:30
 date_end: 2026-07-25T21:30
 summary: Six magicians. One night. Zero explanations.
-image: /assets/uploads/paca_magicshow_poster.png
+image: /assets/uploads/paca_magicshow_poster.jpg
 ticket_url: https://tickets.eriereader.com/events/magic-show-7-25-2026
-gallery: /assets/uploads/paca_magicshow_poster.png
+gallery: ""
 ---
 Looking for something the whole family can enjoy this summer?
 
