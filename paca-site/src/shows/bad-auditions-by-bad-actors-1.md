@@ -1,7 +1,7 @@
 ---
 title: Bad Auditions by Bad Actors
 discipline: Theatre
-featured: false
+featured: true
 status: upcoming
 date_label: July 10-11. 17-18
 date_start: 2026-07-10T19:30
