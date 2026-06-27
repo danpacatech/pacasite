@@ -1,6 +1,6 @@
 ---
-title: Website CMS
-category: General
+title: Audio Patch List
+category: Sound
 order: 1
-file: /assets/uploads/website-cms-sop6-1-.pdf
+file: /assets/uploads/patch-list-sop-1-1-.pdf
 ---
