@@ -1,8 +1,8 @@
 ---
 title: Auditions for Vanya
 discipline: Auditions
-featured: true
-status: upcoming
+featured: false
+status: past
 date_label: June 27
 date_start: 2026-06-27T11:00
 date_end: 2026-06-27T13:00
