@@ -1,8 +1,8 @@
 ---
 title: Gallery Night!
 discipline: Visual Art
-featured: true
-status: upcoming
+featured: false
+status: past
 date_label: June 26
 date_start: 2026-06-26
 showtime: 5:00
