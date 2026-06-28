@@ -9,7 +9,11 @@ layout: base.njk
       <span class="label">{{ year }}</span>
     </div>
     <h1>{{ title }}</h1>
-    {% if image %}<img class="poster" src="{{ image }}" alt="{{ title }}">{% endif %}
+    {% if image %}
+    <div class="show art pastprod-art" style="--art-img:url('{{ image }}')">
+      <span class="tag">{{ discipline }}</span>
+    </div>
+    {% endif %}
     <div class="prose">
       {% if blurb %}<p style="font-size:1.25rem;color:var(--cream)">{{ blurb }}</p>{% endif %}
       {% if recap %}{{ recap | markdownify | safe }}{% endif %}
