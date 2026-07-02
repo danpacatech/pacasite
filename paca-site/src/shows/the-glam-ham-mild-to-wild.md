@@ -8,6 +8,8 @@ date_start: 2026-08-14T07:18
 date_end: 2026-08-15T19:30
 showtime: 7:30 PM
 summary: A Night of comedy featuring Lisa Ann The Glam Ham and Friends!
+image: /assets/uploads/glamham-poster.jpg
+ticket_url: https://tickets.eriereader.com/organizations/performing-artists-collective-alliance
 ---
 # Hi, I’m Lisa Ann 
 
