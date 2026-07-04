@@ -10,6 +10,7 @@ summary: Sonia and her uncle Vanya have devoted their lives to the family farm
   in isolation, until her ailing father and his charismatic wife arrive and
   upend everything. Directed by Shawn Clerkin.
 image: /assets/uploads/vanpost.png
+ticket_url: https://tickets.eriereader.com/events/uncle-vanya
 ---
 **Uncle Vanya**
 *by Anton Chekhov, translated by Heidi Schreck*
