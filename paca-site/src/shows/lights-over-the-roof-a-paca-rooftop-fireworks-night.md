@@ -2,7 +2,7 @@
 title: "Lights Over the Roof: A PACA Rooftop Fireworks Night"
 discipline: Party
 featured: false
-status: upcoming
+status: past
 date_label: July 3
 date_start: 2026-07-03T19:30
 showtime: 7:30-11:00
