@@ -610,8 +610,13 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .building-cal iframe{display:block;width:100%;height:640px;border:0}
 @media (max-width:640px){.building-cal iframe{height:520px}}
 
-/* past production detail page - poster (contain + blurred backdrop, same as show cards) */
-.pastprod-art{width:100%;max-width:480px;aspect-ratio:2/3;border-radius:18px;overflow:hidden;position:relative;margin:16px 0 32px;border:1px solid var(--line)}
-.pastprod-art::before{content:"";position:absolute;inset:0;background-image:var(--art-img);background-size:cover;background-position:center;filter:blur(26px) brightness(.6) saturate(1.25);transform:scale(1.2);z-index:0}
-.pastprod-art::after{content:"";position:absolute;inset:0;background-image:var(--art-img);background-size:contain;background-repeat:no-repeat;background-position:center;z-index:1}
-.pastprod-art .tag{position:absolute;top:12px;left:12px;z-index:2}
+/* past production detail page poster */
+.pastprod-art{width:100%;max-width:480px;aspect-ratio:2/3;border-radius:18px;overflow:hidden;position:relative;margin:16px 0 32px;border:1px solid var(--line);background:var(--ink-3)}
+.pastprod-blur{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(26px) brightness(.55) saturate(1.3);transform:scale(1.15)}
+.pastprod-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;z-index:1}
+
+/* donate page secondary option */
+.donate-or{display:flex;align-items:center;gap:16px;margin:40px 0 28px;color:var(--fog);font-size:.9rem;letter-spacing:.08em;text-transform:uppercase}
+.donate-or::before,.donate-or::after{content:"";flex:1;height:1px;background:var(--line)}
+.donate-alt{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.donate-alt p{color:var(--fog);margin:0;max-width:44ch}
