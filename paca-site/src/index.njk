@@ -21,10 +21,26 @@ title: ""
   </div>
 </section>
 
+{% if home.banner_image %}
+<section class="hero-banner-section">
+  <div class="hero-banner" style="--banner-img:url('{{ home.banner_image }}')">
+    <div class="hero-banner-bg"></div>
+    <div class="hero-banner-inner wrap">
+      {% if home.banner_eyebrow %}<div class="eyebrow label banner-ew">{{ home.banner_eyebrow }}</div>{% endif %}
+      {% if home.banner_headline %}<h2 class="hero-banner-hl">{{ home.banner_headline }}</h2>{% endif %}
+      {% if home.banner_sub %}<p class="hero-banner-sub">{{ home.banner_sub }}</p>{% endif %}
+      {% if home.banner_link %}
+      <a class="btn btn-primary" href="{{ home.banner_link }}"{% if home.banner_link_external %} target="_blank" rel="noopener"{% endif %}>{{ home.banner_btn or "Learn More" }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
 {% if featured %}
 <section class="block">
   <div class="wrap">
-    <div class="feature rv{% if featured.data.image %} has-img{% endif %}">
+    <div class="feature rv{% if featured.data.image %} has-img{% endif %}"    <div class="feature rv{% if featured.data.image %} has-img{% endif %}">
       <div class="feature-text">
         <div class="label">Now playing · Featured</div>
         <h3>{{ featured.data.title }}</h3>

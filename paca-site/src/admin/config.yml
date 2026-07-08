@@ -186,6 +186,17 @@ collections:
           - { label: "Headline line 1", name: hero_line1, widget: string }
           - { label: "Headline line 2 (italic accent)", name: hero_line2, widget: string, required: false }
           - { label: "Intro paragraph", name: hero_blurb, widget: text }
+          - label: "Campaign banner (optional)"
+            name: banner_image
+            widget: image
+            required: false
+            hint: "Upload a photo for the optional full-width banner below the hero. Leave blank to hide the banner entirely."
+          - { label: "Banner eyebrow label (optional)", name: banner_eyebrow, widget: string, required: false, hint: "Small label above the headline, e.g. Erie Gives Day · August 12" }
+          - { label: "Banner headline (optional)", name: banner_headline, widget: string, required: false }
+          - { label: "Banner subtext (optional)", name: banner_sub, widget: text, required: false }
+          - { label: "Banner button link (optional)", name: banner_link, widget: string, required: false }
+          - { label: "Banner button label", name: banner_btn, widget: string, required: false, hint: "Defaults to Learn More if left blank." }
+          - { label: "Open link in new tab", name: banner_link_external, widget: boolean, default: false, required: false }
  
   - name: archive
     label: "Past Productions"
