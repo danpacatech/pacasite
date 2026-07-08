@@ -623,10 +623,13 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 
 /* homepage hero banner (optional campaign slot) */
 .hero-banner-section{padding:0}
-.hero-banner{position:relative;overflow:hidden;min-height:320px;display:flex;align-items:center}
-.hero-banner-bg{position:absolute;inset:0;background-image:var(--banner-img);background-size:cover;background-position:center;filter:brightness(.38) saturate(1.2);transform:scale(1.04);z-index:0}
-.hero-banner-inner{position:relative;z-index:1;padding:56px 0;display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.hero-banner{position:relative;width:100%;line-height:0}
+.hero-banner img.hero-banner-img{width:100%;height:auto;display:block;object-fit:contain}
+.hero-banner-overlay{position:absolute;inset:0;pointer-events:none}
+.hero-banner-inner{position:absolute;inset:0;z-index:1;padding:40px;display:flex;flex-direction:column;gap:12px;align-items:flex-start;justify-content:flex-end;pointer-events:none}
+.hero-banner-inner .btn{pointer-events:all}
 .banner-ew{color:var(--magenta)!important;background:rgba(237,35,117,.12);border-color:rgba(237,35,117,.3)}
-.hero-banner-hl{font-family:var(--display);font-size:clamp(2rem,5vw,3.4rem);color:#fff;margin:0;line-height:1.1;text-shadow:0 2px 24px rgba(0,0,0,.5)}
-.hero-banner-sub{color:rgba(255,255,255,.82);font-size:1.1rem;margin:0;max-width:52ch;text-shadow:0 1px 8px rgba(0,0,0,.4)}
-@media(max-width:640px){.hero-banner{min-height:260px}.hero-banner-inner{padding:40px 0}}
+.hero-banner-hl{font-family:var(--display);font-size:clamp(1.6rem,4vw,3rem);color:#fff;margin:0;line-height:1.1;text-shadow:0 2px 20px rgba(0,0,0,.6)}
+.hero-banner-sub{color:rgba(255,255,255,.85);font-size:1rem;margin:0;max-width:52ch;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.hero-banner-inner:empty{display:none}
+@media(max-width:640px){.hero-banner-inner{padding:24px}}

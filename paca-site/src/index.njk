@@ -23,9 +23,10 @@ title: ""
 
 {% if home.banner_image %}
 <section class="hero-banner-section">
-  <div class="hero-banner" style="--banner-img:url('{{ home.banner_image }}')">
-    <div class="hero-banner-bg"></div>
-    <div class="hero-banner-inner wrap">
+  <div class="hero-banner">
+    <img class="hero-banner-img" src="{{ home.banner_image }}" alt="{% if home.banner_headline %}{{ home.banner_headline }}{% else %}PACA campaign banner{% endif %}">
+    {% if home.banner_headline or home.banner_sub or home.banner_link or home.banner_eyebrow %}
+    <div class="hero-banner-inner">
       {% if home.banner_eyebrow %}<div class="eyebrow label banner-ew">{{ home.banner_eyebrow }}</div>{% endif %}
       {% if home.banner_headline %}<h2 class="hero-banner-hl">{{ home.banner_headline }}</h2>{% endif %}
       {% if home.banner_sub %}<p class="hero-banner-sub">{{ home.banner_sub }}</p>{% endif %}
@@ -33,6 +34,7 @@ title: ""
       <a class="btn btn-primary" href="{{ home.banner_link }}"{% if home.banner_link_external %} target="_blank" rel="noopener"{% endif %}>{{ home.banner_btn or "Learn More" }}</a>
       {% endif %}
     </div>
+    {% endif %}
   </div>
 </section>
 {% endif %}
