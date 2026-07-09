@@ -2,6 +2,6 @@
 name: Renae Stoddard
 role: Treasurer
 group: Board
-photo: /assets/uploads/r.jpeg
+photo: ""
 order: 4
 ---
