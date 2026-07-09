@@ -1,6 +1,8 @@
 ---
 name: Dawn Sears
+role: Carol Danes
 order: 1
+photo: /assets/uploads/_dsc0215.jpg
 bio: "Dawn Sears is thrilled to be gracing the PACA stage for the first time.
   With over 30 years of theatre experience, some of her favorite roles have
   included \"Mary Magdelene\" in Jesus Christ Superstar, \"Lucy\" in You're a
