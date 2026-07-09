@@ -1,6 +1,7 @@
 ---
 name: Tim Frawley
-order: 1
+order: 13
+photo: /assets/uploads/_dsc0237.jpg
 bio: >
   This is my first stage production, and I'm delighted to be joining the cast of
   this hilarious comedic twist on Romeo and Juliet as both the Police Officer
