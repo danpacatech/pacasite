@@ -1,0 +1,41 @@
+---
+layout: base.njk
+permalink: "/bios/"
+eleventyExcludeFromCollections: true
+noindex: true
+---
+{% set b = bios %}
+
+<section class="page-head bios-head{% if b and b.hero_image %} bios-has-hero{% endif %}"{% if b and b.hero_image %} style="--bios-hero:url('{{ b.hero_image }}')"{% endif %}>
+  {% if b and b.hero_image %}<div class="bios-hero-bg"></div>{% endif %}
+  <div class="wrap bios-head-inner">
+    {% if b and b.eyebrow %}<div class="eyebrow label">{{ b.eyebrow }}</div>{% endif %}
+    <h1>{{ (b and b.title) or "Meet the Cast" }}</h1>
+    {% if b and b.intro %}<p>{{ b.intro }}</p>{% endif %}
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    {% if collections.bios_people and collections.bios_people.length %}
+    <div class="bios-grid">
+      {% for p in collections.bios_people %}
+      <div class="bio-card">
+        {% if p.data.photo %}
+        <div class="bio-photo-wrap">
+          <img class="bio-photo" src="{{ p.data.photo }}" alt="{{ p.data.name }}" loading="lazy">
+        </div>
+        {% endif %}
+        <div class="bio-body">
+          <h2 class="bio-name">{{ p.data.name }}</h2>
+          {% if p.data.role %}<p class="bio-role">{{ p.data.role }}</p>{% endif %}
+          {% if p.data.bio %}<div class="bio-text prose">{{ p.data.bio | markdownify | safe }}</div>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="color:var(--fog)">No bios added yet. Add cast members in the CMS under "Show Bios."</p>
+    {% endif %}
+  </div>
+</section>

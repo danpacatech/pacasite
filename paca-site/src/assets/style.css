@@ -633,3 +633,24 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .hero-banner-sub{color:rgba(255,255,255,.85);font-size:1rem;margin:0;max-width:52ch;text-shadow:0 1px 8px rgba(0,0,0,.5)}
 .hero-banner-inner:empty{display:none}
 @media(max-width:640px){.hero-banner-inner{padding:24px}}
+
+/* show bios page */
+.bios-head{position:relative;overflow:hidden}
+.bios-has-hero{min-height:340px;display:flex;align-items:flex-end;padding-bottom:0}
+.bios-hero-bg{position:absolute;inset:0;background-image:var(--bios-hero);background-size:cover;background-position:center top;filter:brightness(.35) saturate(1.15);transform:scale(1.04);z-index:0}
+.bios-head-inner{position:relative;z-index:1}
+.bios-has-hero .bios-head-inner{padding-bottom:40px}
+.bios-has-hero h1,.bios-has-hero p,.bios-has-hero .eyebrow{color:#fff!important}
+.bios-has-hero .eyebrow{background:rgba(237,35,117,.18);border-color:rgba(237,35,117,.4)}
+.bios-grid{display:flex;flex-direction:column;gap:56px}
+.bio-card{display:grid;grid-template-columns:200px 1fr;gap:32px;align-items:start}
+.bio-photo-wrap{border-radius:14px;overflow:hidden;aspect-ratio:3/4;background:var(--ink-3)}
+.bio-photo{width:100%;height:100%;object-fit:cover;display:block}
+.bio-name{font-family:var(--display);font-size:1.6rem;margin:0 0 4px}
+.bio-role{color:var(--magenta);font-weight:600;font-size:.95rem;letter-spacing:.04em;text-transform:uppercase;margin:0 0 14px}
+.bio-text{font-size:1rem}
+@media(max-width:640px){
+  .bio-card{grid-template-columns:1fr}
+  .bio-photo-wrap{max-width:200px}
+  .bios-has-hero{min-height:260px}
+}

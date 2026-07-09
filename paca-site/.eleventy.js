@@ -15,6 +15,11 @@ module.exports = function (eleventyConfig) {
     api.getFilteredByGlob("src/sponsors/*.md").sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
   );
 
+  // Cast bios for the unlisted /bios/ page, sorted by order field
+  eleventyConfig.addCollection("bios_people", (api) =>
+    api.getFilteredByGlob("src/bios-people/*.md").sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
+  );
+
   // Tech SOPs, grouped by category in a sensible running order
   eleventyConfig.addCollection("sopGroups", (api) => {
     const items = api.getFilteredByGlob("src/sops/*.md").sort((a, b) => (a.data.order || 0) - (b.data.order || 0));

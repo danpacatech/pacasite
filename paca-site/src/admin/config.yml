@@ -265,3 +265,32 @@ collections:
       - { label: "PDF document", name: file, widget: file, required: false, hint: "Upload or replace the SOP PDF here." }
       - { label: "External link (optional)", name: link, widget: string, required: false, hint: "Use instead of a PDF, e.g. a Google Doc. The PDF wins if both are set." }
       - { label: "Short description (optional)", name: description, widget: text, required: false }
+
+  - name: bios
+    label: "Show Bios"
+    files:
+      - name: bios_page
+        label: "Page Header"
+        file: "paca-site/src/_data/bios.json"
+        description: "Hero image and intro text for the /bios/ page."
+        fields:
+          - { label: "Page title", name: title, widget: string, default: "Meet the Cast", required: false }
+          - { label: "Eyebrow label (optional)", name: eyebrow, widget: string, required: false, hint: "Small label above the title, e.g. Bad Auditions by Bad Actors" }
+          - { label: "Intro text (optional)", name: intro, widget: text, required: false }
+          - { label: "Hero image (optional)", name: hero_image, widget: image, required: false, hint: "A show photo or cast banner. Leave blank for a plain header." }
+
+  - name: bios_people
+    label: "Cast & Crew Bios"
+    label_singular: "Person"
+    description: "Individual cast and crew bios shown on the /bios/ page."
+    folder: "paca-site/src/bios-people"
+    create: true
+    slug: "{{name}}"
+    summary: "{{order}}. {{name}} — {{role}}"
+    sortable_fields: [order, name]
+    fields:
+      - { label: "Name", name: name, widget: string }
+      - { label: "Role / character", name: role, widget: string, required: false, hint: "e.g. Director, or Jane Smith as Lady Macbeth" }
+      - { label: "Order (low = first)", name: order, widget: number, default: 1, value_type: int }
+      - { label: "Photo (optional)", name: photo, widget: image, required: false }
+      - { label: "Bio", name: bio, widget: text, required: false, hint: "Supports basic Markdown." }
