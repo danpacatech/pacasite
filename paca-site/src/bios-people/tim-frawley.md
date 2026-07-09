@@ -1,5 +1,6 @@
 ---
 name: Tim Frawley
+role: Josh/Police Officer
 order: 13
 photo: /assets/uploads/_dsc0237.jpg
 bio: >
