@@ -2,6 +2,7 @@
 name: Mark Tanenbaum
 role: Executive Director
 order: 18
+photo: /assets/uploads/707694865_1616180493842549_3813091164714505611_n.jpg
 bio: >
   Before there was a PACA, there was a kid from Erie who fell in love with the
   stage.
