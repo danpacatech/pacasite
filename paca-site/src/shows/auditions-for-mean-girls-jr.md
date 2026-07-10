@@ -2,7 +2,7 @@
 title: Auditions for Mean Girls, JR
 discipline: Auditions
 featured: false
-status: upcoming
+status: past
 date_label: July 8
 date_start: 2026-07-08T18:00
 date_end: 2026-07-08T20:00
