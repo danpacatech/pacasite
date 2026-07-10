@@ -2,6 +2,7 @@
 name: Ian McWethy
 role: Author
 order: 18
+photo: /assets/uploads/ianmcwethy-bc.jpeg
 bio: >
   has written over 60 plays that regularly receive over 1,000 productions every
   year. They’ve been produced in all 50 states and in over 50 countries abroad.
