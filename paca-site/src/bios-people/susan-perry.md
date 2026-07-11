@@ -1,5 +1,5 @@
 ---
-name: Susan Perry
+name: Susan Parry
 role: Coach
 order: 5
 photo: /assets/uploads/_dsc0283.jpg
