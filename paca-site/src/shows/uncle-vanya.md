@@ -3,9 +3,9 @@ title: Uncle Vanya
 discipline: Theatre
 featured: false
 status: upcoming
-date_label: September 11-12. 18-19 at 7:30 pm, September 13 & 20 at 2:00 pm.
+date_label: September 11-12. 17-19 at 7:30 pm, September 13 at 2:00 pm.
 date_start: 2026-09-11T19:30
-date_end: 2026-09-20T14:00
+date_end: 2026-09-19T22:00
 summary: Sonia and her uncle Vanya have devoted their lives to the family farm
   in isolation, until her ailing father and his charismatic wife arrive and
   upend everything. Directed by Shawn Clerkin.
