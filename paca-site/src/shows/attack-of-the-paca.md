@@ -4,6 +4,8 @@ discipline: Other
 featured: false
 status: upcoming
 date_label: "Aug 7 and 8 "
+date_start: 2026-08-07T19:00
+date_end: 2026-08-08T22:00
 showtime: 7:00 PM
 summary: Erie thought it was safe....
 image: /assets/uploads/paca_boomshaka_hires_pass2-1-.png
