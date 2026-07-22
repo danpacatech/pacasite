@@ -73,6 +73,7 @@ layout: base.njk
       <a class="btn btn-primary" href="{{ ticket_url or site.tickets }}" target="_blank" rel="noopener">Get Tickets</a>
       <a class="btn btn-ghost" href="/whats-on/">More Shows</a>
       {% if playbill %}<a class="btn btn-ghost" href="{{ playbill }}" target="_blank" rel="noopener">Playbill (PDF)</a>{% endif %}
+      {% if bios_url %}<a class="btn btn-ghost" href="{{ bios_url }}">Meet the Cast</a>{% elif bios_live %}<a class="btn btn-ghost" href="/bios/">Meet the Cast</a>{% endif %}
     </div>
     {% if date_start %}
     <div class="addcal">

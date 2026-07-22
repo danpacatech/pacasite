@@ -54,6 +54,8 @@ collections:
       - { label: "Playbill (PDF, optional)", name: playbill, widget: file, required: false, hint: "Upload the playbill PDF. The link only appears when a file is set." }
       - { label: "Full description (optional)", name: recap, widget: text, required: false, hint: "A longer write-up or recap. Supports basic Markdown." }
       - { label: "Photo gallery (optional)", name: gallery, widget: image, required: false, multiple: true, hint: "Select multiple photos at once. They all appear on the show page." }
+      - { label: "Cast bios URL (optional)", name: bios_url, widget: string, required: false, hint: "Link to an archived cast bios page, e.g. /past/bad-auditions-bios/. Leave blank when using the live toggle." }
+      - { label: "Live bios active", name: bios_live, widget: boolean, default: false, required: false, hint: "Turn on to add a Meet the Cast button pointing to /bios/ (the live bios page). Turn off and paste the archive URL above when the show is done." }
   
   - name: settings
     label: Site Settings
@@ -217,6 +219,7 @@ collections:
       - { label: "Photo gallery (optional)", name: gallery, widget: image, required: false, multiple: true, hint: "Select multiple photos at once." }     
       - { label: "Playbill (PDF, optional)", name: playbill, widget: file, required: false, hint: "Upload the playbill PDF. The link only appears when a file is set." }
       - { label: "Cast bios URL (optional)", name: bios_url, widget: string, required: false, hint: "Link to the archived cast bios page, e.g. /past/bad-auditions-bios/" }
+      - { label: "Live bios active", name: bios_live, widget: boolean, default: false, required: false, hint: "Turn on to point Meet the Cast to /bios/. Use only for the current active show." }
 
   - name: sponsors
     label: Sponsors
