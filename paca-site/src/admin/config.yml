@@ -216,6 +216,7 @@ collections:
       - { label: "Full description (optional)", name: recap, widget: text, required: false, hint: "A longer write-up or recap. Supports basic Markdown." }
       - { label: "Photo gallery (optional)", name: gallery, widget: image, required: false, multiple: true, hint: "Select multiple photos at once." }     
       - { label: "Playbill (PDF, optional)", name: playbill, widget: file, required: false, hint: "Upload the playbill PDF. The link only appears when a file is set." }
+      - { label: "Cast bios URL (optional)", name: bios_url, widget: string, required: false, hint: "Link to the archived cast bios page, e.g. /past/bad-auditions-bios/" }
 
   - name: sponsors
     label: Sponsors
