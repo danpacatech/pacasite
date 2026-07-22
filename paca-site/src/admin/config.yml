@@ -297,4 +297,4 @@ collections:
       - { label: "Role / character", name: role, widget: string, required: false, hint: "e.g. Director, or Jane Smith as Lady Macbeth" }
       - { label: "Order (low = first)", name: order, widget: number, default: 1, value_type: int }
       - { label: "Photo (optional)", name: photo, widget: image, required: false }
-      - { label: "Bio", name: bio, widget: text, required: false, hint: "Supports basic Markdown." }
+      - { label: "Bio", name: bio, widget: markdown, required: false, hint: "Full markdown editor. Supports links, bold, lists, etc." }
