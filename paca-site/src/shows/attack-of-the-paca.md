@@ -1,7 +1,7 @@
 ---
 title: Attack of the PACA
 discipline: Other
-featured: false
+featured: true
 status: upcoming
 date_label: "Aug 7 and 8 "
 date_start: 2026-08-07T19:00
