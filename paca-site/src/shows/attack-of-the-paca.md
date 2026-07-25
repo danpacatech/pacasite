@@ -9,6 +9,7 @@ date_end: 2026-08-08T22:00
 showtime: 7:00 PM
 summary: Erie thought it was safe....
 image: /assets/uploads/paca_boomshaka_hires_pass2-1-.png
+ticket_url: https://tickets.eriereader.com/events/attack-of-the-paca
 ---
 **ATTACK OF THE** **PACA! BOOM SHAKA LAKA!!!** 
 Returns August 7th & 8th, and we're throwing open the doors for the wildest celebration of art, performance, and pure creative chaos Erie has ever seen.
