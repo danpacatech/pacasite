@@ -2,7 +2,7 @@
 title: Magic Show!
 discipline: Event
 featured: true
-status: upcoming
+status: past
 date_label: July 25
 date_start: 2026-07-25T19:30
 date_end: 2026-07-25T21:30
