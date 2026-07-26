@@ -1,0 +1,60 @@
+---
+layout: base.njk
+permalink: "/signup/"
+eleventyExcludeFromCollections: true
+noindex: true
+title: Stay Connected
+description: Join the PACA mailing list and stay up to date on shows, events, and more.
+---
+<section class="page-head">
+  <div class="wrap">
+    <div class="eyebrow label">Join our community</div>
+    <h1>Stay <em>Connected</em></h1>
+    <p>Sign up to hear about upcoming shows, events, and everything happening at 1505 State Street. We'll never spam you.</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <form name="contact-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="rform rv signup-form">
+      <input type="hidden" name="form-name" value="contact-signup">
+      <p hidden><label>Leave this empty: <input name="bot-field"></label></p>
+
+      <div><label>First name *</label><input type="text" name="first_name" required autocomplete="given-name"></div>
+      <div><label>Last name *</label><input type="text" name="last_name" required autocomplete="family-name"></div>
+      <div><label>Email *</label><input type="email" name="email" required autocomplete="email"></div>
+      <div><label>Phone</label><input type="tel" name="phone" autocomplete="tel"></div>
+      <div class="full"><label>Street address</label><input type="text" name="address" autocomplete="street-address"></div>
+      <div><label>City</label><input type="text" name="city" autocomplete="address-level2"></div>
+      <div><label>State</label><input type="text" name="state" autocomplete="address-level1" style="max-width:120px"></div>
+      <div class="full"><label>Notes <span style="font-weight:400;color:var(--fog)">(anything you'd like us to know)</span></label>
+        <textarea name="notes" rows="3" placeholder="Interested in volunteering, looking for audition info, etc."></textarea>
+      </div>
+
+      <div class="full signup-submit">
+        <button type="submit" class="btn btn-primary">Sign me up</button>
+      </div>
+    </form>
+
+    <div id="signup-thanks" class="signup-thanks hidden">
+      <p>&#10003; You're on the list. Thanks for connecting with PACA, we'll be in touch!</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  var form = document.querySelector('form[name="contact-signup"]');
+  if(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var data = new FormData(form);
+      fetch('/', { method:'POST', body: data })
+        .then(function(){
+          form.style.display = 'none';
+          var thanks = document.getElementById('signup-thanks');
+          if(thanks) thanks.classList.remove('hidden');
+        })
+        .catch(function(){ form.submit(); });
+    });
+  }
+</script>

@@ -654,3 +654,9 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   .bio-photo-wrap{max-width:200px}
   .bios-has-hero{min-height:260px}
 }
+
+/* contact/signup page */
+.signup-form{max-width:640px}
+.signup-submit{margin-top:8px}
+.signup-thanks{background:var(--ink-3);border:1px solid var(--line);border-radius:12px;padding:28px 24px;max-width:640px;margin-top:24px}
+.signup-thanks p{font-size:1.15rem;color:var(--fg);margin:0}
