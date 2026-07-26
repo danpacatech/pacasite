@@ -3,44 +3,64 @@ layout: base.njk
 permalink: "/signup/"
 eleventyExcludeFromCollections: true
 noindex: true
+kiosk: true
 title: Stay Connected
 description: Join the PACA mailing list and stay up to date on shows, events, and more.
 ---
-<section class="page-head">
-  <div class="wrap">
-    <div class="eyebrow label">Join our community</div>
-    <h1>Stay <em>Connected</em></h1>
-    <p>Sign up to hear about upcoming shows, events, and everything happening at 1505 State Street. We'll never spam you.</p>
-  </div>
-</section>
+<style>
+  .signup-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px}
+  .signup-box{width:100%;max-width:560px}
+  .signup-logo{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+  .signup-logo img{width:64px;height:64px}
+  .signup-logo-text{font-family:var(--display);font-size:1.5rem;color:var(--cream)}
+  .signup-hed{font-family:var(--display);font-size:2.4rem;line-height:1.1;margin:0 0 8px}
+  .signup-sub{color:var(--fog);margin:0 0 28px;font-size:1.05rem}
+  .signup-box .rform label{font-size:1rem}
+  .signup-box .rform input,.signup-box .rform textarea{font-size:1.05rem;padding:13px 14px}
+  .signup-thanks{display:none;text-align:center;padding:48px 24px}
+  .signup-thanks .check{font-size:4rem;color:var(--magenta);line-height:1;margin-bottom:16px}
+  .signup-thanks h2{font-family:var(--display);font-size:2rem;margin:0 0 10px}
+  .signup-thanks p{color:var(--fog);font-size:1.1rem;margin:0}
+</style>
 
-<section class="block">
-  <div class="wrap">
-    <form name="contact-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="rform rv signup-form">
-      <input type="hidden" name="form-name" value="contact-signup">
-      <p hidden><label>Leave this empty: <input name="bot-field"></label></p>
+<div class="signup-wrap">
+  <div class="signup-box">
+    <div class="signup-logo">
+      <img src="/assets/paca-circle.png" alt="PACA">
+      <span class="signup-logo-text">PACA</span>
+    </div>
 
-      <div><label>First name *</label><input type="text" name="first_name" required autocomplete="given-name"></div>
-      <div><label>Last name *</label><input type="text" name="last_name" required autocomplete="family-name"></div>
-      <div><label>Email *</label><input type="email" name="email" required autocomplete="email"></div>
-      <div><label>Phone</label><input type="tel" name="phone" autocomplete="tel"></div>
-      <div class="full"><label>Street address</label><input type="text" name="address" autocomplete="street-address"></div>
-      <div><label>City</label><input type="text" name="city" autocomplete="address-level2"></div>
-      <div><label>State</label><input type="text" name="state" autocomplete="address-level1" style="max-width:120px"></div>
-      <div class="full"><label>Notes <span style="font-weight:400;color:var(--fog)">(anything you'd like us to know)</span></label>
-        <textarea name="notes" rows="3" placeholder="Interested in volunteering, looking for audition info, etc."></textarea>
-      </div>
+    <div id="signup-form-wrap">
+      <h1 class="signup-hed">Stay <em>Connected</em></h1>
+      <p class="signup-sub">Sign up to hear about upcoming shows, events, and everything happening at 1505 State Street.</p>
 
-      <div class="full signup-submit">
-        <button type="submit" class="btn btn-primary">Sign me up</button>
-      </div>
-    </form>
+      <form name="contact-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="rform rv">
+        <input type="hidden" name="form-name" value="contact-signup">
+        <p hidden><label>Leave this empty: <input name="bot-field"></label></p>
 
-    <div id="signup-thanks" class="signup-thanks hidden">
-      <p>&#10003; You're on the list. Thanks for connecting with PACA, we'll be in touch!</p>
+        <div><label>First name *</label><input type="text" name="first_name" required autocomplete="given-name"></div>
+        <div><label>Last name *</label><input type="text" name="last_name" required autocomplete="family-name"></div>
+        <div><label>Email *</label><input type="email" name="email" required autocomplete="email"></div>
+        <div><label>Phone</label><input type="tel" name="phone" autocomplete="tel"></div>
+        <div class="full"><label>Street address</label><input type="text" name="address" autocomplete="street-address"></div>
+        <div><label>City</label><input type="text" name="city" autocomplete="address-level2"></div>
+        <div><label>State</label><input type="text" name="state" autocomplete="address-level1" style="max-width:120px"></div>
+        <div class="full"><label>Notes <span style="font-weight:400;color:var(--fog)">(anything you'd like us to know)</span></label>
+          <textarea name="notes" rows="3" placeholder="Interested in volunteering, looking for audition info, etc."></textarea>
+        </div>
+        <div class="full" style="margin-top:8px">
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;font-size:1.1rem;padding:16px">Sign me up</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="signup-thanks" class="signup-thanks">
+      <div class="check">&#10003;</div>
+      <h2>You're on the list!</h2>
+      <p>Thanks for connecting with PACA. We'll be in touch soon.</p>
     </div>
   </div>
-</section>
+</div>
 
 <script>
   var form = document.querySelector('form[name="contact-signup"]');
@@ -50,9 +70,13 @@ description: Join the PACA mailing list and stay up to date on shows, events, an
       var data = new FormData(form);
       fetch('/', { method:'POST', body: data })
         .then(function(){
-          form.style.display = 'none';
-          var thanks = document.getElementById('signup-thanks');
-          if(thanks) thanks.classList.remove('hidden');
+          document.getElementById('signup-form-wrap').style.display = 'none';
+          document.getElementById('signup-thanks').style.display = 'block';
+          setTimeout(function(){
+            document.getElementById('signup-form-wrap').style.display = 'block';
+            document.getElementById('signup-thanks').style.display = 'none';
+            form.reset();
+          }, 5000);
         })
         .catch(function(){ form.submit(); });
     });

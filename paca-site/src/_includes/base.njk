@@ -60,6 +60,7 @@
 <div class="grain"></div>
 <div class="spot" id="spot"></div>
 
+{% if not kiosk %}
 <header>
   <div class="wrap">
     <nav>
@@ -82,11 +83,13 @@
     </nav>
   </div>
 </header>
+{% endif %}
 
 <main id="main">
 {{ content | safe }}
 </main>
 
+{% if not kiosk %}
 <footer>
   <div class="wrap">
     <div class="fgrid">
@@ -117,6 +120,7 @@
     </div>
   </div>
 </footer>
+{% endif %}
 
 {% if collections.sponsors and collections.sponsors.length %}
 <div class="sponsors">
