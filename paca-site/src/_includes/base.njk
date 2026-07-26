@@ -122,7 +122,7 @@
 </footer>
 {% endif %}
 
-{% if collections.sponsors and collections.sponsors.length %}
+{% if collections.sponsors and collections.sponsors.length and not kiosk %}
 <div class="sponsors">
   <span class="sponsors-label">Special thanks to</span>
   <div class="sponsors-viewport">
