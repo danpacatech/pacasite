@@ -1,7 +1,7 @@
 {
   "name": "paca-site",
   "version": "1.0.0",
-  "description": "PACA — Performing Artists Collective Alliance website (Eleventy + Decap CMS)",
+  "description": "PACA \u2014 Performing Artists Collective Alliance website (Eleventy + Decap CMS)",
   "scripts": {
     "start": "eleventy --serve",
     "build": "eleventy",
@@ -9,7 +9,7 @@
   },
   "license": "UNLICENSED",
   "dependencies": {
-    "@netlify/blobs": "^10.0.0",
+    "@netlify/blobs": "^8.1.0",
     "markdown-it": "^14.0.0"
   },
   "devDependencies": {
