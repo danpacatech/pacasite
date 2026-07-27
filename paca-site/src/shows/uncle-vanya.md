@@ -9,7 +9,7 @@ date_end: 2026-09-19T22:00
 summary: Sonia and her uncle Vanya have devoted their lives to the family farm
   in isolation, until her ailing father and his charismatic wife arrive and
   upend everything. Directed by Shawn Clerkin.
-image: /assets/uploads/vanpost.png
+image: /assets/uploads/vanya-rev727.png
 ticket_url: https://tickets.eriereader.com/events/uncle-vanya
 ---
 **Uncle Vanya**
