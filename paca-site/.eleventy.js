@@ -2,6 +2,7 @@ module.exports = function (eleventyConfig) {
   // Copy static assets and the CMS admin straight through to the build
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
   eleventyConfig.addPassthroughCopy({ "src/admin": "admin" });
+  eleventyConfig.addPassthroughCopy({ "src/ppb.html": "ppb/index.html" });
 
   // Shows collection, sorted by start date
   eleventyConfig.addCollection("shows", (api) =>
