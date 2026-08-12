@@ -1,8 +1,8 @@
 ---
 title: Attack of the PACA Bonus/2027 Partial Season Reveal/Erie Gives
 discipline: Event
-featured: true
-status: upcoming
+featured: false
+status: past
 date_start: 2026-08-11T19:00
 date_end: 2026-08-11T22:01
 summary: "You wanted more? You get more and then some! "
