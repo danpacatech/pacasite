@@ -1,15 +1,15 @@
 ---
 title: "The Glam Ham: Mild to Wild"
 discipline: Event
-featured: false
+featured: true
 status: upcoming
 date_label: Aug 14-15
 date_start: 2026-08-14T07:18
 date_end: 2026-08-15T19:30
 showtime: 7:30 PM
 summary: A Night of comedy featuring Lisa Ann The Glam Ham and Friends!
-image: /assets/uploads/glamham-poster.jpg
-ticket_url: https://tickets.eriereader.com/organizations/performing-artists-collective-alliance
+image: /assets/uploads/glamwithqr.png
+ticket_url: https://tickets.eriereader.com/events/the-glam-ham-mild-to-wild
 ---
 # Hi, I’m Lisa Ann 
 
