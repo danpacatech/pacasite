@@ -4,6 +4,8 @@ discipline: Auditions
 featured: false
 status: upcoming
 date_label: "August 22 & 23 "
+date_start: 2026-08-22T14:00
+date_end: 2026-08-23T17:00
 showtime: 2 PM
 summary: "Auditions: The Goat or, Who is Sylvia?"
 bios_live: false
