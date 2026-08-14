@@ -100,7 +100,8 @@ export default async (req) => {
     const email   = clean(body.email, 120);
     if (!eventId || !slotId || !name || !email) return j({ error: "missing fields" }, 400);
 
-    const events  = await get("events", []);
+    const eventsRes = await fetch(`${SITE_URL}/volunteer-events.json`);
+    const events  = eventsRes.ok ? await eventsRes.json() : [];
     const event   = events.find(e => e.id === eventId);
     if (!event) return j({ error: "event not found" }, 404);
     const slot    = (event.slots || []).find(s => s.id === slotId);
@@ -179,7 +180,8 @@ export default async (req) => {
   if (action === "send_reminders") {
     // Called by Make on a schedule — sends 48hr volunteer reminders and 12hr admin alerts
     const signups = await get("signups", []);
-    const events  = await get("events", []);
+    const eventsRes2 = await fetch(`${SITE_URL}/volunteer-events.json`);
+    const events  = eventsRes2.ok ? await eventsRes2.json() : [];
     const now = Date.now();
     let sent48 = 0, sent12 = 0;
 
