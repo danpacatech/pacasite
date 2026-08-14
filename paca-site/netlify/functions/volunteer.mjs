@@ -127,7 +127,7 @@ export default async (req) => {
     await store.setJSON("signups", signups);
 
     // Confirmation email to volunteer
-    const cancelUrl = `${SITE_URL}/volunteer/?action=cancel&token=${cancelToken}`;
+    const cancelUrl = `${SITE_URL}/vol-schedule/?action=cancel&token=${cancelToken}`;
     await sendEmail(email,
       `You're signed up: ${event.name}`,
       emailHtml(`You're signed up!`,
