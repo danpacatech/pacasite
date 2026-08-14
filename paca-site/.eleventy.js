@@ -23,9 +23,9 @@ module.exports = function (eleventyConfig) {
 
   // Volunteer events from CMS, sorted by date
   eleventyConfig.addCollection("volunteer_events", (api) =>
-    api.getFilteredByGlob("src/volunteer-events/*.md").sort((a, b) =>
-      (a.data.date || "").localeCompare(b.data.date || "")
-    )
+    api.getFilteredByGlob(["src/volunteer-events/*.md","src/volunteer-events/*.json"])
+      .filter(i => i.inputPath && !i.inputPath.includes("11tydata"))
+      .sort((a, b) => (a.data.date || "").localeCompare(b.data.date || ""))
   );
 
   // Tech SOPs, grouped by category in a sensible running order

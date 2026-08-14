@@ -269,7 +269,7 @@ function renderEvents(){
       <div class="event-head">
         <div>
           <div class="event-name">${ev.name}</div>
-          <div class="event-meta">${ev.date}${ev.time ? " · " + ev.time : ""}</div>
+          <div class="event-meta">${(ev.date||"").slice(0,10)}${ev.time ? " · " + ev.time : ""}</div>
         </div>
       </div>
       <div class="slots">${slots}</div>
@@ -373,7 +373,7 @@ function renderAdminByEvent(){
     return `<div class="event-card" style="margin-bottom:20px">
       <div class="event-head"><div>
         <div class="event-name">${ev.name}</div>
-        <div class="event-meta">${ev.date||""}${ev.time?" · "+ev.time:""} · ${evSignups.length} volunteer${evSignups.length!==1?"s":""}</div>
+        <div class="event-meta">${(ev.date||"").slice(0,10)}${ev.time?" · "+ev.time:""} · ${evSignups.length} volunteer${evSignups.length!==1?"s":""}</div>
       </div></div>
       <div style="padding:12px 16px">
         <table><thead><tr><th>Role</th><th>Status</th><th>Volunteers</th></tr></thead><tbody>${slots}</tbody></table>

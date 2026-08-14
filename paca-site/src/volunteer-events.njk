@@ -2,4 +2,4 @@
 permalink: "/volunteer-events.json"
 eleventyExcludeFromCollections: true
 ---
-[{% for ev in collections.volunteer_events %}{% set d = ev.data %}{"id":{{ ev.fileSlug | dump | safe }},"name":{{ (d.name or ev.fileSlug) | dump | safe }},"date":{{ (d.date or "") | dump | safe }},"time":{{ (d.time or "") | dump | safe }},"active":{{ (d.active if d.active != undefined else true) | dump | safe }},"slots":{{ (d.slots or []) | dump | safe }}}{% if not loop.last %},{% endif %}{% endfor %}]
+[{% for ev in collections.volunteer_events %}{% set d = ev.data %}{"id":{{ ev.fileSlug | dump | safe }},"name":{{ (d.name or ev.fileSlug) | dump | safe }},"date":{{ ((d.date or "") | string).slice(0,10) | dump | safe }},"time":{{ (d.time or "") | dump | safe }},"active":{{ (d.active if d.active != undefined else true) | dump | safe }},"slots":{{ (d.slots or []) | dump | safe }}}{% if not loop.last %},{% endif %}{% endfor %}]
