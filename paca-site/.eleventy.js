@@ -25,7 +25,11 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addCollection("volunteer_events", (api) =>
     api.getFilteredByGlob(["src/volunteer-events/*.md","src/volunteer-events/*.json"])
       .filter(i => i.inputPath && !i.inputPath.includes("11tydata"))
-      .sort((a, b) => (a.data.date || "").localeCompare(b.data.date || ""))
+      .sort((a, b) => {
+        const da = String(a.data.date || "").slice(0,10);
+        const db = String(b.data.date || "").slice(0,10);
+        return da.localeCompare(db);
+      })
   );
 
   // Tech SOPs, grouped by category in a sensible running order
