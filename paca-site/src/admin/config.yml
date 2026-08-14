@@ -308,8 +308,6 @@ collections:
     slug: "{{name}}"
     summary: "{{date}} — {{name}}"
     sortable_fields: [date, name]
-    extension: json
-    format: json
     fields:
       - { label: "Event name", name: name, widget: string }
       - { label: "Date", name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", hint: "The date of the event." }
