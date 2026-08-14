@@ -216,29 +216,32 @@ function logout(){
 }
 
 function doLogin(auto){
-  var code = auto ? KEY : document.getElementById("code").value.trim();
+  var code = auto ? (KEY || ADMIN_KEY) : document.getElementById("code").value.trim();
   if(!code) return;
 
-  // Try volunteer password first
-  fetch(API + "?action=events", { headers: { "x-vol-key": code } })
+  // Try admin first (signups action is admin-only)
+  fetch(API + "?action=signups", { headers: { "x-vol-key": code } })
     .then(r => {
-      if(r.status === 401){
-        // Try admin password
-        fetch(API + "?action=signups", { headers: { "x-vol-key": code } })
+      if(r.status === 200){
+        ADMIN_KEY = code; IS_ADMIN = true;
+        sessionStorage.setItem("volAdminKey", code);
+        KEY = ""; sessionStorage.removeItem("volKey");
+        loadAdmin();
+      } else {
+        // Try volunteer password
+        fetch(API + "?action=events", { headers: { "x-vol-key": code } })
           .then(r2 => {
-            if(r2.status === 401){
-              if(!auto){ document.getElementById("login-err").classList.remove("hidden"); }
-              KEY = ""; sessionStorage.removeItem("volKey");
+            if(r2.status === 200){
+              KEY = code; sessionStorage.setItem("volKey", code);
+              ADMIN_KEY = ""; sessionStorage.removeItem("volAdminKey");
+              document.getElementById("login-err").classList.add("hidden");
+              r2.json().then(d => { allEvents = d.events || []; renderEvents(); show("view-vol"); });
             } else {
-              ADMIN_KEY = code; IS_ADMIN = true;
-              sessionStorage.setItem("volAdminKey", code);
-              loadAdmin();
+              if(!auto){ document.getElementById("login-err").classList.remove("hidden"); }
+              KEY = ""; ADMIN_KEY = "";
+              sessionStorage.removeItem("volKey"); sessionStorage.removeItem("volAdminKey");
             }
           });
-      } else {
-        KEY = code; sessionStorage.setItem("volKey", code);
-        document.getElementById("login-err").classList.add("hidden");
-        r.json().then(d => { allEvents = d.events || []; renderEvents(); show("view-vol"); });
       }
     }).catch(() => { if(!auto) document.getElementById("login-err").classList.remove("hidden"); });
 }

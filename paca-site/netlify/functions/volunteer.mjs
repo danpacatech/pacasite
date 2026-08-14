@@ -66,8 +66,19 @@ export default async (req) => {
     return j({ ok: true, removed });
   }
 
-  // All other actions require the volunteer password
-  if (!expected || (req.headers.get("x-vol-key") || "") !== expected) {
+  // All other actions require the volunteer or admin password
+  const volPassword = process.env.VOLUNTEER_PASSWORD || "";
+  const adminPassword = process.env.VOLUNTEER_ADMIN_PASSWORD || "";
+  const givenKey = req.headers.get("x-vol-key") || "";
+  const isAdmin = adminPassword && givenKey === adminPassword;
+  const isVol = volPassword && givenKey === volPassword;
+
+  if (!isAdmin && !isVol) {
+    return j({ error: "unauthorized" }, 401);
+  }
+
+  // Admin-only actions
+  if ((action === "signups" || action === "remove") && !isAdmin) {
     return j({ error: "unauthorized" }, 401);
   }
 
