@@ -21,6 +21,13 @@ module.exports = function (eleventyConfig) {
     api.getFilteredByGlob("src/bios-people/*.md").sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
   );
 
+  // Volunteer events from CMS, sorted by date
+  eleventyConfig.addCollection("volunteer_events", (api) =>
+    api.getFilteredByGlob("src/_data/volunteer/*.json").sort((a, b) =>
+      (a.data.date || "").localeCompare(b.data.date || "")
+    )
+  );
+
   // Tech SOPs, grouped by category in a sensible running order
   eleventyConfig.addCollection("sopGroups", (api) => {
     const items = api.getFilteredByGlob("src/sops/*.md").sort((a, b) => (a.data.order || 0) - (b.data.order || 0));

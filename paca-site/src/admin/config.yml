@@ -298,3 +298,28 @@ collections:
       - { label: "Order (low = first)", name: order, widget: number, default: 1, value_type: int }
       - { label: "Photo (optional)", name: photo, widget: image, required: false }
       - { label: "Bio", name: bio, widget: markdown, required: false, hint: "Full markdown editor. Supports links, bold, lists, etc." }
+
+  - name: volunteer_events
+    label: "Volunteer Events"
+    label_singular: "Event"
+    description: "Events and slots for the volunteer signup page at /volunteer/"
+    folder: "paca-site/src/_data/volunteer"
+    create: true
+    slug: "{{name}}"
+    summary: "{{date}} — {{name}}"
+    sortable_fields: [date, name]
+    extension: json
+    format: json
+    fields:
+      - { label: "Event name", name: name, widget: string }
+      - { label: "Date", name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", hint: "The date of the event." }
+      - { label: "Time (optional)", name: time, widget: string, required: false, hint: "Display time, e.g. 7:30 PM. Used for reminders." }
+      - { label: "Active", name: active, widget: boolean, default: true, hint: "Uncheck to hide this event from the signup page." }
+      - label: "Volunteer slots"
+        name: slots
+        widget: list
+        label_singular: "Slot"
+        summary: "{{fields.role}} ({{fields.capacity}})"
+        fields:
+          - { label: "Role", name: role, widget: string, hint: "e.g. Usher, Box Office, Concessions, Load-in Crew" }
+          - { label: "Capacity", name: capacity, widget: number, default: 4, value_type: int, hint: "How many volunteers needed for this role." }

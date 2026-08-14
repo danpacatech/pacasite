@@ -1,0 +1,12 @@
+---
+permalink: "/volunteer-events.json"
+eleventyExcludeFromCollections: true
+---
+[{% for ev in collections.volunteer_events %}{
+  "id": {{ ev.fileSlug | dump | safe }},
+  "name": {{ ev.data.name | dump | safe }},
+  "date": {{ ev.data.date | dump | safe }},
+  "time": {{ (ev.data.time or "") | dump | safe }},
+  "active": {{ ev.data.active | dump | safe }},
+  "slots": {{ ev.data.slots | dump | safe }}
+}{% if not loop.last %},{% endif %}{% endfor %}]

@@ -1,0 +1,397 @@
+---
+permalink: "/volunteer/"
+eleventyExcludeFromCollections: true
+noindex: true
+---
+{% raw %}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>PACA Volunteer Signup</title>
+<style>
+  :root{--bone:#F4EDE0;--purple:#2B0B3E;--mag:#ED2375;--fog:#8a7f93;--line:#e6ddd0;--ink:#20151f}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,sans-serif;background:var(--bone);color:var(--ink);min-height:100vh}
+  .wrap{max-width:800px;margin:0 auto;padding:0 20px}
+  .site-head{background:var(--purple);padding:18px 0}
+  .site-head .wrap{display:flex;align-items:center;gap:14px}
+  .site-head img{width:48px;height:48px}
+  .site-head h1{color:var(--bone);font-size:1.3rem;font-weight:700}
+  .site-head .sub{color:rgba(244,237,224,.6);font-size:.85rem}
+  main{padding:32px 0 60px}
+  h2{font-size:1.5rem;color:var(--purple);margin:0 0 20px}
+  input,textarea,button,select{font-family:inherit;font-size:1rem}
+  input,textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 13px;background:#fff;color:var(--ink)}
+  input:focus,textarea:focus{outline:none;border-color:var(--purple)}
+  button{cursor:pointer;border:none;border-radius:8px;padding:11px 22px;font-weight:600}
+  .btn-primary{background:var(--purple);color:var(--bone)}
+  .btn-primary:hover{background:#3d1260}
+  .btn-mag{background:var(--mag);color:#fff}
+  .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--purple)}
+  .hidden{display:none!important}
+  .err{color:var(--mag);font-size:.9rem;margin-top:6px}
+
+  /* login */
+  .login-wrap{min-height:80vh;display:flex;align-items:center;justify-content:center}
+  .login-box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:36px;max-width:360px;width:100%;text-align:center}
+  .login-box h2{margin-bottom:8px}
+  .login-box p{color:var(--fog);margin-bottom:20px;font-size:.95rem}
+  .login-box input{margin-bottom:12px;text-align:center;letter-spacing:.1em;font-size:1.1rem}
+
+  /* cancel page */
+  .cancel-wrap{min-height:80vh;display:flex;align-items:center;justify-content:center}
+  .cancel-box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:36px;max-width:420px;width:100%;text-align:center}
+  .cancel-icon{font-size:3rem;margin-bottom:12px}
+
+  /* events */
+  .event-card{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:20px;overflow:hidden}
+  .event-head{background:var(--purple);color:var(--bone);padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+  .event-name{font-size:1.15rem;font-weight:700}
+  .event-meta{font-size:.85rem;opacity:.75;margin-top:2px}
+  .slots{padding:16px 20px;display:grid;gap:12px}
+  .slot{border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .slot.full{opacity:.55}
+  .slot-info .role{font-weight:600;font-size:1.05rem}
+  .slot-info .cap{font-size:.85rem;color:var(--fog);margin-top:2px}
+  .cap-bar{height:6px;background:var(--line);border-radius:3px;margin-top:6px;width:120px}
+  .cap-fill{height:100%;background:var(--mag);border-radius:3px;transition:width .3s}
+  .cap-fill.full{background:#e53}
+
+  /* signup modal */
+  .modal-bg{position:fixed;inset:0;background:rgba(43,11,62,.55);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+  .modal{background:#fff;border-radius:16px;padding:28px;max-width:440px;width:100%}
+  .modal h3{font-size:1.2rem;color:var(--purple);margin-bottom:4px}
+  .modal .slot-label{color:var(--mag);font-weight:600;margin-bottom:18px;font-size:.95rem}
+  .modal .fields{display:grid;gap:10px;margin-bottom:16px}
+  .modal label{font-size:.85rem;font-weight:600;color:var(--fog);display:block;margin-bottom:4px}
+  .modal-btns{display:flex;gap:10px;justify-content:flex-end}
+
+  /* admin */
+  .admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+  .tab-bar{display:flex;gap:8px;margin-bottom:24px}
+  .tab{padding:9px 18px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer;font-weight:600;font-size:.9rem}
+  .tab.active{background:var(--purple);color:var(--bone);border-color:var(--purple)}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+  th{background:var(--purple);color:var(--bone);padding:10px 14px;text-align:left;font-size:.85rem}
+  td{padding:10px 14px;border-bottom:1px solid var(--line);font-size:.9rem}
+  tr:last-child td{border-bottom:none}
+  .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.78rem;font-weight:600}
+  .badge-ok{background:#d4f4e2;color:#1a6b3a}
+  .badge-warn{background:#fde8d8;color:#9a4020}
+  .badge-full{background:#fdd;color:#b30}
+</style>
+</head>
+<body>
+
+<div class="site-head">
+  <div class="wrap">
+    <img src="/assets/paca-circle.png" alt="PACA">
+    <div>
+      <h1>PACA Volunteer Signup</h1>
+      <div class="sub">Performing Arts Collective Alliance · 1505 State Street</div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+
+    <!-- LOGIN -->
+    <div id="view-login" class="login-wrap">
+      <div class="login-box">
+        <h2>Welcome!</h2>
+        <p>Enter the volunteer code to see upcoming opportunities.</p>
+        <input id="code" type="password" placeholder="Access code" autocomplete="off">
+        <button class="btn-primary" style="width:100%" onclick="doLogin()">Continue</button>
+        <p id="login-err" class="err hidden">Incorrect code, try again.</p>
+      </div>
+    </div>
+
+    <!-- CANCEL CONFIRMATION -->
+    <div id="view-cancel" class="cancel-wrap hidden">
+      <div class="cancel-box">
+        <div class="cancel-icon">❌</div>
+        <h2 id="cancel-hed">Cancelling...</h2>
+        <p id="cancel-msg" style="color:var(--fog);margin-top:8px"></p>
+      </div>
+    </div>
+
+    <!-- VOLUNTEER VIEW -->
+    <div id="view-vol" class="hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:10px">
+        <h2 style="margin:0">Upcoming Opportunities</h2>
+        <button class="btn-ghost" onclick="logout()" style="font-size:.85rem">Sign out</button>
+      </div>
+      <div id="events-list"><p style="color:var(--fog)">Loading...</p></div>
+    </div>
+
+    <!-- ADMIN VIEW -->
+    <div id="view-admin" class="hidden">
+      <div class="admin-head">
+        <h2 style="margin:0">Admin Dashboard</h2>
+        <button class="btn-ghost" onclick="logout()" style="font-size:.85rem">Sign out</button>
+      </div>
+      <div class="tab-bar">
+        <button class="tab active" onclick="adminTab('signups')">All Signups</button>
+        <button class="tab" onclick="adminTab('byevent')">By Event</button>
+      </div>
+      <div id="admin-content"><p style="color:var(--fog)">Loading...</p></div>
+    </div>
+
+  </div>
+</main>
+
+<!-- SIGNUP MODAL -->
+<div id="modal-bg" class="modal-bg hidden" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h3 id="modal-event"></h3>
+    <div id="modal-slot" class="slot-label"></div>
+    <div class="fields">
+      <div><label>Your name *</label><input id="m-name" type="text" autocomplete="name"></div>
+      <div><label>Email *</label><input id="m-email" type="email" autocomplete="email"></div>
+    </div>
+    <p id="modal-err" class="err hidden"></p>
+    <div class="modal-btns">
+      <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn-mag" onclick="doSignup()">Sign me up</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var API = "/.netlify/functions/volunteer";
+var KEY = sessionStorage.getItem("volKey") || "";
+var ADMIN_KEY = sessionStorage.getItem("volAdminKey") || "";
+var IS_ADMIN = false;
+var pendingSignup = null;
+var allEvents = [];
+var allSignups = [];
+
+// Check for cancel token in URL
+(function(){
+  var params = new URLSearchParams(location.search);
+  var action = params.get("action");
+  var token  = params.get("token");
+  if(action === "cancel" && token){
+    show("view-cancel");
+    document.getElementById("cancel-hed").textContent = "Cancelling your signup...";
+    fetch(API + "?action=cancel&token=" + encodeURIComponent(token))
+      .then(r => r.json())
+      .then(d => {
+        if(d.ok){
+          document.getElementById("cancel-hed").textContent = "Signup cancelled";
+          document.getElementById("cancel-msg").textContent =
+            "Your spot for " + d.removed.slotRole + " at " + d.removed.eventName + " has been removed. Thanks for letting us know!";
+          document.querySelector(".cancel-icon").textContent = "✅";
+        } else {
+          document.getElementById("cancel-hed").textContent = "Couldn't cancel";
+          document.getElementById("cancel-msg").textContent = d.error || "This link may have already been used.";
+        }
+      })
+      .catch(() => {
+        document.getElementById("cancel-hed").textContent = "Something went wrong";
+        document.getElementById("cancel-msg").textContent = "Please contact PACA directly.";
+      });
+    return;
+  }
+  // Normal flow
+  if(KEY){ doLogin(true); }
+  else if(ADMIN_KEY){ doAdminLogin(true); }
+  else { show("view-login"); }
+})();
+
+function show(id){
+  ["view-login","view-cancel","view-vol","view-admin"].forEach(v => {
+    document.getElementById(v).classList.toggle("hidden", v !== id);
+  });
+}
+
+function logout(){
+  KEY = ""; ADMIN_KEY = ""; IS_ADMIN = false;
+  sessionStorage.removeItem("volKey"); sessionStorage.removeItem("volAdminKey");
+  show("view-login"); document.getElementById("code").value = "";
+}
+
+function doLogin(auto){
+  var code = auto ? KEY : document.getElementById("code").value.trim();
+  if(!code) return;
+
+  // Try volunteer password first
+  fetch(API + "?action=events", { headers: { "x-vol-key": code } })
+    .then(r => {
+      if(r.status === 401){
+        // Try admin password
+        fetch(API + "?action=signups", { headers: { "x-vol-key": code } })
+          .then(r2 => {
+            if(r2.status === 401){
+              if(!auto){ document.getElementById("login-err").classList.remove("hidden"); }
+              KEY = ""; sessionStorage.removeItem("volKey");
+            } else {
+              ADMIN_KEY = code; IS_ADMIN = true;
+              sessionStorage.setItem("volAdminKey", code);
+              loadAdmin();
+            }
+          });
+      } else {
+        KEY = code; sessionStorage.setItem("volKey", code);
+        document.getElementById("login-err").classList.add("hidden");
+        r.json().then(d => { allEvents = d.events || []; renderEvents(); show("view-vol"); });
+      }
+    }).catch(() => { if(!auto) document.getElementById("login-err").classList.remove("hidden"); });
+}
+
+document.getElementById("code").addEventListener("keydown", e => { if(e.key==="Enter") doLogin(); });
+
+// ---- VOLUNTEER VIEW ----
+function renderEvents(){
+  var el = document.getElementById("events-list");
+  if(!allEvents.length){ el.innerHTML = '<p style="color:var(--fog)">No upcoming volunteer opportunities right now. Check back soon!</p>'; return; }
+  el.innerHTML = allEvents.map(ev => {
+    var slots = (ev.slots||[]).map(slot => {
+      var pct = Math.min(100, Math.round(slot.signedUp / slot.capacity * 100));
+      var full = slot.signedUp >= slot.capacity;
+      return `<div class="slot${full?" full":""}">
+        <div class="slot-info">
+          <div class="role">${slot.role}</div>
+          <div class="cap">${slot.signedUp} of ${slot.capacity} filled</div>
+          <div class="cap-bar"><div class="cap-fill${full?" full":""}" style="width:${pct}%"></div></div>
+        </div>
+        ${full
+          ? '<button class="btn-ghost" disabled style="opacity:.5;cursor:default">Full</button>'
+          : `<button class="btn-mag" onclick="openSignup('${ev.id}','${slot.id}','${esc(ev.name)}','${esc(slot.role)}')">Sign up</button>`
+        }
+      </div>`;
+    }).join("");
+    return `<div class="event-card">
+      <div class="event-head">
+        <div>
+          <div class="event-name">${ev.name}</div>
+          <div class="event-meta">${ev.date}${ev.time ? " · " + ev.time : ""}</div>
+        </div>
+      </div>
+      <div class="slots">${slots}</div>
+    </div>`;
+  }).join("");
+}
+
+function esc(s){ return String(s).replace(/'/g,"\\'"); }
+
+function openSignup(eventId, slotId, eventName, slotRole){
+  pendingSignup = { eventId, slotId };
+  document.getElementById("modal-event").textContent = eventName;
+  document.getElementById("modal-slot").textContent = slotRole;
+  document.getElementById("m-name").value = localStorage.getItem("volName") || "";
+  document.getElementById("m-email").value = localStorage.getItem("volEmail") || "";
+  document.getElementById("modal-err").classList.add("hidden");
+  document.getElementById("modal-bg").classList.remove("hidden");
+  document.getElementById("m-name").focus();
+}
+
+function closeModal(){ document.getElementById("modal-bg").classList.add("hidden"); pendingSignup = null; }
+
+function doSignup(){
+  if(!pendingSignup) return;
+  var name  = document.getElementById("m-name").value.trim();
+  var email = document.getElementById("m-email").value.trim();
+  var errEl = document.getElementById("modal-err");
+  if(!name || !email){ errEl.textContent = "Please fill in your name and email."; errEl.classList.remove("hidden"); return; }
+  localStorage.setItem("volName", name); localStorage.setItem("volEmail", email);
+  fetch(API + "?action=signup", {
+    method: "POST",
+    headers: { "x-vol-key": KEY, "content-type": "application/json" },
+    body: JSON.stringify({ ...pendingSignup, name, email })
+  }).then(r => r.json()).then(d => {
+    if(d.ok){
+      closeModal();
+      // Refresh events
+      fetch(API + "?action=events", { headers: { "x-vol-key": KEY } })
+        .then(r => r.json()).then(d => { allEvents = d.events || []; renderEvents(); });
+      // Toast
+      var t = document.createElement("div");
+      t.textContent = "✓ You're signed up! Check your email for confirmation.";
+      t.style.cssText = "position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2B0B3E;color:#F4EDE0;padding:14px 24px;border-radius:10px;font-weight:600;z-index:200;white-space:nowrap";
+      document.body.appendChild(t); setTimeout(() => t.remove(), 5000);
+    } else {
+      errEl.textContent = d.message || d.error || "Something went wrong.";
+      errEl.classList.remove("hidden");
+    }
+  }).catch(() => { errEl.textContent = "Network error, please try again."; errEl.classList.remove("hidden"); });
+}
+
+// ---- ADMIN VIEW ----
+function loadAdmin(){
+  show("view-admin");
+  Promise.all([
+    fetch(API + "?action=events",  { headers: { "x-vol-key": ADMIN_KEY } }).then(r=>r.json()),
+    fetch(API + "?action=signups", { headers: { "x-vol-key": ADMIN_KEY } }).then(r=>r.json())
+  ]).then(([ed, sd]) => {
+    allEvents  = ed.events  || [];
+    allSignups = sd.signups || [];
+    renderAdminSignups();
+  });
+}
+
+function adminTab(tab){
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  event.target.classList.add("active");
+  if(tab === "signups") renderAdminSignups(); else renderAdminByEvent();
+}
+
+function renderAdminSignups(){
+  var el = document.getElementById("admin-content");
+  if(!allSignups.length){ el.innerHTML = '<p style="color:var(--fog)">No signups yet.</p>'; return; }
+  var rows = allSignups.slice().reverse().map(s => `<tr>
+    <td>${s.name}</td>
+    <td>${s.email}</td>
+    <td>${s.eventName}</td>
+    <td>${s.slotRole}</td>
+    <td>${s.eventDate||""}</td>
+    <td><button class="btn-ghost" style="font-size:.8rem;padding:4px 10px;color:var(--mag)" onclick="adminRemove('${s.id}')">Remove</button></td>
+  </tr>`).join("");
+  el.innerHTML = `<table><thead><tr><th>Name</th><th>Email</th><th>Event</th><th>Role</th><th>Date</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function renderAdminByEvent(){
+  var el = document.getElementById("admin-content");
+  if(!allEvents.length){ el.innerHTML = '<p style="color:var(--fog)">No events.</p>'; return; }
+  el.innerHTML = allEvents.map(ev => {
+    var evSignups = allSignups.filter(s => s.eventId === ev.id);
+    var slots = (ev.slots||[]).map(slot => {
+      var filled = evSignups.filter(s => s.slotId === slot.id);
+      var pct = filled.length / slot.capacity;
+      var badge = pct >= 1 ? "badge-full" : pct >= .75 ? "badge-warn" : "badge-ok";
+      var label = pct >= 1 ? "Full" : `${filled.length}/${slot.capacity}`;
+      return `<tr>
+        <td>${slot.role}</td>
+        <td><span class="badge ${badge}">${label}</span></td>
+        <td>${filled.map(s=>`${s.name} <span style="color:var(--fog);font-size:.8rem">${s.email}</span>`).join("<br>") || "—"}</td>
+      </tr>`;
+    }).join("");
+    return `<div class="event-card" style="margin-bottom:20px">
+      <div class="event-head"><div>
+        <div class="event-name">${ev.name}</div>
+        <div class="event-meta">${ev.date||""}${ev.time?" · "+ev.time:""} · ${evSignups.length} volunteer${evSignups.length!==1?"s":""}</div>
+      </div></div>
+      <div style="padding:12px 16px">
+        <table><thead><tr><th>Role</th><th>Status</th><th>Volunteers</th></tr></thead><tbody>${slots}</tbody></table>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function adminRemove(id){
+  if(!confirm("Remove this signup?")) return;
+  fetch(API + "?action=remove", {
+    method: "POST",
+    headers: { "x-vol-key": ADMIN_KEY, "content-type": "application/json" },
+    body: JSON.stringify({ id })
+  }).then(r=>r.json()).then(d => {
+    if(d.ok){ allSignups = allSignups.filter(s => s.id !== id); renderAdminSignups(); }
+  });
+}
+</script>
+</body>
+</html>{% endraw %}
