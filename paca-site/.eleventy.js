@@ -23,7 +23,7 @@ module.exports = function (eleventyConfig) {
 
   // Volunteer events from CMS, sorted by date
   eleventyConfig.addCollection("volunteer_events", (api) =>
-    api.getFilteredByGlob("src/_data/volunteer/*.json").sort((a, b) =>
+    api.getFilteredByGlob("src/volunteer-events/*.json").sort((a, b) =>
       (a.data.date || "").localeCompare(b.data.date || "")
     )
   );

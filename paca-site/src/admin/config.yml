@@ -303,7 +303,7 @@ collections:
     label: "Volunteer Events"
     label_singular: "Event"
     description: "Events and slots for the volunteer signup page at /volunteer/"
-    folder: "paca-site/src/_data/volunteer"
+    folder: "paca-site/src/volunteer-events"
     create: true
     slug: "{{name}}"
     summary: "{{date}} — {{name}}"
