@@ -8,4 +8,8 @@ slots:
     role: Concessions
   - capacity: 1
     role: Box Office
+  - capacity: 1
+    role: Elevator Operator
+  - capacity: 2
+    role: Greeter/Usher/Floater
 ---
