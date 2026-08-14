@@ -11,5 +11,5 @@ slots:
   - capacity: 1
     role: Elevator Operator
   - capacity: 2
-    role: Greeter/Usher
+    role: Greeter/Usher/Floater
 ---
