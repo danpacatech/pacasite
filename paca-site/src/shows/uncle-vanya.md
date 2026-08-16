@@ -9,7 +9,7 @@ date_end: 2026-09-19T22:00
 summary: Sonia and her uncle Vanya have devoted their lives to the family farm
   in isolation, until her ailing father and his charismatic wife arrive and
   upend everything. Directed by Shawn Clerkin.
-image: /assets/uploads/vanya-rev727.png
+image: /assets/uploads/vanya-f-1-.png
 ticket_url: https://tickets.eriereader.com/events/uncle-vanya
 ---
 **Uncle Vanya**
@@ -21,5 +21,5 @@ Sonia and her uncle, Vanya, have devoted their lives to managing the family farm
 Heidi Schreck's adaptation of Chekhov's *Uncle Vanya* premiered on Broadway at Lincoln Center Theater's Vivian Beaumont Theater on April 24, 2024, directed by Lila Neugebauer.
 
 **Performances:**
-September 11-12 & 18-19 at 7:30 PM
-September 13 & 20 at 2:00 PM
+September 11-12 & 17-19 at 7:30 PM
+September 13 at 2:00 PM

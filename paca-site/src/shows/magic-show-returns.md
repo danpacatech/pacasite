@@ -1,7 +1,7 @@
 ---
 title: Magic Show....Returns!
 discipline: Theatre
-featured: false
+featured: true
 status: upcoming
 date_start: 2026-08-28T19:30
 date_end: 2026-08-28T22:00

@@ -9,7 +9,7 @@ date_end: 2026-09-27T17:00
 summary: The Irish… and How They Got That Way is an irreverent musical history
   of Ireland through the tumultuous 20th and 21st centuries seen through the
   eyes of Pulitzer Prize winning author, Frank McCourt
-image: ""
+image: /assets/uploads/irish2.png
 ticket_url: https://tickets.eriereader.com/events/the-irish-and-how-they-got-that-way
 price: $20
 ---
