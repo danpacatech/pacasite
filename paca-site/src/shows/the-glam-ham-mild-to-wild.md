@@ -1,7 +1,7 @@
 ---
 title: "The Glam Ham: Mild to Wild"
 discipline: Event
-featured: true
+featured: false
 status: upcoming
 date_label: Aug 14-15
 date_start: 2026-08-14T07:18
