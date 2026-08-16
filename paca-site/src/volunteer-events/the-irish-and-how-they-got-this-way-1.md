@@ -1,6 +1,6 @@
 ---
 name: The Irish...And How They Got This Way
-date: 2026-09-25
+date: 2026-09-26
 time: 7:30 PM
 active: true
 slots:
