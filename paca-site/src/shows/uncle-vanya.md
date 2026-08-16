@@ -21,5 +21,5 @@ Sonia and her uncle, Vanya, have devoted their lives to managing the family farm
 Heidi Schreck's adaptation of Chekhov's *Uncle Vanya* premiered on Broadway at Lincoln Center Theater's Vivian Beaumont Theater on April 24, 2024, directed by Lila Neugebauer.
 
 **Performances:**
-September 11-12 & 18-19 at 7:30 PM
-September 13 & 20 at 2:00 PM
+September 11-12 & 17-19 at 7:30 PM
+September 13 at 2:00 PM
