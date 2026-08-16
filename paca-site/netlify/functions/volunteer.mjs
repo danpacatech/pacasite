@@ -93,7 +93,8 @@ export default async (req) => {
     const eventsRes = await fetch(`${SITE_URL}/volunteer-events.json`);
     const cmsEvents = eventsRes.ok ? await eventsRes.json() : [];
     const signups = await get("signups", []);
-    const activeEvents = cmsEvents.filter(ev => ev.active !== false);
+    const activeEvents = cmsEvents.filter(ev => ev.active !== false)
+      .sort((a, b) => (a.date || "").localeCompare(b.date || ""));
     return j({ events: activeEvents.map(ev => ({
       ...ev,
       slots: (ev.slots || []).map(slot => ({

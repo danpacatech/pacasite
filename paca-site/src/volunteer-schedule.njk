@@ -235,7 +235,7 @@ function doLogin(auto){
               KEY = code; sessionStorage.setItem("volKey", code);
               ADMIN_KEY = ""; sessionStorage.removeItem("volAdminKey");
               document.getElementById("login-err").classList.add("hidden");
-              r2.json().then(d => { allEvents = d.events || []; renderEvents(); show("view-vol"); });
+              r2.json().then(d => { allEvents = (d.events || []).sort(function(a,b){ return (a.date||"").localeCompare(b.date||""); }); renderEvents(); show("view-vol"); });
             } else {
               if(!auto){ document.getElementById("login-err").classList.remove("hidden"); }
               KEY = ""; ADMIN_KEY = "";
@@ -311,7 +311,7 @@ function doSignup(){
       closeModal();
       // Refresh events
       fetch(API + "?action=events", { headers: { "x-vol-key": KEY } })
-        .then(r => r.json()).then(d => { allEvents = d.events || []; renderEvents(); });
+        .then(r => r.json()).then(d => { allEvents = (d.events || []).sort(function(a,b){ return (a.date||"").localeCompare(b.date||""); }); renderEvents(); });
       // Toast
       var t = document.createElement("div");
       t.textContent = "✓ You're signed up! Check your email for confirmation.";

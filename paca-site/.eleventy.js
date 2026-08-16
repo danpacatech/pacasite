@@ -3,7 +3,6 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
   eleventyConfig.addPassthroughCopy({ "src/admin": "admin" });
   eleventyConfig.addPassthroughCopy({ "src/ppb.html": "ppb/index.html" });
-  eleventyConfig.addPassthroughCopy({ "src/pbb.html": "pbb/index.html" });
 
   // Shows collection, sorted by start date
   eleventyConfig.addCollection("shows", (api) =>
@@ -26,7 +25,11 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addCollection("volunteer_events", (api) =>
     api.getFilteredByGlob(["src/volunteer-events/*.md","src/volunteer-events/*.json"])
       .filter(i => i.inputPath && !i.inputPath.includes("11tydata"))
-      .sort((a, b) => { const da = String(a.data.date || "").slice(0,10); const db = String(b.data.date || "").slice(0,10); return da.localeCompare(db); })
+      .sort((a, b) => {
+        const da = String(a.data.date || "").slice(0,10);
+        const db = String(b.data.date || "").slice(0,10);
+        return da.localeCompare(db);
+      })
   );
 
   // Tech SOPs, grouped by category in a sensible running order
@@ -57,6 +60,16 @@ module.exports = function (eleventyConfig) {
     if (/^https?:\/\//i.test(path)) return path;
     base = String(base || "").replace(/\/+$/, "");
     return base + "/" + String(path).replace(/^\/+/, "");
+  });
+
+  eleventyConfig.addFilter("dateStr", (d) => {
+    if (!d) return "";
+    const dt = d instanceof Date ? d : new Date(d);
+    if (isNaN(dt)) return String(d).slice(0, 10);
+    const Y = dt.getUTCFullYear();
+    const M = String(dt.getUTCMonth() + 1).padStart(2, "0");
+    const D = String(dt.getUTCDate()).padStart(2, "0");
+    return `${Y}-${M}-${D}`;
   });
 
   eleventyConfig.addFilter("schemaDate", (d) => {
