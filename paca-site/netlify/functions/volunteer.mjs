@@ -18,6 +18,7 @@ async function sendEmail(to, subject, html) {
     headers: { "Authorization": `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       from: "PACA Volunteers <volunteers@paca1505.org>",
+      reply_to: ["dan@paca1505.org", "megs@paca1505.org"],
       to: recipients,
       subject,
       html
