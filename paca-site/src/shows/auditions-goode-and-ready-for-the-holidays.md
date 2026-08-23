@@ -3,6 +3,7 @@ title: "Auditions: Goode and Ready for the Holidays "
 discipline: Auditions
 featured: false
 status: upcoming
+date_label: September 14, 2026
 date_start: 2026-09-14T18:00
 date_end: 2026-09-14T21:00
 summary: "We are in need of comedic actors and singers for an evening of short
