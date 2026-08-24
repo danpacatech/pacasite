@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d0f0e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>PACA — AV Inventory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0f0e;--surface:#141716;--surface2:#1c201e;--border:#2a2e2b;--border-bright:#3d4440;
+  --text:#d4d8d5;--dim:#6b7570;--dimmer:#3d4440;
+  --amber:#f59e0b;--green:#34d399;--blue:#60a5fa;--red:#ef4444;--purple:#a78bfa;--orange:#f97316;
+  --mono:"DM Mono",ui-monospace,monospace;--display:"Barlow Condensed",sans-serif;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:100vh;-webkit-text-size-adjust:100%}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border-bright);border-radius:3px}
+input,select,textarea{background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:16px;padding:8px 10px;border-radius:4px;outline:none;transition:border-color .15s;width:100%}
+@media(min-width:900px){input,select,textarea{font-size:13px}}
+input:focus,select:focus,textarea:focus{border-color:var(--amber)}
+input::placeholder{color:var(--dim)}
+select option{background:var(--surface2)}
+button{font-family:var(--display);font-weight:700;letter-spacing:.08em;cursor:pointer;border:none;border-radius:3px;transition:filter .15s;color:inherit;background:none}
+button:hover{filter:brightness(1.15)}
+button:active{transform:scale(.98)}
+button:disabled{opacity:.6;cursor:default;filter:none}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.header{border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;background:rgba(13,15,14,.97);backdrop-filter:blur(8px)}
+.header-inner{max-width:1280px;margin:0 auto;padding:8px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.header-title{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.header-title-text{display:flex;flex-direction:column;line-height:1}
+.header-org{font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:.18em;color:var(--dim);margin-bottom:3px}
+.header-name{font-family:var(--display);font-size:20px;font-weight:800;letter-spacing:.06em;color:var(--amber);white-space:nowrap}
+.header-divider{width:1px;height:30px;background:var(--border-bright)}
+.header-actions{display:flex;gap:6px;flex-wrap:wrap}
+.sync-pill{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--dim);padding:4px 0;width:100%;border-top:1px solid var(--border);margin-top:2px;padding-top:7px}
+@media(min-width:900px){.sync-pill{width:auto;border-top:none;margin-top:0;padding-top:4px;order:-1}}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--dimmer);flex:none}
+.dot.ok{background:var(--green)}.dot.busy{background:var(--amber);animation:spin 1s linear infinite}
+.dot.err{background:var(--red)}.dot.wait{background:var(--orange)}
+
+.main{max-width:1280px;margin:0 auto;padding:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+@media(min-width:900px){.stat-card{flex-direction:row;justify-content:space-between;align-items:center;padding:12px 16px}}
+.stat-label{font-size:10px;color:var(--dim);font-family:var(--display);font-weight:700;letter-spacing:.1em}
+.stat-value{font-family:var(--display);font-size:26px;font-weight:800;line-height:1}
+
+.toolbar{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;align-items:center}
+.cat-filters,.status-filters{display:flex;gap:5px;flex-wrap:wrap}
+.status-filters{margin-left:auto}
+.pill{padding:5px 12px;font-size:12px;border-radius:3px;border:1px solid var(--border);background:var(--surface2);color:var(--dim)}
+.search-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.search-row input{flex:1;min-width:180px}
+.search-row select{width:100%}
+@media(min-width:700px){.search-row select{width:180px}}
+
+.table{background:var(--surface);border:1px solid var(--border);border-radius:5px;overflow:hidden}
+.table-head{display:none}
+.table-empty{padding:40px;text-align:center;color:var(--dim);font-size:13px}
+@media(min-width:900px){
+  .table-head{display:grid;grid-template-columns:1.8fr 1fr .9fr .4fr .7fr .9fr .7fr .8fr 1.2fr 70px;padding:0 16px;border-bottom:2px solid var(--border)}
+  .table-row{display:grid;grid-template-columns:1.8fr 1fr .9fr .4fr .7fr .9fr .7fr .8fr 1.2fr 70px;padding:12px 16px;align-items:center}
+}
+.table-head-cell{padding:10px 8px 10px 0;font-size:10px;color:var(--dim);font-family:var(--display);font-weight:700;letter-spacing:.12em;cursor:pointer;user-select:none;white-space:nowrap}
+.table-head-cell:hover{color:var(--text)}
+.table-head-cell.sorted{color:var(--amber)}
+.table-row{border-bottom:1px solid var(--border);transition:background .1s;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:6px 10px}
+.table-row:last-child{border-bottom:none}
+.table-row:hover{background:#ffffff07}
+.item-name{font-weight:500;font-size:14px;margin-bottom:2px;word-break:break-word}
+.item-notes{font-size:11px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.brand-model{font-size:12px;color:var(--dim);padding-right:8px}
+.qty-cell{font-family:var(--display);font-size:18px;font-weight:700}
+.cond-cell{font-size:10px;font-family:var(--display);font-weight:700;letter-spacing:.04em}
+.loc-cell,.cost-cell{font-size:12px;color:var(--dim)}
+.serial-cell{font-size:11px;color:var(--dimmer)}
+.row-actions{display:flex;gap:4px;align-items:center}
+.btn-edit{background:var(--surface2);color:var(--dim);padding:5px 11px;font-size:11px;border:1px solid var(--border)}
+.table-footer{margin-top:10px;font-size:11px;color:var(--dim);text-align:right}
+.tag{display:inline-block;padding:2px 8px;border-radius:2px;font-size:11px;font-family:var(--display);font-weight:700;letter-spacing:.06em}
+.checkout-badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-family:var(--display);font-weight:700;letter-spacing:.04em;cursor:pointer}
+
+/* mobile card shape */
+.m-meta{display:none}
+@media(max-width:899px){
+  .m-meta{display:flex;flex-wrap:wrap;gap:4px 9px;align-items:center;font-size:11px;color:var(--dim);grid-column:1}
+  .table-head{display:none}
+  .r-brand,.r-type,.r-cost,.r-cond,.r-status,.r-serial,.r-loc,.r-qty{display:none}
+  .m-qty{display:flex;align-items:center;gap:0;border:1px solid var(--border);border-radius:4px;grid-row:1/span 2;align-self:center}
+  .m-qty button{width:34px;height:34px;font-size:17px;color:var(--dim);display:grid;place-items:center}
+  .m-qty button:active{color:var(--amber);background:var(--surface2)}
+  .m-qty .n{min-width:26px;text-align:center;font-family:var(--display);font-weight:700;font-size:17px}
+  .row-actions{grid-column:1;justify-self:start;margin-top:2px}
+}
+@media(min-width:900px){.m-qty{display:none}}
+
+.btn-primary{background:var(--amber);color:#000;padding:6px 14px;font-size:13px}
+.btn-secondary{background:var(--surface2);color:var(--dim);border:1px solid var(--border);padding:6px 12px;font-size:12px}
+.btn-save{background:var(--amber);color:#000;padding:9px 20px;font-size:14px}
+.btn-cancel{background:var(--surface2);color:var(--dim);padding:9px 18px;font-size:13px}
+.btn-danger{background:var(--red);color:#fff;padding:9px 16px;font-size:13px}
+.btn-dup{background:var(--surface2);color:var(--blue);border:1px solid var(--border);padding:9px 14px;font-size:13px}
+.btn-sync{background:var(--amber);color:#000;padding:10px 20px;font-size:14px;width:100%}
+.export-btn{background:var(--surface2);color:var(--purple);border:1px solid var(--border);padding:6px 12px;font-size:12px}
+
+.modal-overlay{position:fixed;inset:0;background:#000000cc;display:flex;align-items:flex-end;justify-content:center;z-index:1000;padding:0}
+@media(min-width:700px){.modal-overlay{align-items:center;padding:16px}}
+.modal{background:var(--surface);border:1px solid var(--border-bright);border-radius:8px 8px 0 0;width:100%;max-width:600px;max-height:94vh;overflow:auto;box-shadow:0 24px 80px #000;padding-bottom:var(--safe-b)}
+@media(min-width:700px){.modal{border-radius:6px;padding-bottom:0}}
+.modal-wide{max-width:640px}
+.modal-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:2}
+.modal-title{font-family:var(--display);font-size:18px;font-weight:800;letter-spacing:.05em;color:var(--amber)}
+.modal-close{color:var(--dim);font-size:22px;padding:0 4px;line-height:1}
+.modal-body{padding:18px}
+.modal-footer{display:flex;gap:8px;margin-top:16px;justify-content:flex-end;flex-wrap:wrap}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.field-label{display:block;font-size:10px;color:var(--dim);font-family:var(--display);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.span2{grid-column:span 2}
+.prefix-input{display:flex;align-items:center}
+.prefix-input span{background:var(--surface2);border:1px solid var(--border);border-right:none;padding:8px 10px;border-radius:4px 0 0 4px;color:var(--dim);font-size:13px}
+.prefix-input input{border-radius:0 4px 4px 0}
+.toggle-row{display:flex;align-items:center;gap:10px;padding:6px 0}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;inset:0;background:var(--border-bright);border-radius:22px;cursor:pointer;transition:.2s}
+.toggle-slider:before{content:"";position:absolute;width:16px;height:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}
+.toggle input:checked+.toggle-slider{background:var(--orange)}
+.toggle input:checked+.toggle-slider:before{transform:translateX(18px)}
+.toggle-label{font-size:12px;color:var(--dim);font-family:var(--display);font-weight:700;letter-spacing:.06em}
+.sync-steps{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:13px 15px;margin-bottom:14px;font-size:12px;line-height:1.9;color:var(--dim)}
+.sync-steps-title{font-family:var(--display);font-weight:800;color:var(--amber);font-size:13px;letter-spacing:.06em;margin-bottom:4px}
+.sync-step{display:flex;gap:9px}
+.sync-step-num{font-family:var(--display);font-weight:800;color:var(--amber);min-width:16px}
+.status-bar{margin-top:12px;padding:10px 12px;border-radius:4px;font-size:12px;line-height:1.6;word-break:break-word}
+.status-ok{background:#34d39918;color:var(--green);border:1px solid #34d39940}
+.status-err{background:#ef444418;color:var(--red);border:1px solid #ef444440}
+.warnbox{background:#ef444414;border:1px solid #ef444440;color:#ffb3a4;border-radius:4px;padding:11px 13px;font-size:12px;line-height:1.65;margin-bottom:14px}
+.toast{position:fixed;bottom:calc(20px + var(--safe-b));left:50%;transform:translateX(-50%);z-index:2000;padding:10px 18px;border-radius:4px;font-size:13px;font-family:var(--display);font-weight:700;letter-spacing:.06em;animation:fadeUp .2s ease;max-width:90vw;text-align:center}
+@media(min-width:700px){.toast{left:auto;right:24px;transform:none}}
+.toast-ok{background:#1c201e;border:1px solid #34d39960;color:var(--green)}
+.toast-err{background:#1c201e;border:1px solid #ef444460;color:var(--red)}
+.spinner{display:inline-block;width:13px;height:13px;border:2px solid #00000050;border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:7px}
+pre.preview{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:10px;font-size:11px;max-height:170px;overflow:auto;color:var(--dim);white-space:pre-wrap;word-break:break-word}
+.maprow{display:flex;gap:8px;font-size:12px;padding:4px 0;border-bottom:1px solid var(--border)}
+.maprow .from{color:var(--amber)}
+.maprow .to{color:var(--dim)}
+.hint{font-size:11.5px;color:var(--dim);line-height:1.6;margin-top:8px}
+
+@media print{
+  .header-actions,.cat-filters,.status-filters,.search-row,.row-actions,.table-footer,.toolbar,.sync-pill,.m-qty{display:none!important}
+  .header{border:none;position:static;background:none}
+  body{background:#fff;color:#000}
+  .table{border:1px solid #ccc}
+  .table-row{border-bottom:1px solid #eee!important;display:grid!important;grid-template-columns:1.8fr 1fr .9fr .4fr .7fr .9fr .7fr .8fr 1.2fr!important}
+  .table-head{display:grid!important;grid-template-columns:1.8fr 1fr .9fr .4fr .7fr .9fr .7fr .8fr 1.2fr 70px!important}
+  .r-brand,.r-type,.r-cost,.r-cond,.r-status,.r-serial,.r-loc,.r-qty{display:block!important}
+  .m-meta{display:none!important}
+  .stat-card{border:1px solid #ccc}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+"use strict";
+
+/* ============ constants ============ */
+const CATEGORIES={
+  Lighting:{icon:"💡",color:"#f59e0b",subcategories:["Fixture","Control Board","Cable / Connector","Dimmer / Driver","Accessory"]},
+  Sound:{icon:"🎙️",color:"#34d399",subcategories:["Microphone","Speaker","Mixer / Console","Amplifier","Cable / Connector","Accessory"]},
+  Video:{icon:"📽️",color:"#60a5fa",subcategories:["Projector","Screen","Camera","Display / Monitor","Cable / Connector","Switcher / Processor"]},
+  Misc:{icon:"🔧",color:"#a78bfa",subcategories:["Hand Tool","Power Tool","Hardware","Safety / PPE","Rigging","Consumable","Storage","Other"]},
+};
+const CONDITIONS=["Excellent","Good","Fair","Needs Repair","Out of Service","For Sale"];
+const COND_COLORS={Excellent:"#34d399",Good:"#86efac",Fair:"#fbbf24","Needs Repair":"#f97316","Out of Service":"#ef4444","For Sale":"#c084fc"};
+const STORAGE_KEY="paca_av_inventory_v2";
+const TOMB_KEY="paca_av_deleted_v1";
+const KEY_KEY="paca_api_key", BIN_KEY="paca_bin_id", AUTO_KEY="paca_autosync";
+const DELETE_PW="pacapaca";
+const LOGO="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAwCAYAAADkStGdAAAEpElEQVR42u2W+0+TZxTHP71QWvqWll4otLQFi4BULkWUzQ3wMqNxxmXRzcRlWfb/+A/spyUz6rIYs83sArp5iTBlIhcVuZdyK6Xw0qIWaPu2+4EF7IoTXbbsh57f3rzf83yec57znPPIdPr8FP+yyfkPLAvJQrKQLOQlVm8q3fxoPYH88Efb8pNtt0GeLW5kNhlBL8mJOL388nSEeE6UyjoP1sBPFNiNtF2YenNIi7WC4NoKQ+H1RY56iqhXmpnOizLqgKGEh/CVqxz9xEnbhcntQ07uL0Apl5DF1MRH7Xwv9vDuIS2uEgjH4zx5qMQ446BKLifU7KVvNcRx2W+g0LEsRrncGfl7yD6PgFYh50b/Mmd31mHeG2JGscDMlIK7N1cyNvSB0Y18z/vcD7ZjLJll8VGcljINF2+JL4ecaDHzXJ9CjxHNEy2XRntfeWaOfAON6nIKa5N8cf0B7+3VcP33la0hzR87qE1FuTGpwD1bztWpztcq13ccZTSZLISSIc73+zJLuO6wlXnfAuf7BSylnyHGImkLeDXN7FG3UqKtBKAyr4FibXmapmPKx3ztIGP+XD4srsuERGZDpGzVGLxH8PR10hF8nLaAOqlmQunDGXeh19kwJywUS7aMaMRogs7IIDcjfj63NaVDgrr9mEo11HTcoHvRn5mLFDgSTsLKMGbJTDAnSFKWJF8oTpON+pIcOS6wFA3TFZ/ZhKQqqlhSF5G495B8hYl7oekMhpIcJhV+BqJdmCQLekmPVhKwSyVpuuHuVYym9aOulhWg3OgvSjXx2BK2CQOiYw4mMgOZUk0gPlu/kGHFEsPRBwC4tXUZ2sDTOKcaSvArvS9EMtBLhUyLSmNF8MxuWTm5SQ0N6lasQtkGoErTyNjzvgzt7W9j2CQLXV1fpZ/J3rEhvpsaQRTl7KhTpzk1qFtIpZKMK0cpS7gByBeKcCZclOdlRtJoqCBgWCa207WZLoAcRR6xxBK+MQ2eShnjL2xQnVLzYPU2AHeZAcAuORhWDWKUTBmQKpWcfouCXfbd6ZGkkkl2mxxMPF5BLSTTnNZkMdyaWvRCMY3qAxTp3BglI4akAZ2UT5HWvaE9bion0LKP8aiDwrlr6ZArwT6KcvI4qK1BLgrseHvzd/fqTfLQUpGoYlLhZ4015pRz9K50MKIaQsN6em06A7L6YwyGfTz7sR2D3bx17zpQbaUxt4TJtRW+GRh4rbZy0uql17LMEccc0wUm2i5Obj0ZZcJzzvV0s2yS+LS8iRq9fVuAt0qdWD0y9M4FYimBtouTf96vLSy2JqfZo2MgGUBjETE7TnFmvIe7kRH8YTFNW9mgptKtQJsnw/64kHO/3gegYr/s1UPr2D49eq0KqwnaAwWoSg/ScOcO4+EUE/oZHPVRnAYVS4tyfv7hKTW6HdS75ISEAAW5uVy6JW5//LaeLsHXP8d8QQOunXKqZyawzRcS1UT48v5mfztd7OVyoOfNZ/yhMw7WFkUWBC/Doorl4UGaXIfY5X9EMBnGpTBzbWWc+b+k8rVfKxt3qfEgSqMVqf1rAGpNLqalCGI4/M+fRNlnahaShWQh/yPIH7bRsMsWslI0AAAAAElFTkSuQmCC";
+
+/* ============ state ============ */
+let state={
+  items:[], deleted:{},
+  filterCat:"All", filterCond:"All", filterStatus:"All", search:"",
+  sortCol:"name", sortDir:"asc",
+  modal:null, toast:null, toastTimer:null,
+  sync:{cls:"",txt:"Local only"}, pending:null, pushTimer:null,
+};
+
+function cfgKey(){return localStorage.getItem(KEY_KEY)||""}
+function cfgBin(){return localStorage.getItem(BIN_KEY)||""}
+function cfgAuto(){return localStorage.getItem(AUTO_KEY)!=="0"}
+
+function loadLocal(){
+  try{const s=localStorage.getItem(STORAGE_KEY);if(s)state.items=JSON.parse(s)||[]}catch(e){}
+  try{const d=localStorage.getItem(TOMB_KEY);if(d)state.deleted=JSON.parse(d)||{}}catch(e){}
+}
+function save(){
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state.items));
+    localStorage.setItem(TOMB_KEY,JSON.stringify(state.deleted));
+  }catch(e){showToast("Device storage full",false)}
+}
+function genId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function today(){return new Date().toISOString().slice(0,10)}
+function stampItem(o){o.lastUpdated=today();o.updatedAt=new Date().toISOString();return o}
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function q(sel){return document.querySelector(sel)}
+function qAll(sel){return document.querySelectorAll(sel)}
+
+function setState(patch){Object.assign(state,patch);render()}
+function showToast(msg,ok=true){
+  if(state.toastTimer)clearTimeout(state.toastTimer);
+  state.toast={msg,ok};
+  state.toastTimer=setTimeout(()=>{state.toast=null;state.toastTimer=null;render()},2800);
+  render();
+}
+function openModal(type,data=null){setState({modal:{type,data}})}
+function closeModal(){setState({modal:null,pending:null})}
+function setSync(cls,txt){state.sync={cls,txt};const el=q("#sync-pill");if(el)el.innerHTML=syncPillHTML()}
+
+/* ============ cloud ============ */
+const API="https://api.jsonbin.io/v3/b";
+function creds(){const k=cfgKey(),b=cfgBin();return k&&b?{k,b}:null}
+
+async function pullRemote(){
+  const c=creds();if(!c)throw new Error("No key or bin ID set");
+  const res=await fetch(`${API}/${c.b}/latest`,{headers:{"X-Master-Key":c.k}});
+  if(!res.ok)throw new Error("HTTP "+res.status);
+  const data=await res.json();
+  const rec=data.record||{};
+  return{items:Array.isArray(rec)?rec:(rec.items||[]),deleted:rec.deleted||{}};
+}
+async function pushRemote(){
+  const c=creds();if(!c)throw new Error("No key or bin ID set");
+  const res=await fetch(`${API}/${c.b}`,{
+    method:"PUT",
+    headers:{"Content-Type":"application/json","X-Master-Key":c.k},
+    body:JSON.stringify({items:state.items,deleted:state.deleted,updated:new Date().toISOString()})
+  });
+  if(!res.ok)throw new Error("HTTP "+res.status);
+}
+function itemTime(i){return i&&(i.updatedAt||i.lastUpdated)||""}
+
+/* merge: newest edit wins per item, tombstones suppress resurrection */
+function mergeItems(local,remote,delLocal,delRemote){
+  const tombs=Object.assign({},delRemote||{},delLocal||{});
+  const map={};
+  (remote||[]).forEach(i=>{if(i&&i.id)map[i.id]=i});
+  (local||[]).forEach(i=>{
+    if(!i||!i.id)return;
+    const other=map[i.id];
+    if(!other){map[i.id]=i;return}
+    map[i.id]=itemTime(i)>=itemTime(other)?i:other;
+  });
+  Object.keys(tombs).forEach(id=>{
+    const it=map[id];
+    if(it&&itemTime(it)>tombs[id])return; // edited after the delete, keep it
+    delete map[id];
+  });
+  return{items:Object.values(map),deleted:tombs};
+}
+
+async function masterSync(silent){
+  if(!creds()){if(!silent)showToast("Set your key and bin ID in ⚙",false);return}
+  setSync("busy","Syncing");
+  try{
+    const remote=await pullRemote();
+    const merged=mergeItems(state.items,remote.items,state.deleted,remote.deleted);
+    state.items=merged.items;state.deleted=merged.deleted;
+    save();
+    await pushRemote();
+    setSync("ok","Synced "+clock());
+    render();
+    if(!silent)showToast("Synced, "+state.items.length+" items");
+  }catch(e){setSync("err","Sync failed");if(!silent)showToast("Sync failed: "+e.message,false)}
+}
+function queuePush(){
+  if(!creds()||!cfgAuto())return;
+  clearTimeout(state.pushTimer);
+  setSync("wait","Saving soon");
+  state.pushTimer=setTimeout(async()=>{
+    setSync("busy","Saving");
+    try{await pushRemote();setSync("ok","Saved "+clock())}
+    catch(e){setSync("err","Save failed")}
+  },2500);
+}
+function clock(){try{return new Date().toLocaleTimeString([],{hour:"numeric",minute:"2-digit"})}catch(e){return""}}
+
+/* ============ mutations ============ */
+function addItem(form){state.items=[...state.items,stampItem({...form,id:genId()})];save();queuePush();closeModal();showToast("Item added")}
+function updateItem(form){state.items=state.items.map(i=>i.id===form.id?stampItem({...form}):i);save();queuePush();closeModal();showToast("Item updated")}
+function deleteItem(id){
+  state.items=state.items.filter(i=>i.id!==id);
+  state.deleted[id]=new Date().toISOString();
+  save();queuePush();closeModal();showToast("Item deleted");
+}
+function duplicateItem(id){
+  const src=state.items.find(i=>i.id===id);if(!src)return;
+  state.items=[...state.items,stampItem({...src,id:genId(),name:src.name+" (copy)",serial:"N/A",checkedOut:false})];
+  save();queuePush();closeModal();showToast("Item duplicated");
+}
+function toggleCheckout(id){
+  let out=false;
+  state.items=state.items.map(i=>{if(i.id!==id)return i;out=!i.checkedOut;return stampItem({...i,checkedOut:out})});
+  save();queuePush();render();showToast(out?"Checked out":"Checked in");
+}
+function bumpQty(id,d){
+  state.items=state.items.map(i=>i.id===id?stampItem({...i,qty:Math.max(0,(parseInt(i.qty)||0)+d)}):i);
+  save();queuePush();render();
+}
+
+/* ============ import / export ============ */
+const FIELDS={
+  name:["name","item","itemname","item_name","title","description","desc"],
+  brand:["brand","make","manufacturer"],
+  model:["model","modelnumber","model_no"],
+  qty:["qty","quantity","count","amount","units","onhand","on_hand"],
+  category:["category","cat","dept","department"],
+  subcategory:["subcategory","subcat","type","sub_category"],
+  condition:["condition","cond","state","status"],
+  location:["location","loc","where","room","storage","shelf","place"],
+  serial:["serial","serialnumber","serial_number","sn","asset","assettag","tag","barcode"],
+  cost:["cost","price","value","replacementcost","replacement_cost"],
+  purchaseDate:["purchasedate","purchase_date","purchased","acquired","datepurchased"],
+  notes:["notes","note","comment","comments","remarks","details","memo"],
+};
+function keyify(s){return String(s).toLowerCase().replace(/[^a-z0-9]/g,"")}
+function buildMap(keys){
+  const map={},used={};
+  Object.keys(FIELDS).forEach(f=>{
+    for(const k of keys){if(used[k])continue;if(FIELDS[f].includes(keyify(k))){map[f]=k;used[k]=1;return}}
+  });
+  if(!map.name)for(const k of keys){if(!used[k]){map.name=k;used[k]=1;break}}
+  return map;
+}
+function normalise(row,map){
+  const g=f=>map[f]!=null&&row[map[f]]!=null?row[map[f]]:"";
+  const n=parseInt(String(g("qty")).replace(/[^0-9-]/g,""),10);
+  let cat=String(g("category")).trim();
+  if(!CATEGORIES[cat]){
+    const hit=Object.keys(CATEGORIES).find(c=>c.toLowerCase()===cat.toLowerCase());
+    cat=hit||"Misc";
+  }
+  let cond=String(g("condition")).trim();
+  if(!CONDITIONS.includes(cond)){
+    const hit=CONDITIONS.find(c=>c.toLowerCase()===cond.toLowerCase());
+    cond=hit||"Good";
+  }
+  let sub=String(g("subcategory")).trim();
+  const subs=CATEGORIES[cat].subcategories;
+  if(!subs.includes(sub)){const hit=subs.find(s=>s.toLowerCase()===sub.toLowerCase());sub=hit||subs[subs.length-1]}
+  const costRaw=String(g("cost")).replace(/[^0-9.]/g,"");
+  return{
+    id:row.id&&String(row.id).length<40?String(row.id):genId(),
+    category:cat,subcategory:sub,
+    name:String(g("name")).trim()||"Untitled item",
+    brand:String(g("brand")).trim(),model:String(g("model")).trim(),
+    qty:isNaN(n)?1:n,condition:cond,
+    location:String(g("location")).trim(),notes:String(g("notes")).trim(),
+    serial:String(g("serial")).trim()||"N/A",
+    purchaseDate:String(g("purchaseDate")).trim(),
+    cost:costRaw?parseFloat(costRaw):"",
+    checkedOut:row.checkedOut===true||String(row.checkedOut).toLowerCase()==="true",
+    lastUpdated:row.lastUpdated||today(),
+    updatedAt:row.updatedAt||new Date().toISOString(),
+  };
+}
+function parseCSV(text){
+  const rows=[];let cur=[],val="",inq=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(inq){if(c==='"'){if(text[i+1]==='"'){val+='"';i++}else inq=false}else val+=c}
+    else if(c==='"')inq=true;
+    else if(c===","){cur.push(val);val=""}
+    else if(c==="\n"){cur.push(val);rows.push(cur);cur=[];val=""}
+    else if(c!=="\r")val+=c;
+  }
+  if(val.length||cur.length){cur.push(val);rows.push(cur)}
+  const clean=rows.filter(r=>r.some(x=>String(x).trim()!==""));
+  if(clean.length<2)return[];
+  const head=clean[0].map(h=>String(h).trim());
+  return clean.slice(1).map(r=>{const o={};head.forEach((h,i)=>o[h]=r[i]!=null?String(r[i]).trim():"");return o});
+}
+function parseAny(text){
+  text=text.trim();
+  if(!text)throw new Error("Nothing pasted yet.");
+  if(text[0]==="{"||text[0]==="["){
+    const d=JSON.parse(text);
+    if(Array.isArray(d))return d;
+    if(Array.isArray(d.items))return d.items;
+    if(d.record&&Array.isArray(d.record.items))return d.record.items;
+    if(Array.isArray(d.record))return d.record;
+    throw new Error("That JSON has no items list.");
+  }
+  const csv=parseCSV(text);
+  if(!csv.length)throw new Error("Could not read that as JSON or CSV.");
+  return csv;
+}
+function exportCSV(){
+  const headers=["ID","Category","Subcategory","Name","Brand","Model","Qty","Serial","Purchase Date","Replacement Cost","Condition","Status","Location","Notes","Last Updated"];
+  const rows=state.items.map(i=>[i.id,i.category,i.subcategory,i.name,i.brand,i.model,i.qty,i.serial||"N/A",i.purchaseDate||"",i.cost||"",i.condition,i.checkedOut?"Checked Out":"In",i.location,i.notes,i.lastUpdated]);
+  const csv=[headers,...rows].map(r=>r.map(v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"').join(",")).join("\n");
+  download("paca-av-inventory-"+today()+".csv",csv,"text/csv");
+}
+function exportJSON(){download("paca-av-inventory-"+today()+".json",JSON.stringify({items:state.items,deleted:state.deleted},null,2),"application/json")}
+function download(name,text,type){
+  const b=new Blob([text],{type}),u=URL.createObjectURL(b),a=document.createElement("a");
+  a.href=u;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(u),1500);
+}
+
+/* ============ derive ============ */
+function filtered(){
+  let items=[...state.items];
+  if(state.filterCat!=="All")items=items.filter(i=>i.category===state.filterCat);
+  if(state.filterCond!=="All")items=items.filter(i=>i.condition===state.filterCond);
+  if(state.filterStatus==="In")items=items.filter(i=>!i.checkedOut);
+  if(state.filterStatus==="Out")items=items.filter(i=>i.checkedOut);
+  if(state.search){
+    const s=state.search.toLowerCase();
+    items=items.filter(i=>`${i.name} ${i.brand} ${i.model} ${i.location} ${i.serial} ${i.notes} ${i.subcategory}`.toLowerCase().includes(s));
+  }
+  const dir=state.sortDir==="asc"?1:-1;
+  items.sort((a,b)=>{
+    let av=a[state.sortCol],bv=b[state.sortCol];
+    if(state.sortCol==="qty"||state.sortCol==="cost"){av=parseFloat(av)||0;bv=parseFloat(bv)||0}
+    else if(state.sortCol==="checkedOut"){av=av?1:0;bv=bv?1:0}
+    else{av=String(av||"").toLowerCase();bv=String(bv||"").toLowerCase()}
+    return av<bv?-dir:av>bv?dir:0;
+  });
+  return items;
+}
+function sortBy(col){
+  if(state.sortCol===col)setState({sortDir:state.sortDir==="asc"?"desc":"asc"});
+  else setState({sortCol:col,sortDir:"asc"});
+}
+function money(v){return v===""||v==null||isNaN(parseFloat(v))?'<span style="color:var(--dimmer)">·</span>':"$"+Number(v).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}
+function tag(label,color){return `<span class="tag" style="color:${color};border:1px solid ${color}40;background:${color}12">${esc(label)}</span>`}
+
+/* ============ render ============ */
+function syncPillHTML(){
+  return `<span class="dot ${state.sync.cls}"></span><span>${esc(state.sync.txt)}</span>`;
+}
+function render(){
+  document.getElementById("app").innerHTML=html();
+}
+function html(){
+  const rows=filtered();
+  const total=state.items.length;
+  const units=state.items.reduce((s,i)=>s+(parseInt(i.qty)||0),0);
+  const out=state.items.filter(i=>i.checkedOut).length;
+  const sd=state.sortDir==="asc"?"↑":"↓";
+  const sh=(col,label)=>`<div class="table-head-cell${state.sortCol===col?" sorted":""}" data-sort="${col}">${label}${state.sortCol===col?" "+sd:""}</div>`;
+
+  return `
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-title">
+        <img src="${LOGO}" alt="PACA" style="height:40px;width:auto;display:block">
+        <div class="header-divider"></div>
+        <div class="header-title-text">
+          <span class="header-org">PACA</span>
+          <span class="header-name">AV INVENTORY</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button style="background:var(--green);color:#000;padding:6px 14px;font-size:12px" data-act="sync">⇅ SYNC</button>
+        <button class="btn-secondary" data-act="settings" style="padding:6px 10px">⚙</button>
+        <button class="export-btn" data-act="export">⬇ CSV</button>
+        <button class="btn-secondary" data-act="print">🖨</button>
+        <button class="btn-primary" data-act="add">+ ADD</button>
+      </div>
+      <div class="sync-pill" id="sync-pill">${syncPillHTML()}</div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="stats">
+      <div class="stat-card"><span class="stat-label">TOTAL ITEMS</span><span class="stat-value" style="color:var(--amber)">${total}</span></div>
+      <div class="stat-card"><span class="stat-label">TOTAL UNITS</span><span class="stat-value" style="color:var(--blue)">${units}</span></div>
+      <div class="stat-card"><span class="stat-label">CHECKED OUT</span><span class="stat-value" style="color:${out>0?"var(--orange)":"var(--green)"}">${out}</span></div>
+    </div>
+    <div class="toolbar">
+      <div class="cat-filters">
+        ${["All",...Object.keys(CATEGORIES)].map(c=>{
+          const on=state.filterCat===c,col=CATEGORIES[c]?CATEGORIES[c].color:"var(--amber)";
+          const icon=CATEGORIES[c]?CATEGORIES[c].icon+" ":"";
+          return `<button class="pill" data-cat="${esc(c)}" style="background:${on?col:"var(--surface2)"};color:${on?"#000":"var(--dim)"};border-color:${on?"transparent":"var(--border)"}">${icon}${c.toUpperCase()}</button>`;
+        }).join("")}
+      </div>
+      <div class="status-filters">
+        ${["All","In","Out"].map(s=>{
+          const on=state.filterStatus===s;
+          return `<button class="pill" data-status="${s}" style="background:${on?"var(--blue)":"var(--surface2)"};color:${on?"#000":"var(--dim)"};border-color:${on?"transparent":"var(--border)"}">${s==="All"?"ALL":s==="In"?"✓ IN":"⬆ OUT"}</button>`;
+        }).join("")}
+      </div>
+    </div>
+    <div class="search-row">
+      <input id="search-input" value="${esc(state.search)}" placeholder="Search name, brand, model, serial, location, notes">
+      <select id="cond-filter">
+        <option value="All">All Conditions</option>
+        ${CONDITIONS.map(c=>`<option value="${esc(c)}"${state.filterCond===c?" selected":""}>${esc(c)}</option>`).join("")}
+      </select>
+    </div>
+    <div class="table" id="table">
+      <div class="table-head">
+        ${sh("name","Item")}${sh("brand","Brand / Model")}${sh("subcategory","Type")}${sh("qty","Qty")}${sh("cost","Cost")}${sh("condition","Condition")}${sh("checkedOut","Status")}${sh("serial","Serial")}${sh("location","Location")}<div class="table-head-cell"></div>
+      </div>
+      ${rows.length===0?`<div class="table-empty">${total===0?"Nothing here yet. Hit ⚙ to load from the cloud, or + ADD to start.":"No items match those filters."}</div>`:rows.map(rowHTML).join("")}
+    </div>
+    <div class="table-footer">${rows.length} of ${total} items · ${rows.reduce((s,i)=>s+(parseInt(i.qty)||0),0)} units · ${out} checked out</div>
+  </div>
+  ${state.modal?renderModal():""}
+  ${state.toast?`<div class="toast ${state.toast.ok?"toast-ok":"toast-err"}">${esc(state.toast.msg)}</div>`:""}`;
+}
+function rowHTML(item,idx){
+  const cat=CATEGORIES[item.category]||{color:"var(--amber)"};
+  const cond=COND_COLORS[item.condition]||"var(--dim)";
+  const mMeta=[
+    item.brand||item.model?esc([item.brand,item.model].filter(Boolean).join(" ")):"",
+    item.location?esc(item.location):"",
+    `<span style="color:${cond};font-family:var(--display);font-weight:700">${esc((item.condition||"").toUpperCase())}</span>`,
+    item.serial&&item.serial!=="N/A"?`<span style="color:var(--dimmer)">${esc(item.serial)}</span>`:"",
+  ].filter(Boolean).join('<span style="color:var(--dimmer)">·</span>');
+  return `<div class="table-row" data-id="${esc(item.id)}" style="background:${idx%2===0?"transparent":"#ffffff03"}">
+    <div>
+      <div class="item-name">${esc(item.name)}</div>
+      ${item.notes?`<div class="item-notes">${esc(item.notes)}</div>`:""}
+    </div>
+    <div class="brand-model r-brand">${item.brand?`<span style="color:var(--text)">${esc(item.brand)}</span>`:""}${item.brand&&item.model?`<span style="color:var(--border-bright)"> / </span>`:""}${item.model?esc(item.model):""}</div>
+    <div class="r-type">${tag(item.subcategory,cat.color)}</div>
+    <div class="qty-cell r-qty">${item.qty}</div>
+    <div class="cost-cell r-cost">${money(item.cost)}</div>
+    <div class="cond-cell r-cond" style="color:${cond}">${esc((item.condition||"").toUpperCase())}</div>
+    <div class="r-status"><span class="checkout-badge" data-toggle="${esc(item.id)}" style="background:${item.checkedOut?"#f9731620":"#34d39918"};color:${item.checkedOut?"var(--orange)":"var(--green)"};border:1px solid ${item.checkedOut?"#f9731640":"#34d39940"}">${item.checkedOut?"OUT":"IN"}</span></div>
+    <div class="serial-cell r-serial">${esc(item.serial||"N/A")}</div>
+    <div class="loc-cell r-loc">${esc(item.location)||'<span style="color:var(--dimmer)">·</span>'}</div>
+    <div class="m-qty">
+      <button data-bump="-1" data-id="${esc(item.id)}" aria-label="Remove one">−</button>
+      <span class="n">${item.qty}</span>
+      <button data-bump="1" data-id="${esc(item.id)}" aria-label="Add one">+</button>
+    </div>
+    <div class="m-meta">${mMeta}
+      <span class="checkout-badge" data-toggle="${esc(item.id)}" style="background:${item.checkedOut?"#f9731620":"#34d39918"};color:${item.checkedOut?"var(--orange)":"var(--green)"};border:1px solid ${item.checkedOut?"#f9731640":"#34d39940"}">${item.checkedOut?"OUT":"IN"}</span>
+    </div>
+    <div class="row-actions"><button class="btn-edit" data-edit="${esc(item.id)}">EDIT</button></div>
+  </div>`;
+}
+
+/* ============ modals ============ */
+function renderModal(){
+  const{type,data}=state.modal;
+  if(type==="add"||type==="edit")return itemModal(data);
+  if(type==="delete")return deleteModal(data);
+  if(type==="settings")return settingsModal();
+  if(type==="import")return importModal();
+  return"";
+}
+function itemModal(item){
+  const isEdit=!!item;
+  const f=item||{category:"Lighting",subcategory:"Fixture",name:"",brand:"",model:"",qty:1,condition:"Good",location:"",notes:"",serial:"N/A",purchaseDate:"",cost:"",checkedOut:false};
+  const subs=(CATEGORIES[f.category]||CATEGORIES.Lighting).subcategories;
+  return `<div class="modal-overlay" data-overlay><div class="modal"><div class="modal-header">
+    <span class="modal-title">${isEdit?"EDIT":"ADD"} EQUIPMENT</span>
+    <button class="modal-close" data-close>×</button></div>
+    <div class="modal-body"><div class="form-grid">
+      <div><label class="field-label">Category</label>
+        <select id="f-category">${Object.keys(CATEGORIES).map(c=>`<option${f.category===c?" selected":""}>${c}</option>`).join("")}</select></div>
+      <div><label class="field-label">Subcategory</label>
+        <select id="f-subcategory">${subs.map(s=>`<option${f.subcategory===s?" selected":""}>${esc(s)}</option>`).join("")}</select></div>
+      <div class="span2"><label class="field-label">Item Name / Description</label>
+        <input id="f-name" value="${esc(f.name)}" placeholder="e.g. Wireless Handheld Mic"></div>
+      <div><label class="field-label">Brand</label><input id="f-brand" value="${esc(f.brand)}" placeholder="e.g. Shure"></div>
+      <div><label class="field-label">Model</label><input id="f-model" value="${esc(f.model)}" placeholder="e.g. SM58"></div>
+      <div><label class="field-label">Serial Number</label><input id="f-serial" value="${esc(f.serial||"N/A")}" placeholder="N/A"></div>
+      <div><label class="field-label">Purchase Date</label><input id="f-purchaseDate" type="date" value="${esc(f.purchaseDate||"")}"></div>
+      <div><label class="field-label">Qty</label><input id="f-qty" type="number" min="0" inputmode="numeric" value="${esc(f.qty)}"></div>
+      <div><label class="field-label">Condition</label>
+        <select id="f-condition">${CONDITIONS.map(c=>`<option${f.condition===c?" selected":""}>${esc(c)}</option>`).join("")}</select></div>
+      <div><label class="field-label">Replacement Cost</label>
+        <div class="prefix-input"><span>$</span><input id="f-cost" type="number" min="0" step="0.01" inputmode="decimal" value="${esc(f.cost===0?0:f.cost||"")}" placeholder="0.00"></div></div>
+      <div><label class="field-label">Storage Location</label><input id="f-location" value="${esc(f.location)}" placeholder="e.g. Sound Booth"></div>
+      <div class="span2"><div class="toggle-row">
+        <label class="toggle"><input type="checkbox" id="f-checkedOut"${f.checkedOut?" checked":""}><span class="toggle-slider"></span></label>
+        <span class="toggle-label">CHECKED OUT</span></div></div>
+      <div class="span2"><label class="field-label">Notes</label><textarea id="f-notes" rows="2" style="resize:vertical">${esc(f.notes)}</textarea></div>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between">
+      <div style="display:flex;gap:8px">
+        ${isEdit?`<button class="btn-danger" data-del="${esc(f.id)}">Delete</button><button class="btn-dup" data-dup="${esc(f.id)}">Duplicate</button>`:"<span></span>"}
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn-cancel" data-close>Cancel</button>
+        <button class="btn-save" id="item-save" data-id="${esc(isEdit?f.id:"")}">Save Item</button>
+      </div>
+    </div></div></div></div>`;
+}
+function deleteModal(id){
+  return `<div class="modal-overlay" data-overlay><div class="modal" style="max-width:400px"><div class="modal-header">
+    <span class="modal-title">CONFIRM DELETE</span><button class="modal-close" data-close>×</button></div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--dim);margin-bottom:14px">Enter the password to delete this item.</p>
+      <input id="del-pw" type="password" placeholder="Password" autocomplete="off">
+      <div id="del-err" style="font-size:11px;color:var(--red);min-height:16px;margin-top:4px"></div>
+      <div class="modal-footer">
+        <button class="btn-cancel" data-close>Cancel</button>
+        <button class="btn-danger" id="confirm-del" data-id="${esc(id)}">Delete</button>
+      </div>
+    </div></div></div>`;
+}
+function settingsModal(){
+  const k=cfgKey(),b=cfgBin();
+  return `<div class="modal-overlay" data-overlay><div class="modal modal-wide"><div class="modal-header">
+    <span class="modal-title">CLOUD SYNC</span><button class="modal-close" data-close>×</button></div>
+    <div class="modal-body">
+      <div class="warnbox"><strong>Rotate your key if you have not already.</strong> The old version of this app had the JSONBin master key printed in the page source on a public URL. Generate a fresh key at jsonbin.io, then paste it below. Your bin and its contents survive the rotation.</div>
+      <div class="sync-steps">
+        <div class="sync-steps-title">SETUP</div>
+        <div class="sync-step"><span class="sync-step-num">1.</span><span>Get a key at <a href="https://jsonbin.io" target="_blank" rel="noopener" style="color:var(--blue)">jsonbin.io</a>. An Access Key scoped to one bin is safer than the Master Key.</span></div>
+        <div class="sync-step"><span class="sync-step-num">2.</span><span>Paste the key and your Bin ID below, then hit Load from Cloud.</span></div>
+        <div class="sync-step"><span class="sync-step-num">3.</span><span>Leave auto save on and every edit pushes a few seconds later.</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr;gap:11px;margin-bottom:12px">
+        <div><label class="field-label">API Key</label><input id="s-key" type="password" value="${esc(k)}" placeholder="$2a$10$…" autocomplete="off" spellcheck="false"></div>
+        <div><label class="field-label">Bin ID</label><input id="s-bin" value="${esc(b)}" placeholder="6a19cbea…" autocomplete="off" spellcheck="false"></div>
+      </div>
+      <div class="toggle-row">
+        <label class="toggle"><input type="checkbox" id="s-auto"${cfgAuto()?" checked":""}><span class="toggle-slider" style="background:${cfgAuto()?"var(--green)":"var(--border-bright)"}"></span></label>
+        <span class="toggle-label">AUTO SAVE TO CLOUD</span>
+      </div>
+      <div id="sync-status"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px">
+        <button class="btn-sync" id="do-load" style="background:var(--surface2);color:var(--blue);border:1px solid var(--border)">⬇ Load from Cloud</button>
+        <button class="btn-sync" id="do-save">⬆ Save to Cloud (${state.items.length})</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px">
+        <button class="btn-secondary" data-act="import" style="padding:9px">⬆ Import file</button>
+        <button class="btn-secondary" data-act="exportjson" style="padding:9px">⬇ Backup JSON</button>
+      </div>
+      <p class="hint">The key is kept in this browser only, never in the page source. Anyone with access to this device can still read it, so treat the tablet in the booth accordingly.</p>
+    </div></div></div>`;
+}
+function importModal(){
+  return `<div class="modal-overlay" data-overlay><div class="modal modal-wide"><div class="modal-header">
+    <span class="modal-title">IMPORT</span><button class="modal-close" data-close>×</button></div>
+    <div class="modal-body">
+      <button class="btn-secondary" id="pick-file" style="padding:9px 14px;margin-bottom:12px">Choose a file</button>
+      <input type="file" id="file-in" accept=".json,.csv,.txt" style="display:none">
+      <label class="field-label">Or paste JSON or CSV</label>
+      <textarea id="paste-in" rows="5" style="resize:vertical;font-size:12px" spellcheck="false" placeholder='[{"name":"SM58","qty":6,"category":"Sound"}]'></textarea>
+      <div id="map-out"></div>
+      <div class="modal-footer">
+        <button class="btn-cancel" id="do-preview">Preview</button>
+        ${state.pending?`<button class="btn-dup" id="do-merge">Add ${state.pending.length}</button><button class="btn-danger" id="do-replace">Replace all</button>`:""}
+      </div>
+    </div></div></div>`;
+}
+
+/* ============ events (delegated) ============ */
+document.addEventListener("click",e=>{
+  const t=e.target;
+  const hit=sel=>t.closest(sel);
+
+  if(t.hasAttribute&&t.hasAttribute("data-overlay")){closeModal();return}
+  if(hit("[data-close]")){closeModal();return}
+
+  const act=hit("[data-act]");
+  if(act){
+    const a=act.dataset.act;
+    if(a==="add")openModal("add");
+    else if(a==="settings")openModal("settings");
+    else if(a==="import")openModal("import");
+    else if(a==="export")exportCSV();
+    else if(a==="exportjson")exportJSON();
+    else if(a==="print")window.print();
+    else if(a==="sync")masterSync();
+    return;
+  }
+  const cat=hit("[data-cat]");if(cat){setState({filterCat:cat.dataset.cat});return}
+  const st=hit("[data-status]");if(st){setState({filterStatus:st.dataset.status});return}
+  const so=hit("[data-sort]");if(so){sortBy(so.dataset.sort);return}
+  const ed=hit("[data-edit]");if(ed){const it=state.items.find(i=>i.id===ed.dataset.edit);if(it)openModal("edit",{...it});return}
+  const tg=hit("[data-toggle]");if(tg){toggleCheckout(tg.dataset.toggle);return}
+  const bp=hit("[data-bump]");if(bp){bumpQty(bp.dataset.id,parseInt(bp.dataset.bump,10));return}
+  const dl=hit("[data-del]");if(dl){openModal("delete",dl.dataset.del);return}
+  const dp=hit("[data-dup]");if(dp){duplicateItem(dp.dataset.dup);return}
+
+  if(hit("#item-save")){saveItemForm();return}
+  if(hit("#confirm-del")){confirmDelete();return}
+  if(hit("#do-save")){doCloud("save");return}
+  if(hit("#do-load")){doCloud("load");return}
+  if(hit("#pick-file")){q("#file-in").click();return}
+  if(hit("#do-preview")){doPreview();return}
+  if(hit("#do-merge")){doImport(false);return}
+  if(hit("#do-replace")){doImport(true);return}
+});
+document.addEventListener("input",e=>{
+  if(e.target.id==="search-input"){
+    state.search=e.target.value;
+    const tbl=q("#table"),ftr=q(".table-footer");
+    const rows=filtered();
+    if(tbl){
+      const head=tbl.querySelector(".table-head");
+      tbl.innerHTML="";if(head)tbl.appendChild(head);
+      tbl.insertAdjacentHTML("beforeend",rows.length?rows.map(rowHTML).join(""):`<div class="table-empty">No items match those filters.</div>`);
+    }
+    if(ftr)ftr.textContent=`${rows.length} of ${state.items.length} items · ${rows.reduce((s,i)=>s+(parseInt(i.qty)||0),0)} units · ${state.items.filter(i=>i.checkedOut).length} checked out`;
+  }
+});
+document.addEventListener("change",e=>{
+  const t=e.target;
+  if(t.id==="cond-filter")setState({filterCond:t.value});
+  else if(t.id==="f-category"){
+    const sub=q("#f-subcategory");
+    if(sub)sub.innerHTML=CATEGORIES[t.value].subcategories.map(s=>`<option>${esc(s)}</option>`).join("");
+  }
+  else if(t.id==="s-key")localStorage.setItem(KEY_KEY,t.value.trim());
+  else if(t.id==="s-bin")localStorage.setItem(BIN_KEY,t.value.trim());
+  else if(t.id==="s-auto")localStorage.setItem(AUTO_KEY,t.checked?"1":"0");
+  else if(t.id==="file-in"){
+    const f=t.files&&t.files[0];if(!f)return;
+    const r=new FileReader();
+    r.onload=()=>{const el=q("#paste-in");if(el){el.value=r.result;doPreview()}};
+    r.onerror=()=>showToast("Could not read that file",false);
+    r.readAsText(f);
+  }
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"&&state.modal)closeModal();
+  if(e.key==="Enter"&&q("#del-pw")&&document.activeElement===q("#del-pw"))confirmDelete();
+});
+
+function saveItemForm(){
+  const name=(q("#f-name")?.value||"").trim();
+  if(!name){showToast("Name is required",false);q("#f-name")?.focus();return}
+  const id=q("#item-save").dataset.id;
+  const costVal=q("#f-cost")?.value;
+  const form={
+    id:id||genId(),
+    category:q("#f-category")?.value,
+    subcategory:q("#f-subcategory")?.value,
+    name,
+    brand:(q("#f-brand")?.value||"").trim(),
+    model:(q("#f-model")?.value||"").trim(),
+    serial:(q("#f-serial")?.value||"").trim()||"N/A",
+    purchaseDate:q("#f-purchaseDate")?.value||"",
+    qty:parseInt(q("#f-qty")?.value)||0,
+    cost:costVal?parseFloat(costVal):"",
+    condition:q("#f-condition")?.value,
+    checkedOut:q("#f-checkedOut")?.checked||false,
+    location:(q("#f-location")?.value||"").trim(),
+    notes:(q("#f-notes")?.value||"").trim(),
+  };
+  if(state.modal.type==="edit")updateItem(form);else addItem(form);
+}
+function confirmDelete(){
+  const pw=q("#del-pw")?.value;
+  if(pw!==DELETE_PW){const e=q("#del-err");if(e)e.textContent="Incorrect password.";if(q("#del-pw"))q("#del-pw").value="";return}
+  deleteItem(q("#confirm-del").dataset.id);
+}
+async function doCloud(which){
+  const k=(q("#s-key")?.value||"").trim(),b=(q("#s-bin")?.value||"").trim();
+  if(k)localStorage.setItem(KEY_KEY,k);
+  if(b)localStorage.setItem(BIN_KEY,b);
+  const el=q("#sync-status");
+  const set=(ok,msg)=>{if(el){el.className="status-bar "+(ok?"status-ok":"status-err");el.textContent=msg}};
+  if(!k||!b){set(false,"Enter both the key and the bin ID first.");return}
+  const btn=q(which==="save"?"#do-save":"#do-load");
+  if(btn){btn.disabled=true;btn.textContent=which==="save"?"Saving…":"Loading…"}
+  try{
+    if(which==="save"){await pushRemote();set(true,`Saved ${state.items.length} items to the cloud.`);setSync("ok","Saved "+clock())}
+    else{
+      const r=await pullRemote();
+      const m=mergeItems(state.items,r.items,state.deleted,r.deleted);
+      state.items=m.items;state.deleted=m.deleted;save();
+      set(true,`Loaded and merged. ${state.items.length} items now.`);
+      setSync("ok","Synced "+clock());
+    }
+  }catch(e){set(false,"Error: "+e.message);setSync("err","Failed")}
+  if(btn){btn.disabled=false;btn.textContent=which==="save"?`⬆ Save to Cloud (${state.items.length})`:"⬇ Load from Cloud"}
+}
+function doPreview(){
+  const el=q("#map-out");
+  try{
+    const rows=parseAny(q("#paste-in").value);
+    if(!rows.length)throw new Error("No rows found.");
+    const keys=Object.keys(rows[0]),map=buildMap(keys);
+    state.pending=rows.map(r=>normalise(r,map));
+    let h=`<p class="hint">Found ${state.pending.length} rows. Columns matched:</p>`;
+    Object.keys(map).forEach(f=>{h+=`<div class="maprow"><span class="from">${esc(map[f])}</span><span class="to">→ ${f}</span></div>`});
+    const unused=keys.filter(k=>k!=="id"&&Object.keys(map).every(f=>map[f]!==k));
+    if(unused.length)h+=`<p class="hint">Ignored: ${esc(unused.join(", "))}</p>`;
+    h+=`<p class="hint">Preview:</p><pre class="preview">${esc(JSON.stringify(state.pending.slice(0,3),null,1))}</pre>`;
+    el.innerHTML=h;
+    render();
+  }catch(err){
+    state.pending=null;
+    el.innerHTML=`<p class="hint" style="color:#ffb3a4">${esc(err.message)} Paste a JSON array of objects, or CSV with a header row.</p>`;
+  }
+}
+function doImport(replace){
+  if(!state.pending)return;
+  if(replace){
+    if(!confirm(`Replace all ${state.items.length} items with these ${state.pending.length}?`))return;
+    state.items.forEach(i=>{state.deleted[i.id]=new Date().toISOString()});
+    state.items=state.pending;
+  }else{
+    const seen={};state.items.forEach(i=>seen[i.id]=1);
+    state.pending.forEach(p=>{if(seen[p.id])p.id=genId();state.items.push(p)});
+  }
+  const n=state.pending.length;
+  state.pending=null;save();queuePush();closeModal();showToast(replace?`Replaced with ${n} items`:`Added ${n} items`);
+}
+
+/* ============ boot ============ */
+loadLocal();
+render();
+(async function(){
+  if(!creds()){setSync("","No cloud key set");return}
+  setSync("busy","Loading");
+  try{
+    const r=await pullRemote();
+    const m=mergeItems(state.items,r.items,state.deleted,r.deleted);
+    state.items=m.items;state.deleted=m.deleted;save();render();
+    setSync("ok","Synced "+clock());
+  }catch(e){setSync("err","Offline, using local copy")}
+})();
+</script>
+</body>
+</html>
