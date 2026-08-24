@@ -16,6 +16,7 @@
   --text:#d4d8d5;--dim:#6b7570;--dimmer:#3d4440;
   --amber:#f59e0b;--green:#34d399;--blue:#60a5fa;--red:#ef4444;--purple:#a78bfa;--orange:#f97316;
   --mono:"DM Mono",ui-monospace,monospace;--display:"Barlow Condensed",sans-serif;
+  --cols:1.8fr 1fr .9fr .4fr .7fr .9fr .7fr .8fr 1.2fr 70px;
   --safe-b:env(safe-area-inset-bottom,0px);
 }
 body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:100vh;-webkit-text-size-adjust:100%}
@@ -45,7 +46,7 @@ button:disabled{opacity:.6;cursor:default;filter:none}
 .header-divider{width:1px;height:30px;background:var(--border-bright)}
 .header-actions{display:flex;gap:6px;flex-wrap:wrap}
 .sync-pill{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--dim);padding:4px 0;width:100%;border-top:1px solid var(--border);margin-top:2px;padding-top:7px}
-@media(min-width:900px){.sync-pill{width:auto;border-top:none;margin-top:0;padding-top:4px;order:-1}}
+@media(min-width:900px){.sync-pill{width:auto;border-top:none;margin-top:0;padding-top:0;margin-left:14px}}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--dimmer);flex:none}
 .dot.ok{background:var(--green)}.dot.busy{background:var(--amber);animation:spin 1s linear infinite}
 .dot.err{background:var(--red)}.dot.wait{background:var(--orange)}
@@ -67,16 +68,10 @@ button:disabled{opacity:.6;cursor:default;filter:none}
 @media(min-width:700px){.search-row select{width:180px}}
 
 .table{background:var(--surface);border:1px solid var(--border);border-radius:5px;overflow:hidden}
-.table-head{display:none}
 .table-empty{padding:40px;text-align:center;color:var(--dim);font-size:13px}
-@media(min-width:900px){
-  .table-head{display:grid;grid-template-columns:1.8fr 1fr .9fr .4fr .7fr .9fr .7fr .8fr 1.2fr 70px;padding:0 16px;border-bottom:2px solid var(--border)}
-  .table-row{display:grid;grid-template-columns:1.8fr 1fr .9fr .4fr .7fr .9fr .7fr .8fr 1.2fr 70px;padding:12px 16px;align-items:center}
-}
-.table-head-cell{padding:10px 8px 10px 0;font-size:10px;color:var(--dim);font-family:var(--display);font-weight:700;letter-spacing:.12em;cursor:pointer;user-select:none;white-space:nowrap}
+.table-head-cell{padding:10px 8px 10px 0;font-size:10px;color:var(--dim);font-family:var(--display);font-weight:700;letter-spacing:.12em;cursor:pointer;user-select:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .table-head-cell:hover{color:var(--text)}
 .table-head-cell.sorted{color:var(--amber)}
-.table-row{border-bottom:1px solid var(--border);transition:background .1s;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:6px 10px}
 .table-row:last-child{border-bottom:none}
 .table-row:hover{background:#ffffff07}
 .item-name{font-weight:500;font-size:14px;margin-bottom:2px;word-break:break-word}
@@ -86,25 +81,35 @@ button:disabled{opacity:.6;cursor:default;filter:none}
 .cond-cell{font-size:10px;font-family:var(--display);font-weight:700;letter-spacing:.04em}
 .loc-cell,.cost-cell{font-size:12px;color:var(--dim)}
 .serial-cell{font-size:11px;color:var(--dimmer)}
-.row-actions{display:flex;gap:4px;align-items:center}
 .btn-edit{background:var(--surface2);color:var(--dim);padding:5px 11px;font-size:11px;border:1px solid var(--border)}
 .table-footer{margin-top:10px;font-size:11px;color:var(--dim);text-align:right}
 .tag{display:inline-block;padding:2px 8px;border-radius:2px;font-size:11px;font-family:var(--display);font-weight:700;letter-spacing:.06em}
 .checkout-badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-family:var(--display);font-weight:700;letter-spacing:.04em;cursor:pointer}
 
-/* mobile card shape */
-.m-meta{display:none}
-@media(max-width:899px){
-  .m-meta{display:flex;flex-wrap:wrap;gap:4px 9px;align-items:center;font-size:11px;color:var(--dim);grid-column:1}
-  .table-head{display:none}
-  .r-brand,.r-type,.r-cost,.r-cond,.r-status,.r-serial,.r-loc,.r-qty{display:none}
-  .m-qty{display:flex;align-items:center;gap:0;border:1px solid var(--border);border-radius:4px;grid-row:1/span 2;align-self:center}
-  .m-qty button{width:34px;height:34px;font-size:17px;color:var(--dim);display:grid;place-items:center}
-  .m-qty button:active{color:var(--amber);background:var(--surface2)}
-  .m-qty .n{min-width:26px;text-align:center;font-family:var(--display);font-weight:700;font-size:17px}
-  .row-actions{grid-column:1;justify-self:start;margin-top:2px}
+/* ---- base: mobile card shape ---- */
+.table-head{display:none}
+.table-row{display:grid;grid-template-columns:1fr auto;gap:6px 10px;padding:12px 14px;border-bottom:1px solid var(--border);transition:background .1s}
+.r-brand,.r-type,.r-cost,.r-cond,.r-status,.r-serial,.r-loc,.r-qty{display:none}
+.table-row>div:first-child{grid-column:1;grid-row:1;min-width:0}
+.m-meta{display:flex;flex-wrap:wrap;gap:4px 9px;align-items:center;font-size:11px;color:var(--dim);grid-column:1/-1;grid-row:2}
+.m-qty{display:flex;align-items:center;border:1px solid var(--border);border-radius:4px;grid-column:2;grid-row:1;align-self:center}
+.m-qty button{width:34px;height:34px;font-size:17px;color:var(--dim);display:grid;place-items:center}
+.m-qty button:active{color:var(--amber);background:var(--surface2)}
+.m-qty .n{min-width:26px;text-align:center;font-family:var(--display);font-weight:700;font-size:17px}
+.row-actions{display:flex;gap:4px;align-items:center;grid-column:1/-1;grid-row:3;justify-self:start;margin-top:2px}
+
+/* ---- desktop table. Keep this block last: media queries add no specificity,
+       so an equal-specificity rule further down the file would override it. ---- */
+@media(min-width:900px){
+  .table-head{display:grid;grid-template-columns:var(--cols);padding:0 16px;border-bottom:2px solid var(--border)}
+  .table-row{grid-template-columns:var(--cols);gap:0;padding:12px 16px;align-items:center}
+  .table-row>*{min-width:0}
+  .r-brand,.r-type,.r-cost,.r-cond,.r-status,.r-serial,.r-loc,.r-qty{display:block}
+  .m-meta,.m-qty{display:none}
+  .table-row>div:first-child{grid-column:auto;grid-row:auto}
+  .row-actions{grid-column:auto;grid-row:auto;justify-self:auto;margin-top:0}
+  .brand-model,.serial-cell,.loc-cell{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 }
-@media(min-width:900px){.m-qty{display:none}}
 
 .btn-primary{background:var(--amber);color:#000;padding:6px 14px;font-size:13px}
 .btn-secondary{background:var(--surface2);color:var(--dim);border:1px solid var(--border);padding:6px 12px;font-size:12px}
@@ -158,13 +163,26 @@ pre.preview{background:var(--bg);border:1px solid var(--border);border-radius:4p
 .maprow .to{color:var(--dim)}
 .hint{font-size:11.5px;color:var(--dim);line-height:1.6;margin-top:8px}
 
+/* ---- phone overrides. Last in the sheet on purpose: these override base rules
+       that appear further up, and media queries carry no extra specificity. ---- */
+@media(max-width:899px){
+  .header-inner{padding:8px 12px;gap:8px}
+  .header-title{overflow:hidden}
+  .header-name{font-size:17px;overflow:hidden;text-overflow:ellipsis}
+  .header-actions{flex:none}
+  .header-actions button{padding:6px 10px;font-size:11px}
+  .hide-sm{display:none}
+  .status-filters{margin-left:0}
+  .toolbar{gap:6px}
+}
+
 @media print{
   .header-actions,.cat-filters,.status-filters,.search-row,.row-actions,.table-footer,.toolbar,.sync-pill,.m-qty{display:none!important}
   .header{border:none;position:static;background:none}
   body{background:#fff;color:#000}
   .table{border:1px solid #ccc}
-  .table-row{border-bottom:1px solid #eee!important;display:grid!important;grid-template-columns:1.8fr 1fr .9fr .4fr .7fr .9fr .7fr .8fr 1.2fr!important}
-  .table-head{display:grid!important;grid-template-columns:1.8fr 1fr .9fr .4fr .7fr .9fr .7fr .8fr 1.2fr 70px!important}
+  .table-row{border-bottom:1px solid #eee!important;display:grid!important;grid-template-columns:var(--cols)!important;gap:0!important}
+  .table-head{display:grid!important;grid-template-columns:var(--cols)!important}
   .r-brand,.r-type,.r-cost,.r-cond,.r-status,.r-serial,.r-loc,.r-qty{display:block!important}
   .m-meta{display:none!important}
   .stat-card{border:1px solid #ccc}
@@ -478,10 +496,10 @@ function html(){
         </div>
       </div>
       <div class="header-actions">
-        <button style="background:var(--green);color:#000;padding:6px 14px;font-size:12px" data-act="sync">⇅ SYNC</button>
+        <button style="background:var(--green);color:#000;padding:6px 14px;font-size:12px" data-act="sync">⇅<span class="hide-sm"> SYNC</span></button>
         <button class="btn-secondary" data-act="settings" style="padding:6px 10px">⚙</button>
-        <button class="export-btn" data-act="export">⬇ CSV</button>
-        <button class="btn-secondary" data-act="print">🖨</button>
+        <button class="export-btn hide-sm" data-act="export">⬇ CSV</button>
+        <button class="btn-secondary hide-sm" data-act="print">🖨</button>
         <button class="btn-primary" data-act="add">+ ADD</button>
       </div>
       <div class="sync-pill" id="sync-pill">${syncPillHTML()}</div>
@@ -648,7 +666,11 @@ function settingsModal(){
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px">
         <button class="btn-secondary" data-act="import" style="padding:9px">⬆ Import file</button>
+        <button class="btn-secondary" data-act="export" style="padding:9px">⬇ Export CSV</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px">
         <button class="btn-secondary" data-act="exportjson" style="padding:9px">⬇ Backup JSON</button>
+        <button class="btn-secondary" data-act="print" style="padding:9px">🖨 Print</button>
       </div>
       <p class="hint">The key is kept in this browser only, never in the page source. Anyone with access to this device can still read it, so treat the tablet in the booth accordingly.</p>
     </div></div></div>`;
