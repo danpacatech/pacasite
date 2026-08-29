@@ -142,6 +142,7 @@ export default async (req) => {
 
     // Confirmation email to volunteer
     const cancelUrl = `${SITE_URL}/vol-schedule/?action=cancel&token=${cancelToken}`;
+    const cal = calLinks(event.name, event.date, event.time, slot.role);
     await sendEmail(email,
       `You're signed up: ${event.name}`,
       emailHtml(`You're signed up!`,
@@ -151,6 +152,11 @@ export default async (req) => {
            <span style="color:#ED2375;font-weight:600">${slot.role}</span><br>
            <span style="color:#6a5a78">${event.date}${event.time ? " at " + event.time : ""}</span>
          </div>
+         <p>Add it to your calendar:</p>
+         <p>
+           <a href="${cal.google}" style="display:inline-block;background:#ED2375;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;font-weight:600;margin-right:8px" target="_blank">Google Calendar</a>
+           <a href="${cal.ics}" style="display:inline-block;background:#2B0B3E;color:#F4EDE0;padding:10px 18px;border-radius:6px;text-decoration:none;font-weight:600">Apple / Outlook (.ics)</a>
+         </p>
          <p>You'll get a reminder 48 hours before the event.</p>
          <p><a href="${cancelUrl}" style="color:#ED2375">Need to cancel? Click here.</a></p>`
       )
@@ -208,6 +214,7 @@ export default async (req) => {
         const evSignups = signups.filter(s => s.eventId === ev.id);
         for (const s of evSignups) {
           const cancelUrl = `${SITE_URL}/volunteer/?action=cancel&token=${s.cancelToken}`;
+          const cal = calLinks(ev.name, ev.date, ev.time, s.slotRole);
           await sendEmail(s.email,
             `Reminder: ${ev.name} is in 2 days`,
             emailHtml("Volunteer Reminder",
@@ -217,6 +224,11 @@ export default async (req) => {
                  <span style="color:#ED2375;font-weight:600">${s.slotRole}</span><br>
                  <span style="color:#6a5a78">${ev.date}${ev.time ? " at " + ev.time : ""}</span>
                </div>
+               <p>Add it to your calendar:</p>
+               <p>
+                 <a href="${cal.google}" style="display:inline-block;background:#ED2375;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;font-weight:600;margin-right:8px" target="_blank">Google Calendar</a>
+                 <a href="${cal.ics}" style="display:inline-block;background:#2B0B3E;color:#F4EDE0;padding:10px 18px;border-radius:6px;text-decoration:none;font-weight:600">Apple / Outlook (.ics)</a>
+               </p>
                <p>Thank you for volunteering at PACA!</p>
                <p><a href="${cancelUrl}" style="color:#ED2375">Need to cancel? Click here.</a></p>`
             )
@@ -264,4 +276,17 @@ function to24(t) {
   if (ap === "pm" && h !== 12) h += 12;
   if (ap === "am" && h === 12) h = 0;
   return `${String(h).padStart(2,"0")}:${min}:00`;
+}
+
+function calLinks(name, date, time, role) {
+  const t24 = time ? to24(time) : "19:00:00";
+  const startMs = new Date(`${date}T${t24}Z`).getTime();
+  const endMs = startMs + 3 * 60 * 60 * 1000;
+  const fmt = ms => new Date(ms).toISOString().replace(/[-:]/g,"").slice(0,15) + "Z";
+  const startDT = fmt(startMs), endDT = fmt(endMs);
+  const title = encodeURIComponent(`PACA Volunteer: ${name} (${role})`);
+  const loc = encodeURIComponent("PACA, 1505 State Street, Erie, PA 16501");
+  const google = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDT}/${endDT}&location=${loc}`;
+  const ics = `https://paca1505.org/.netlify/functions/volunteer-ics?name=${encodeURIComponent(name)}&role=${encodeURIComponent(role)}&start=${startDT}&end=${endDT}`;
+  return { google, ics };
 }

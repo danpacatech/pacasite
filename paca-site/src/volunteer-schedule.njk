@@ -360,7 +360,10 @@ function renderAdminSignups(){
 function renderAdminByEvent(){
   var el = document.getElementById("admin-content");
   if(!allEvents.length){ el.innerHTML = '<p style="color:var(--fog)">No events.</p>'; return; }
-  el.innerHTML = allEvents.map(ev => {
+
+  var printBtn = '<button class="btn-ghost" onclick="printRoster()" style="margin-bottom:16px;float:right">🖨 Print / Export</button><div style="clear:both"></div>';
+
+  el.innerHTML = printBtn + allEvents.map(ev => {
     var evSignups = allSignups.filter(s => s.eventId === ev.id);
     var slots = (ev.slots||[]).map(slot => {
       var filled = evSignups.filter(s => s.slotId === slot.id);
@@ -371,18 +374,57 @@ function renderAdminByEvent(){
         <td>${slot.role}</td>
         <td><span class="badge ${badge}">${label}</span></td>
         <td>${filled.map(s=>`${s.name} <span style="color:var(--fog);font-size:.8rem">${s.email}</span>`).join("<br>") || "—"}</td>
+        <td style="color:var(--fog);font-size:.8rem">${filled.map(s=>s.email).join(", ") || ""}</td>
       </tr>`;
     }).join("");
-    return `<div class="event-card" style="margin-bottom:20px">
+    return `<div class="event-card" style="margin-bottom:20px" data-event="${ev.name}">
       <div class="event-head"><div>
         <div class="event-name">${ev.name}</div>
         <div class="event-meta">${(ev.date||"").slice(0,10)}${ev.time?" · "+ev.time:""} · ${evSignups.length} volunteer${evSignups.length!==1?"s":""}</div>
       </div></div>
       <div style="padding:12px 16px">
-        <table><thead><tr><th>Role</th><th>Status</th><th>Volunteers</th></tr></thead><tbody>${slots}</tbody></table>
+        <table><thead><tr><th>Role</th><th>Status</th><th>Volunteers</th><th class="print-only">Email</th></tr></thead><tbody>${slots}</tbody></table>
       </div>
     </div>`;
   }).join("");
+}
+
+function printRoster(){
+  var win = window.open("", "_blank");
+  var events = document.querySelectorAll("[data-event]");
+  var rows = "";
+  events.forEach(function(ev){
+    var name = ev.getAttribute("data-event");
+    var meta = ev.querySelector(".event-meta") ? ev.querySelector(".event-meta").textContent : "";
+    var trs = ev.querySelectorAll("tbody tr");
+    rows += `<div class="ev-block">
+      <h2>${name}</h2><p class="meta">${meta}</p>
+      <table><thead><tr><th>Role</th><th>Status</th><th>Volunteer</th><th>Email</th></tr></thead><tbody>`;
+    trs.forEach(function(tr){
+      var cells = tr.querySelectorAll("td");
+      rows += `<tr><td>${cells[0]?cells[0].textContent:""}</td><td>${cells[1]?cells[1].textContent:""}</td><td>${cells[2]?cells[2].innerText:""}</td><td>${cells[3]?cells[3].textContent:""}</td></tr>`;
+    });
+    rows += `</tbody></table></div>`;
+  });
+  win.document.write(`<!doctype html><html><head><title>PACA Volunteer Roster</title><style>
+    body{font-family:sans-serif;color:#20151f;padding:32px;font-size:13px}
+    h1{font-size:20px;margin:0 0 4px}
+    .sub{color:#8a7f93;margin:0 0 24px;font-size:12px}
+    .ev-block{margin-bottom:32px;page-break-inside:avoid}
+    h2{font-size:16px;margin:0 0 2px;color:#2B0B3E}
+    .meta{color:#8a7f93;font-size:12px;margin:0 0 10px}
+    table{width:100%;border-collapse:collapse}
+    th{background:#2B0B3E;color:#F4EDE0;padding:7px 10px;text-align:left;font-size:12px}
+    td{padding:7px 10px;border-bottom:1px solid #e6ddd0;font-size:12px}
+    @media print{body{padding:16px}}
+  </style></head><body>
+    <h1>PACA Volunteer Roster</h1>
+    <p class="sub">Printed ${new Date().toLocaleString()} · paca1505.org</p>
+    ${rows}
+  </body></html>`);
+  win.document.close();
+  win.focus();
+  setTimeout(function(){ win.print(); }, 400);
 }
 
 function adminRemove(id){
