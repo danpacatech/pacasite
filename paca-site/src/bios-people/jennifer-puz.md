@@ -1,5 +1,6 @@
 ---
 name: Leo Zausen
+role: Waffles
 order: 1
 bio: |-
   Leo is a long distance truck driver and a sometimes-regional art
