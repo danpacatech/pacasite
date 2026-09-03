@@ -1,9 +1,9 @@
 ---
-name: "Jennifer Puz "
-role: Marina
+name: Leo Zausen
 order: 1
-bio: Jennifer Puz (Marina) is happy to be back on the PACA stage after a couple
-  year break. She’s enjoyed bringing this contemporary version of a classic to
-  life alongside a great cast. Prior PACA shows include Decision Height,
-  Mauritius, and the 2017 cast of Rocky Horror
+bio: |-
+  Leo is a long distance truck driver and a sometimes-regional art
+  critic. His writing has appeared recently in Petrichor Journal,
+  Cornelia Magazine and The Cleveland Review of Books. His first book
+  “Nothing” is forthcoming with Hildegard Editions, 2027.
 ---
