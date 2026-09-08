@@ -2,7 +2,7 @@
 title: Beginner Basket Class with Dan Bainbridge
 discipline: Visual Art
 featured: false
-status: upcoming
+status: past
 date_label: September 1, 2026
 date_start: 2026-09-01T18:00
 date_end: 2026-09-01T20:00
