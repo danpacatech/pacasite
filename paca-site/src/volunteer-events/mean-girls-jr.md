@@ -1,7 +1,7 @@
 ---
 name: Mean Girls, JR
-date: 2026-11-06
-time: 7:30 PM
+date: 2026-11-07
+time: 2:00 PM
 active: true
 slots:
   - capacity: 1
