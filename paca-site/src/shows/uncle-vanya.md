@@ -11,6 +11,7 @@ summary: Sonia and her uncle Vanya have devoted their lives to the family farm
   upend everything. Directed by Shawn Clerkin.
 image: /assets/uploads/vanya-f-1-.png
 ticket_url: https://tickets.eriereader.com/events/uncle-vanya
+gallery: /assets/uploads/_dsc9465.jpg
 ---
 **Uncle Vanya**
 *by Anton Chekhov, translated by Heidi Schreck*
