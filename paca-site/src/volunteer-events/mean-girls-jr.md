@@ -1,6 +1,6 @@
 ---
 name: Mean Girls, JR
-date: 2026-11-07
+date: 2026-11-06
 time: 7:30 PM
 active: true
 slots:
