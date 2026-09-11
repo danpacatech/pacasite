@@ -1,6 +1,6 @@
 ---
 name: Welcome to Gnowarre
-date: 2026-11-12
+date: 2026-11-13
 time: 7:30
 active: true
 slots:
