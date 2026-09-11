@@ -232,7 +232,7 @@
 
 <div id="panel">
   <h1>Seat ticket generator</h1>
-  <p class="sub">Upload a CSV, map the name and seat columns, then print. 24 tickets per page.</p>
+  <p class="sub">Upload a CSV, map the name and seat columns, then print. 30 tickets per page, sorted alphabetically by name.</p>
 
   <div class="row">
     <div class="field">
@@ -394,7 +394,13 @@ document.getElementById('generateBtn').addEventListener('click', () => {
 
   const tickets = parsedRows
     .map(r => ({ name: (r[nameIdx]||'').trim(), seat: (r[seatIdx]||'').trim() }))
-    .filter(t => t.name || t.seat);
+    .filter(t => t.name || t.seat)
+    .sort((a, b) => {
+      if(!a.name && !b.name) return 0;
+      if(!a.name) return 1;
+      if(!b.name) return -1;
+      return a.name.localeCompare(b.name, undefined, { sensitivity:'base', numeric:true });
+    });
 
   const sheet = document.getElementById('sheet');
   sheet.innerHTML = '';
