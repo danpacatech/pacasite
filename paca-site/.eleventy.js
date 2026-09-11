@@ -4,6 +4,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/admin": "admin" });
   eleventyConfig.addPassthroughCopy({ "src/ppb.html": "ppb/index.html" });
   eleventyConfig.addPassthroughCopy({ "src/plb.html": "plb/index.html" });
+  eleventyConfig.addPassthroughCopy({ "src/tix.html": "tix/index.html" });
 
   // Shows collection, sorted by start date
   eleventyConfig.addCollection("shows", (api) =>
