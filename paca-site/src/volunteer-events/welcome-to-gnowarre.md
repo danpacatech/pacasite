@@ -1,7 +1,7 @@
 ---
 name: Welcome to Gnowarre
-date: 2026-11-14
-time: 7:30
+date: 2026-11-15
+time: 2:00
 active: true
 slots:
   - capacity: 1
