@@ -1,0 +1,10 @@
+---
+permalink: "/bios.json"
+eleventyExcludeFromCollections: true
+---
+[
+{%- for p in collections.bios_people -%}
+{%- if not loop.first %},{% endif %}
+{"name": {{ (p.data.name or "") | dump | safe }}, "role": {{ (p.data.role or "") | dump | safe }}, "photo": {{ (p.data.photo or "") | dump | safe }}, "bio": {{ (p.data.bio or "") | dump | safe }}}
+{%- endfor %}
+]
