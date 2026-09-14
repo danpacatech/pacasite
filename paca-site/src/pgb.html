@@ -56,6 +56,10 @@ body{
 .btn.sm{padding:6px 8px;font-size:11px}
 .btn:disabled{opacity:.4;cursor:default}
 .hint{font-size:11px;opacity:.6;margin:5px 0 0;line-height:1.45}
+.callout{background:rgba(237,35,117,.16);border:1px solid var(--magenta);border-radius:6px;padding:10px 11px;margin:10px 0}
+.callout b{display:block;font:700 11px/1.3 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
+.callout ul{margin:0;padding-left:15px;font-size:12px;line-height:1.55}
+.callout em{font-style:normal;background:var(--magenta);color:#fff;padding:0 4px;border-radius:3px;font-weight:700}
 .chk{display:flex;align-items:center;gap:7px;margin:8px 0;font-size:12.5px;opacity:.95}
 .chk input{width:15px;height:15px;accent-color:var(--magenta);flex:none}
 hr.sep{border:0;border-top:1px solid rgba(244,237,224,.16);margin:16px 0}
@@ -174,6 +178,23 @@ h2.sh.sub .rule{width:24%;height:1.8pt}
 .upnext .it span{font-weight:400}
 .upnext .foot{font-family:'Anton',sans-serif;font-size:12pt;color:var(--magenta);margin-top:6pt;line-height:1.05}
 .upnext .qr{width:1.05in;height:1.05in;float:right;margin:0 0 4pt 6pt}
+.backup{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 6pt}
+.backup .mark{width:1.15in;margin:0 0 10pt}
+.backup .ttl{font-family:'Anton',sans-serif;font-size:13pt;color:var(--magenta);line-height:.92;letter-spacing:.02em}
+.backup .ttl b{display:block;font-size:26pt;color:var(--purple);font-weight:400;letter-spacing:.01em}
+.backup .rulebar{display:flex;height:3pt;width:56%;margin:8pt 0 12pt;border-radius:2pt;overflow:hidden}
+.backup .rulebar i{flex:1}
+.backup .rulebar i:nth-child(1){background:var(--magenta)}
+.backup .rulebar i:nth-child(2){background:var(--orange)}
+.backup .rulebar i:nth-child(3){background:var(--yellow)}
+.backup .rulebar i:nth-child(4){background:var(--lime)}
+.backup .rulebar i:nth-child(5){background:var(--cyan)}
+.backup .list{width:100%}
+.backup .it{font-size:12pt;line-height:1.5;font-weight:700;color:#111}
+.backup .it span{font-weight:400;color:#444}
+.backup .qrbig{width:1.5in;height:1.5in;margin:14pt 0 7pt}
+.backup .qrbig img{width:100%;height:100%;display:block;image-rendering:pixelated}
+.backup .foot{font-family:'Anton',sans-serif;font-size:13pt;color:var(--magenta);line-height:1.1}
 .upnext .qr img{width:100%;height:100%;display:block;image-rendering:pixelated}
 
 /* cover */
@@ -300,6 +321,19 @@ h2.sh.sub .rule{width:24%;height:1.8pt}
       <label>Licensing line</label>
       <input type="text" id="f-lic" placeholder="Produced by special arrangement with Dramatic Publishing">
 
+      </div>
+
+      <hr class="sep">
+      <label>Coming soon (back cover)</label>
+      <input type="text" id="u-title" placeholder="up next">
+      <textarea id="u-raw" placeholder="Hadestown: Teen Edition: Oct 9-19&#10;Journey to the Poles of Inaccessibility: Nov 13-23"></textarea>
+      <label>QR links to</label>
+      <input type="text" id="u-qr">
+      <label>Footer line</label>
+      <input type="text" id="u-foot">
+      <p class="hint">This always prints on the back cover, never in the running order.</p>
+
+      <div id="builtgrp2">
       <hr class="sep">
       <label>Sponsor logos (cover rail)</label>
       <input type="file" id="f-spon" accept="image/*" multiple>
@@ -321,8 +355,7 @@ h2.sh.sub .rule{width:24%;height:1.8pt}
           <option value="text">Text block</option>
           <option value="bios">Bios</option>
           <option value="photo">Photo</option>
-          <option value="upnext">Up next + QR</option>
-          <option value="ad">Ad</option>
+            <option value="ad">Ad</option>
           <option value="break">Page break</option>
         </select>
         <button class="btn sm" id="addsec">Add</button>
@@ -366,8 +399,17 @@ h2.sh.sub .rule{width:24%;height:1.8pt}
 
     <!-- ===== PRINT ===== -->
     <div class="pane" id="pane-print">
+      <div class="callout">
+        <b>Set these in the print dialog</b>
+        <ul>
+          <li>Layout: <em>Landscape</em></li>
+          <li>Paper: Letter</li>
+          <li>Margins: None</li>
+          <li>Background graphics: on</li>
+        </ul>
+      </div>
       <button class="btn" id="doprint" style="width:100%;padding:13px">Print / Save as PDF</button>
-      <p class="hint">In the print dialog: paper Letter, layout Landscape, margins None, background graphics on. Print double sided flipping on the SHORT edge, then fold and staple. If the backs come out upside down, switch to long edge.</p>
+      <p class="hint">Chrome's Layout dropdown overrides the page size. If it is left on Portrait the whole book comes out rotated and cropped. Then print double sided flipping on the SHORT edge, fold and staple. If the backs land upside down, switch to long edge.</p>
       <hr class="sep">
       <label>Safe margin (inches)</label>
       <input type="number" id="o-safe" step="0.05" min="0" max="1">
@@ -390,10 +432,10 @@ h2.sh.sub .rule{width:24%;height:1.8pt}
       <p class="hint">A booklet has to land on a multiple of four, so the padding pages go here instead of printing empty.</p>
       <label>Back cover</label>
       <select id="o-back">
+        <option value="upnext">Coming soon</option>
+        <option value="ad">Full page ad</option>
         <option value="auto">Any ad not already placed</option>
         <option value="blank">Blank</option>
-        <option value="upnext">Up next block (moved off the inside pages)</option>
-        <option value="ad">Full page ad</option>
       </select>
       <select id="o-backad" style="margin-top:6px"></select>
       <div class="chk"><input type="checkbox" id="o-fold"><label for="o-fold" style="margin:0">Print the centre fold line</label></div>
@@ -2755,9 +2797,10 @@ function blankDoc(){
       foot1:"Performing Arts Collective Alliance",foot2:"1505 State Street, Erie, PA  (814)616-PACA",
       cover:null,coverAr:0.77,coverMode:"poster",coverFit:"fit",coverZoom:100,coverX:50,coverY:50,
       coverFill:false,masthead:"logo",mastImg:null},
-    opts:{safe:0.3,body:9,bio:8.4,back:"auto",backAd:"",fold:false,zoom:62,adPage:"spread",blankFill:"auto",runfoot:true,footText:"",fillPage:true},
+    opts:{safe:0.3,body:9,bio:8.4,back:"upnext",backAd:"",fold:false,zoom:62,adPage:"spread",blankFill:"auto",runfoot:true,footText:"",fillPage:true},
     bios:{taglabel:"Fun Fact",people:[]},
-    secs:[newSec("cast"),newSec("crew"),newSec("bios"),newSec("upnext")]};
+    upnext:{title:"up next",raw:"",qr:"https://paca1505.org",foot:"info & tickets: www.paca1505.org"},
+    secs:[newSec("cast"),newSec("crew"),newSec("bios")]};
 }
 var DOC, LIB;
 try{DOC=JSON.parse(localStorage.getItem(DKEY))||blankDoc();}catch(e){DOC=blankDoc();}
@@ -2765,6 +2808,17 @@ try{LIB=JSON.parse(localStorage.getItem(LKEY))||{ads:[],sponsors:[]};}catch(e){L
 if(!DOC.bios)DOC.bios={taglabel:"Fun Fact",people:[]};
 if(!DOC.show.coverMode)DOC.show.coverMode=DOC.show.coverFull?"poster":"poster";
 if(!DOC.show.coverFit)DOC.show.coverFit="fit";
+if(!DOC.upnext)DOC.upnext={title:"up next",raw:"",qr:"https://paca1505.org",foot:"info & tickets: www.paca1505.org"};
+(function(){
+  var legacy=DOC.secs.filter(function(s){return s.type==="upnext";});
+  if(legacy.length){
+    var L=legacy[legacy.length-1];
+    if(!DOC.upnext.raw){DOC.upnext={title:L.title||"up next",raw:L.raw||"",
+      qr:L.qr||"https://paca1505.org",foot:L.foot||"info & tickets: www.paca1505.org"};}
+    DOC.secs=DOC.secs.filter(function(s){return s.type!=="upnext";});
+    DOC.opts.back="upnext";
+  }
+})();
 if(!DOC.opts.adPage)DOC.opts.adPage="spread";
 if(DOC.opts.runfoot==null)DOC.opts.runfoot=true;
 if(DOC.opts.fillPage==null)DOC.opts.fillPage=true;
@@ -2884,6 +2938,7 @@ function coverUI(){
   var poster=DOC.show.coverMode==="poster";
   $("#postergrp").style.display=poster?"":"none";
   $("#builtgrp").style.display=poster?"none":"";
+  $("#builtgrp2").style.display=poster?"none":"";
   $("#f-coverzoom").disabled=DOC.show.coverFit!=="fill"&&DOC.show.coverZoom<=100;
   $("#z-lab").textContent=Math.round(DOC.show.coverZoom)+"%";
 }
@@ -2910,6 +2965,11 @@ $("#f-cover").onchange=function(){
     $("#t-cover").src=r.src;$("#t-cover").hidden=false;schedule();});
 };
 if(DOC.show.cover){$("#t-cover").src=DOC.show.cover;$("#t-cover").hidden=false;}
+[["u-title","title"],["u-raw","raw"],["u-qr","qr"],["u-foot","foot"]].forEach(function(pair){
+  var el=document.getElementById(pair[0]);
+  el.value=DOC.upnext[pair[1]]||"";
+  el.addEventListener("input",function(){DOC.upnext[pair[1]]=el.value;schedule();});
+});
 $("#f-spon").onchange=function(){
   var files=Array.prototype.slice.call(this.files);
   Promise.all(files.map(readImg)).then(function(rs){
@@ -3356,8 +3416,8 @@ function atomsFor(s){
     var lines=String(s.raw||"").split(/\r?\n/).filter(function(l){return l.trim();});
     if(!lines.length)return [];
     var items=lines.map(function(l){
-      var m=l.split(/\s*:\s*(.+)$/);
-      return '<div class="it">'+esc(m[0])+(m[1]?': <span>'+esc(m[1])+"</span>":"")+"</div>";
+      var m=l.match(/^(.*):\s*([^:]*)$/);
+      return '<div class="it">'+esc(m?m[1]:l)+(m?': <span>'+esc(m[2])+"</span>":"")+"</div>";
     }).join("");
     var t=String(s.title||"up next").split(/\s+/);
     var qd=qrData(s.qr);
@@ -3433,9 +3493,20 @@ function backPanel(auto){
   if(o.back==="auto")return adPanel(auto,null);
   if(o.back==="ad")return adPanel(adById(o.backAd),"back cover ad");
   if(o.back==="upnext"){
-    var src=DOC.secs.filter(function(s){return s.type==="upnext";})[0]||newSec("upnext");
-    var q=newPanel();q.classList.add("nofoot");
-    atomsFor(src).forEach(function(a){if(a.el)q._pin.appendChild(a.el);});
+    var u=DOC.upnext||{},q=newPanel();q.classList.add("nofoot");
+    var items=String(u.raw||"").split(/\r?\n/).filter(function(l){return l.trim();}).map(function(l){
+      var m=l.match(/^(.*):\s*([^:]*)$/);
+      return '<div class="it">'+esc(m?m[1]:l)+(m?': <span>'+esc(m[2])+"</span>":"")+"</div>";
+    }).join("");
+    var t=String(u.title||"up next").split(/\s+/);
+    var qd=qrData(u.qr);
+    q._pin.appendChild(elFrom('<div class="backup">'+
+      '<img class="mark" src="'+CIRC+'" alt="">'+
+      '<div class="ttl">'+esc(t[0])+"<b>"+esc(t.slice(1).join(" ")||"next")+"&gt;&gt;&gt;&gt;</b></div>"+
+      '<div class="rulebar"><i></i><i></i><i></i><i></i><i></i></div>'+
+      '<div class="list">'+items+"</div>"+
+      (qd?'<div class="qrbig"><img src="'+qd+'"></div>':"")+
+      '<div class="foot">'+esc(u.foot||"")+"</div></div>"));
     return q;
   }
   var b=newPanel();b.classList.add("blank","nofoot");return b;
@@ -3475,39 +3546,54 @@ function fitTextAds(p){
     }
   }
 }
+function usedH(pin){
+  var l=pin.lastElementChild;
+  return l?l.offsetTop+l.offsetHeight:0;
+}
+/* only run on the final pass: opens leading, then shares out what is left */
 function fillPage(p){
   if(!DOC.opts.fillPage||!p._pin)return;
   var pin=p._pin;
   if(pin.classList.contains("adp")||!pin.children.length)return;
-  var last=pin.lastElementChild,avail=pin.clientHeight;
-  var used=last.offsetTop+last.offsetHeight;
-  if(used>=avail-4||avail<=0)return;
-  if(used/avail<0.62)return;                     /* a genuinely short page stays short */
-  var base=1.28,L=base,n=0;
-  while(L<base*1.3&&n<40){
-    L+=0.01;pin.style.setProperty("--lead",L.toFixed(3));n++;
-    last=pin.lastElementChild;
-    if(last.offsetTop+last.offsetHeight>=avail-3){L-=0.01;pin.style.setProperty("--lead",L.toFixed(3));break;}
+  var avail=pin.clientHeight;
+  if(avail<=0||usedH(pin)>=avail-4)return;
+  var base=1.28,L=base,n=0,nl;
+  while(L<base*1.4&&n<48){
+    nl=L+0.01;pin.style.setProperty("--lead",nl.toFixed(3));
+    if(usedH(pin)>avail-3){pin.style.setProperty("--lead",L.toFixed(3));break;}
+    L=nl;n++;
   }
-  last=pin.lastElementChild;
-  var slack=avail-(last.offsetTop+last.offsetHeight),gaps=pin.children.length-1;
-  if(slack>7&&gaps>0){
-    var add=Math.min(slack/gaps,16),i,k;
-    for(i=0;i<gaps;i++){
-      k=pin.children[i];
-      k.style.marginBottom=((parseFloat(getComputedStyle(k).marginBottom)||0)+add)+"px";
-    }
+  var slack=avail-usedH(pin),kids=pin.children;
+  if(slack<=6)return;
+  /* ads and logos at the foot of a page stay welded together; the slack
+     opens up above them rather than scattering everything down the page */
+  var firstAd=kids.length;
+  while(firstAd>0&&kids[firstAd-1].classList.contains("adbox"))firstAd--;
+  var gaps=Math.max(firstAd-1,0),i,k;
+  if(gaps>0){
+    var add=Math.min(slack/gaps,22);
+    for(i=0;i<gaps;i++){k=kids[i];
+      k.style.marginBottom=((parseFloat(getComputedStyle(k).marginBottom)||0)+add)+"px";}
+    slack=avail-usedH(pin);
+  }
+  if(slack>6&&firstAd<kids.length&&firstAd>0){
+    k=kids[firstAd-1];
+    k.style.marginBottom=((parseFloat(getComputedStyle(k).marginBottom)||0)+slack)+"px";
   }
 }
 function finalize(p){
   var host=$("#stage-measure"),attached=p.parentNode===host;
   if(!attached)host.appendChild(p);
-  fitTextAds(p);markAdPage(p);fillPage(p);
+  fitTextAds(p);markAdPage(p);
+  if(p._pin)p._used=usedH(p._pin);
+  if(POLISH)fillPage(p);
   if(!attached)host.removeChild(p);
   return p;
 }
-function flow(atoms){
+var POLISH=false;
+function flow(atoms,target){
   var host=$("#stage-measure"),panels=[],p=newPanel();
+  atoms.forEach(function(a){if(a.el){a.el.style.marginBottom="";a.el.style.fontSize="";}});
   host.replaceChildren(p);
   function push(){finalize(p);panels.push(p);}
   function fresh(){p=newPanel();host.replaceChildren(p);}
@@ -3520,12 +3606,10 @@ function flow(atoms){
       else{q._pin.appendChild(a.el);}
       finalize(q);panels.push(q);fresh();return;
     }
+    var hard=p._pin.clientHeight,soft=Math.min(hard,target||Infinity);
     p._pin.appendChild(a.el);
-    if(p._pin.scrollHeight>p._pin.clientHeight+0.5){
+    if(usedH(p._pin)>soft+0.5&&p._pin.children.length>1){
       p._pin.removeChild(a.el);
-      if(!p._pin.children.length){
-        p._pin.appendChild(a.el);shrinkToFit(p._pin);push();fresh();return;
-      }
       var pulled=[];
       while(p._pin.lastChild&&p._pin.lastChild.dataset&&p._pin.lastChild.dataset.keep==="1"){
         pulled.unshift(p._pin.removeChild(p._pin.lastChild));
@@ -3533,7 +3617,9 @@ function flow(atoms){
       push();fresh();
       pulled.forEach(function(x){p._pin.appendChild(x);});
       p._pin.appendChild(a.el);
-      if(p._pin.scrollHeight>p._pin.clientHeight+0.5)shrinkToFit(p._pin);
+      if(usedH(p._pin)>p._pin.clientHeight+0.5)shrinkToFit(p._pin);
+    }else if(usedH(p._pin)>hard+0.5){
+      shrinkToFit(p._pin);
     }
   });
   if(p._pin.children.length)push();
@@ -3559,13 +3645,55 @@ function render(){
   shrunk=0;
 
   var atoms=[];
-  var skipUp=DOC.opts.back==="upnext";
   DOC.secs.forEach(function(s){
     if(!s.on)return;
-    if(skipUp&&s.type==="upnext")return;
     atoms=atoms.concat(atomsFor(s));
   });
-  var body=flow(atoms);
+
+  /* Pick a type size that actually fills the pages the content needs, then
+     balance the content across them, then polish the leftovers. */
+  var baseBody=parseFloat(DOC.opts.body)||9, baseBio=parseFloat(DOC.opts.bio)||8.4;
+  function setType(k){
+    r.setProperty("--body",(baseBody*k).toFixed(2)+"pt");
+    r.setProperty("--bio",(baseBio*k).toFixed(2)+"pt");
+  }
+  function totalUsed(ps){var t=0;ps.forEach(function(x){t+=x._used||0;});return t;}
+  POLISH=false;
+  setType(1);
+  var body=flow(atoms),N=body.length,scale=1;
+  if(DOC.opts.fillPage&&atoms.length){
+    setType(0.88);
+    var tighter=flow(atoms);
+    if(tighter.length<N){N=tighter.length;scale=0.88;}
+    /* the fold forces a multiple of four either way, so aim the type at the
+       page count we are going to print rather than leaving those pages empty */
+    var want=N+(4-((N+2)%4))%4;
+    var lo=0.86,hi=1.32,mid,it;
+    for(it=0;it<7;it++){
+      mid=(lo+hi)/2;setType(mid);
+      if(flow(atoms).length<=want){scale=mid;lo=mid;}else{hi=mid;}
+    }
+    setType(scale);
+    N=flow(atoms).length;
+    setType(scale);
+    var measured=flow(atoms);
+    var target=N>0?totalUsed(measured)/N:0;
+    POLISH=true;
+    body=null;
+    if(target){
+      var tries=[1.03,1.08,1.15,1.24],k,cand;
+      for(k=0;k<tries.length;k++){
+        cand=flow(atoms,target*tries[k]);
+        if(cand.length<=N){body=cand;break;}
+      }
+    }
+    if(!body||body.length>N)body=flow(atoms);
+  }else{
+    POLISH=true;
+    setType(1);
+    body=flow(atoms);
+  }
+  POLISH=false;
   var pages=[coverPanel()].concat(body);
   var pad=(4-((pages.length+1)%4))%4,i;
   var placed={};
