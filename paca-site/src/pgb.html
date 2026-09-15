@@ -56,6 +56,10 @@ body{
 .btn.sm{padding:6px 8px;font-size:11px}
 .btn:disabled{opacity:.4;cursor:default}
 .hint{font-size:11px;opacity:.6;margin:5px 0 0;line-height:1.45}
+.resume{background:rgba(242,197,17,.16);border:1px solid var(--yellow);border-radius:6px;margin:10px 12px 0;padding:10px 11px}
+.resume b{display:block;font:700 11px/1.3 'Barlow Condensed',sans-serif;letter-spacing:.11em;text-transform:uppercase;margin-bottom:4px}
+.resume span{display:block;font-size:12px;opacity:.85;margin-bottom:8px}
+.resume button{width:100%}
 .callout{background:rgba(237,35,117,.16);border:1px solid var(--magenta);border-radius:6px;padding:10px 11px;margin:10px 0}
 .callout b{display:block;font:700 11px/1.3 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
 .callout ul{margin:0;padding-left:15px;font-size:12px;line-height:1.55}
@@ -211,6 +215,8 @@ h2.sh.sub .rule{width:24%;height:1.8pt}
 .cover .art img{width:100%;height:100%;object-fit:contain;display:block}
 .cover .art.fill img{object-fit:cover}
 .cover .art .ph{color:#666;font:700 10pt 'Barlow Condensed',sans-serif;letter-spacing:.2em;text-align:center;padding:14pt}
+.panel .poster .ph{font:700 11pt 'Barlow Condensed',sans-serif;letter-spacing:.24em;color:#c4bdb2;text-transform:uppercase}
+.panel .poster .ph small{display:block;font-size:8pt;letter-spacing:.08em;margin-top:8pt;color:#d3cdc3;text-transform:none}
 .cover .tix{text-align:center;font-size:9.5pt;font-weight:600;margin:6pt 0 4pt}
 .cover .tix b{font-weight:800}
 .cover .strip{display:flex;align-items:stretch;gap:5pt}
@@ -315,9 +321,9 @@ h2.sh.sub .rule{width:24%;height:1.8pt}
       <label>Times, line 2</label>
       <input type="text" id="f-time2" placeholder="[ Sun Matinee ]  Doors 1:30pm  •  Show 2:00pm">
       <label>Footer, line 1</label>
-      <input type="text" id="f-foot1">
+      <input type="text" id="f-foot1" placeholder="Performing Arts Collective Alliance">
       <label>Footer, line 2</label>
-      <input type="text" id="f-foot2">
+      <input type="text" id="f-foot2" placeholder="1505 State Street, Erie, PA (814)616-PACA">
       <label>Licensing line</label>
       <input type="text" id="f-lic" placeholder="Produced by special arrangement with Dramatic Publishing">
 
@@ -328,9 +334,9 @@ h2.sh.sub .rule{width:24%;height:1.8pt}
       <input type="text" id="u-title" placeholder="up next">
       <textarea id="u-raw" placeholder="Hadestown: Teen Edition: Oct 9-19&#10;Journey to the Poles of Inaccessibility: Nov 13-23"></textarea>
       <label>QR links to</label>
-      <input type="text" id="u-qr">
+      <input type="text" id="u-qr" placeholder="https://paca1505.org">
       <label>Footer line</label>
-      <input type="text" id="u-foot">
+      <input type="text" id="u-foot" placeholder="info &amp; tickets: www.paca1505.org">
       <p class="hint">This always prints on the back cover, never in the running order.</p>
 
       <div id="builtgrp2">
@@ -2793,13 +2799,12 @@ function newSec(type){
 }
 function blankDoc(){
   return {v:2,
-    show:{title:"",byline:"",lic:"",tix:"Purchase tickets at paca1505.org",weekends:"",dates:"",time1:"",time2:"",
-      foot1:"Performing Arts Collective Alliance",foot2:"1505 State Street, Erie, PA  (814)616-PACA",
+    show:{title:"",byline:"",lic:"",tix:"",weekends:"",dates:"",time1:"",time2:"",foot1:"",foot2:"",
       cover:null,coverAr:0.77,coverMode:"poster",coverFit:"fit",coverZoom:100,coverX:50,coverY:50,
       coverFill:false,masthead:"logo",mastImg:null},
     opts:{safe:0.3,body:9,bio:8.4,back:"upnext",backAd:"",fold:false,zoom:62,adPage:"spread",blankFill:"auto",runfoot:true,footText:"",fillPage:true},
-    bios:{taglabel:"Fun Fact",people:[]},
-    upnext:{title:"up next",raw:"",qr:"https://paca1505.org",foot:"info & tickets: www.paca1505.org"},
+    bios:{taglabel:"",people:[]},
+    upnext:{title:"up next",raw:"",qr:"",foot:""},
     secs:[newSec("cast"),newSec("crew"),newSec("bios")]};
 }
 var DOC, LIB;
@@ -2808,13 +2813,12 @@ try{LIB=JSON.parse(localStorage.getItem(LKEY))||{ads:[],sponsors:[]};}catch(e){L
 if(!DOC.bios)DOC.bios={taglabel:"Fun Fact",people:[]};
 if(!DOC.show.coverMode)DOC.show.coverMode=DOC.show.coverFull?"poster":"poster";
 if(!DOC.show.coverFit)DOC.show.coverFit="fit";
-if(!DOC.upnext)DOC.upnext={title:"up next",raw:"",qr:"https://paca1505.org",foot:"info & tickets: www.paca1505.org"};
+if(!DOC.upnext)DOC.upnext={title:"up next",raw:"",qr:"",foot:""};
 (function(){
   var legacy=DOC.secs.filter(function(s){return s.type==="upnext";});
   if(legacy.length){
     var L=legacy[legacy.length-1];
-    if(!DOC.upnext.raw){DOC.upnext={title:L.title||"up next",raw:L.raw||"",
-      qr:L.qr||"https://paca1505.org",foot:L.foot||"info & tickets: www.paca1505.org"};}
+    if(!DOC.upnext.raw){DOC.upnext={title:L.title||"up next",raw:L.raw||"",qr:L.qr||"",foot:L.foot||""};}
     DOC.secs=DOC.secs.filter(function(s){return s.type!=="upnext";});
     DOC.opts.back="upnext";
   }
@@ -2832,8 +2836,9 @@ if(!LIB.ads)LIB.ads=[];if(!LIB.sponsors)LIB.sponsors=[];
 LIB.ads.forEach(function(a){if(!a.kind)a.kind="image";});
 
 var storeWarn="";
+var LOADED_AT=(DOC&&DOC.savedAt)||0;
 function save(){
-  try{localStorage.setItem(DKEY,JSON.stringify(DOC));localStorage.setItem(LKEY,JSON.stringify(LIB));storeWarn="";}
+  try{DOC.savedAt=Date.now();localStorage.setItem(DKEY,JSON.stringify(DOC));localStorage.setItem(LKEY,JSON.stringify(LIB));storeWarn="";}
   catch(e){storeWarn="Browser storage is full, so autosave is off. Use Save file on the Print tab.";}
 }
 function setPath(o,path,v){
@@ -3036,10 +3041,28 @@ $("#io-file").onchange=function(){
   };
   r.readAsText(f);
 };
-$("#io-new").onclick=function(){
-  if(!confirm("Start a new program? The ad library and sponsor logos are kept."))return;
+function startNew(){
+  if(!confirm("Start a new program? Everything in this one is cleared. The ad library and sponsor logos are kept."))return;
   DOC=blankDoc();save();location.reload();
-};
+}
+$("#io-new").onclick=startNew;
+
+/* a program left sitting from a previous show is how the wrong cast gets printed */
+(function(){
+  var filled=!!(DOC.show.cover||DOC.show.title||(DOC.bios.people||[]).length||
+    DOC.secs.some(function(s){return String(s.raw||"").trim();}));
+  if(!filled||!LOADED_AT)return;
+  var days=(Date.now()-LOADED_AT)/864e5;
+  if(days<2)return;
+  var when=new Date(LOADED_AT).toLocaleDateString(undefined,{month:"short",day:"numeric"});
+  var bar=document.createElement("div");
+  bar.className="resume";
+  bar.innerHTML="<b>Picking up where you left off</b><span>"+
+    esc(DOC.show.title||"Untitled program")+", last saved "+when+
+    "</span><button class='btn sm' id='resume-new'>Start a new program</button>";
+  $(".brand").insertAdjacentElement("afterend",bar);
+  $("#resume-new").onclick=startNew;
+})();
 </script>
 
 <script>
@@ -3445,7 +3468,7 @@ function coverPanel(){
       p.appendChild(elFrom('<div class="poster"><img src="'+s.cover+'" style="'+st+'"></div>'));
     }else{
       p.appendChild(elFrom('<div class="poster"><div class="adbox" style="height:100%;border:0"><div class="ph">'+
-        esc(s.title||"drop the show poster in")+'</div></div></div>'));
+        "Insert show poster here"+(s.title?"<small>"+esc(s.title)+"</small>":"")+"</div></div></div>"));
     }
     return p;
   }
@@ -3742,8 +3765,13 @@ function render(){
     " &nbsp;·&nbsp; "+(pages.length/2)+" sides to print";
   if(blanks.length)msg+=' &nbsp;·&nbsp; blank at page '+blanks.join(", ");
   if(shrunk)msg+=' &nbsp;·&nbsp; <span class="warn">'+shrunk+" page"+(shrunk===1?"":"s")+" had to shrink to fit</span>";
-  if(!DOC.show.cover)msg+=' &nbsp;·&nbsp; <span class="warn">no '+
-  (DOC.show.coverMode==="poster"?"show poster":"cover art")+" yet</span>";
+  var miss=[];
+  if(!DOC.show.cover)miss.push(DOC.show.coverMode==="poster"?"show poster":"cover art");
+  if(!DOC.secs.some(function(s){return s.on&&s.type==="cast"&&String(s.raw||"").trim();}))miss.push("cast");
+  if(DOC.secs.some(function(s){return s.on&&s.type==="bios";})&&
+     !DOC.bios.people.filter(function(p){return p.on;}).length)miss.push("bios");
+  if(DOC.opts.back==="upnext"&&!String((DOC.upnext||{}).raw||"").trim())miss.push("coming soon");
+  if(miss.length)msg+=' &nbsp;·&nbsp; <span class="warn">still empty: '+miss.join(", ")+"</span>";
   if(storeWarn)msg+=' &nbsp;·&nbsp; <span class="warn">'+storeWarn+"</span>";
   $("#preflight").innerHTML=msg;
   save();
