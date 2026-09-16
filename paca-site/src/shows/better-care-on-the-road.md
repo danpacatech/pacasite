@@ -11,6 +11,7 @@ summary: |-
   A new play by Dan Lucore and Renee Tellers
   Saturday, November 21 · 7:30pm · PACA, 1505 State Street · Free
 image: /assets/uploads/poster-portrait.png
+ticket_url: https://tickets.eriereader.com/events/proper-care-on-the-road-a-first-listen-11-21-2026
 bios_live: false
 ---
 **FIRST LISTEN: PROPER CARE ON THE ROAD**
