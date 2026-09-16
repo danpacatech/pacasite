@@ -1,5 +1,5 @@
 ---
-title: Welcome to Gnowarre
+title: Lost, Then Found in the Middle of Gnowarre
 discipline: Theatre
 featured: false
 status: upcoming
@@ -8,7 +8,7 @@ date_end: 2026-11-15T17:00
 showtime: Nov 12-14, 7:30 Nov 15, 2:00
 summary: "Gnowarre (pronounced “know-a-ray” by the locals) is a remote, small
   town in Ohio – Go Gnomes! – with an even smaller airport. "
-image: /assets/uploads/paca-poster-20260911-1050-3x.png
+image: /assets/uploads/paca-poster-20260916-0902-3x.png
 ticket_url: https://tickets.eriereader.com/events/welcome-to-gnowarre
 price: $20
 bios_live: false
