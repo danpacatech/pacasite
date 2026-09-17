@@ -1,5 +1,5 @@
 ---
-name: Jade Mitchel
+name: Jade Mitchell
 role: Sonya
 order: 1
 photo: /assets/uploads/img_2504_original.jpeg
