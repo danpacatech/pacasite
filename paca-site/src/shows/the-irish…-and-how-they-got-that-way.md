@@ -1,7 +1,7 @@
 ---
 title: The Irish… and How They Got That Way
 discipline: Theatre
-featured: false
+featured: true
 status: upcoming
 date_label: September 24-26 at 7:30 pm, September 27 at 2:00 pm.
 date_start: 2026-09-24T19:30
