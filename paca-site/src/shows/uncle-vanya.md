@@ -2,7 +2,7 @@
 title: Uncle Vanya
 discipline: Theatre
 featured: false
-status: upcoming
+status: past
 date_label: September 11-12. 17-19 at 7:30 pm, September 13 at 2:00 pm.
 date_start: 2026-09-11T19:30
 date_end: 2026-09-19T22:00
