@@ -2,7 +2,7 @@
 name: Uncle Vanya
 date: 2026-09-12
 time: 7:30 PM
-active: true
+active: false
 slots:
   - capacity: 1
     role: Box Office
