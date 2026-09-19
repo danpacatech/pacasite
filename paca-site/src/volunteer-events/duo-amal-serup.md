@@ -1,5 +1,5 @@
 ---
-name: Duo Amal Serup
+name: Duo Amal Setup
 date: 2026-11-27
 time: "5:00 "
 active: true
