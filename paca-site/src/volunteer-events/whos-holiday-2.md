@@ -1,7 +1,7 @@
 ---
 name: Who's Holiday
-date: 2026-12-19
-time: 7:30 PM
+date: 2026-12-20
+time: 2:00 PM
 active: true
 slots:
   - capacity: 1
