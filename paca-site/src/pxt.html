@@ -36,6 +36,8 @@ eleventyExcludeFromCollections: true
   --field:#FFFFFF;
   --track:#DED2BF;
   --shadow:0 1px 0 rgba(28,6,41,.18);
+  --pos:#3A770A;
+  --hatch:rgba(28,6,41,.34);
 
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
@@ -53,6 +55,8 @@ eleventyExcludeFromCollections: true
     --field:#190A20;
     --track:#3A1A46;
     --shadow:0 1px 0 rgba(0,0,0,.4);
+    --pos:#B8E62D;
+    --hatch:rgba(244,237,224,.34);
   }
 }
 :root[data-theme="dark"]{
@@ -66,6 +70,8 @@ eleventyExcludeFromCollections: true
   --field:#190A20;
   --track:#3A1A46;
   --shadow:0 1px 0 rgba(0,0,0,.4);
+  --pos:#B8E62D;
+  --hatch:rgba(244,237,224,.34);
 }
 *,*::before,*::after{box-sizing:border-box}
 html{height:100%;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);-webkit-text-size-adjust:100%}
@@ -150,7 +156,8 @@ main{max-width:1100px;margin:0 auto;padding:14px 14px 20px}
 .bar .seg{position:absolute;top:0;bottom:0;left:0}
 .bar .spent{background:var(--cyan)}
 .bar .spent.over{background:var(--magenta)}
-.bar .planned{background:repeating-linear-gradient(135deg,rgba(28,6,41,.34) 0 4px,rgba(28,6,41,.06) 4px 8px)}
+.bar .planned{background:repeating-linear-gradient(135deg,var(--hatch) 0 4px,transparent 4px 8px)}
+.bar .earned{background:var(--lime)}
 .bar.tall{height:22px}
 .mark{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
 .mark::after{
@@ -161,11 +168,20 @@ main{max-width:1100px;margin:0 auto;padding:14px 14px 20px}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
 
 .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
-@media (min-width:660px){.stats{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:660px){.stats{grid-template-columns:repeat(3,1fr)}}
 .stat{background:var(--panel);padding:9px 11px}
 .stat dt{font-family:"Barlow Condensed",sans-serif;font-size:13.5px;letter-spacing:.05em;color:var(--ink-soft);margin:0}
 .stat dd{margin:1px 0 0;font-family:"Spline Sans Mono",ui-monospace,monospace;font-size:17px;font-weight:600}
 .stat dd.neg{color:var(--magenta)}
+.pos{color:var(--pos)}
+.neg{color:var(--magenta)}
+.daygroup b.pos,.catline-nums b.pos,.row .amt.pos,.stat dd.pos,.big.pos{color:var(--pos)}
+.meters{display:grid;gap:4px 22px;margin-bottom:4px}
+@media (min-width:760px){.meters{grid-template-columns:1.35fr 1fr}}
+.meter-cap{font-family:"Barlow Condensed",sans-serif;font-size:14px;letter-spacing:.05em;color:var(--ink-soft);margin-bottom:2px}
+.meter.sm .big{font-size:clamp(26px,6.5vw,36px)}
+.meter-empty{margin:18px 0 12px;align-self:center}
+.legend i.hatch{background:repeating-linear-gradient(135deg,var(--hatch) 0 3px,transparent 3px 6px);border:1px solid var(--ink-soft)}
 
 /* ---------- tabs ---------- */
 .tabs{display:flex;gap:2px;margin:0 0 12px;overflow-x:auto;scrollbar-width:none}
@@ -216,6 +232,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 .btn.ghost:hover{background:var(--panel-2);filter:none}
 .btn.danger{background:transparent;color:var(--magenta);border-color:var(--magenta)}
 .btn.sm{padding:6px 10px;font-size:14px}
+.btn.inc{background:var(--lime);border-color:var(--lime);color:#2B0B3E}
 .btn.armed{background:var(--magenta);border-color:var(--magenta);color:#fff}
 
 /* ---------- expense rows ---------- */
@@ -232,6 +249,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   white-space:nowrap;text-align:right;
 }
 .row .sub{grid-column:1;color:var(--ink-soft);font-size:13.5px;overflow-wrap:anywhere}
+.row.is-income{box-shadow:inset 3px 0 0 var(--lime)}
 .row .tags{grid-column:2;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:3px}
 .tag{font-size:11.5px;font-weight:600;padding:1px 6px;border-radius:2px;background:var(--panel-2);border:1px solid var(--line);white-space:nowrap}
 .tag.owed{background:var(--orange);border-color:var(--orange);color:#2B0B3E}
@@ -256,6 +274,14 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 .budgetcell{display:flex;align-items:center;gap:6px;margin-top:8px}
 .budgetcell label{font-size:13px;color:var(--ink-soft);flex:none}
 .budgetcell input{max-width:130px;font-family:"Spline Sans Mono",monospace}
+details.more{border-top:1px solid var(--line)}
+details.more summary{padding:12px 14px;cursor:pointer;font-weight:600;color:var(--ink-soft);list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"+ "}
+details.more[open] summary::before{content:"\2212  "}
+.catrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 14px;border-top:1px solid var(--line)}
+.catrow label{font-weight:500}
+.catrow input{max-width:130px;font-family:"Spline Sans Mono",monospace}
 
 /* ---------- people ---------- */
 .person{padding:12px 14px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
@@ -270,10 +296,11 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 /* ---------- fab ---------- */
 .fab{
   position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:45;
-  background:var(--magenta);color:#fff;border:0;border-radius:999px;
-  padding:14px 20px;font-weight:700;font-size:16px;
-  box-shadow:0 6px 20px rgba(0,0,0,.35);display:flex;align-items:center;gap:8px;
+  display:flex;border-radius:999px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.35);
 }
+.fab button{border:0;padding:14px 16px;font-weight:700;font-size:16px;display:flex;align-items:center;gap:6px}
+.fab .fab-out{background:var(--magenta);color:#fff}
+.fab .fab-in{background:var(--lime);color:#2B0B3E;border-left:1px solid rgba(43,11,62,.22)}
 .fab[hidden]{display:none}
 .fab svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.4;fill:none;stroke-linecap:round}
 
@@ -308,6 +335,11 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 .seg-ctl{display:flex;gap:0;border:1px solid var(--line);border-radius:3px;overflow:hidden}
 .seg-ctl button{flex:1;background:var(--field);border:0;padding:9px 6px;font-size:14px;font-weight:600;color:var(--ink-soft)}
 .seg-ctl button[aria-pressed="true"]{background:var(--ink);color:var(--panel)}
+.typefilter{flex:0 0 auto}
+.typefilter button{padding:9px 13px}
+.kindswitch button{padding:11px 6px;font-size:15px}
+.kindswitch button[data-etype="income"][aria-pressed="true"]{background:var(--lime);color:#2B0B3E}
+.f2.solo{grid-template-columns:1fr}
 .receipt{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .receipt img{width:64px;height:64px;object-fit:cover;border-radius:3px;border:1px solid var(--line)}
 .hint{font-size:13px;color:var(--ink-soft)}
@@ -354,7 +386,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   <section class="hero" id="hero"><div class="empty"><p>Loading your productions…</p></div></section>
 
   <nav class="tabs" role="tablist" aria-label="Sections">
-    <button class="tab" role="tab" data-view="expenses" aria-selected="true">Expenses</button>
+    <button class="tab" role="tab" data-view="expenses" aria-selected="true">Ledger</button>
     <button class="tab" role="tab" data-view="budget" aria-selected="false">Budget</button>
     <button class="tab" role="tab" data-view="owed" aria-selected="false">Reimbursements <span class="cnt" id="owedCnt" hidden>0</span></button>
     <button class="tab" role="tab" data-view="shows" aria-selected="false">Productions</button>
@@ -363,10 +395,12 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   <div id="views" role="tabpanel"></div>
 </main>
 
-<button class="fab" id="fab">
-  <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-  Add expense
-</button>
+<div class="fab" id="fab">
+  <button type="button" class="fab-out" data-act="new-expense">
+    <svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>Expense</button>
+  <button type="button" class="fab-in" data-act="new-income">
+    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Income</button>
+</div>
 
 <div class="scrim" id="scrim" hidden>
   <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"></div>
@@ -399,6 +433,33 @@ const METHODS = [
 ];
 const REIMBURSABLE = "Personal (reimburse)";
 const INKIND = "Donated (in-kind)";
+
+const DEFAULT_INCOME_CATEGORIES = [
+  "Ticket sales","Concessions","Merchandise","Sponsorships","Program ads",
+  "Donations","Grants","Fundraising events","Rental income","Other income"
+];
+const INCOME_METHODS = [
+  "Online ticketing","Box office cash","Box office card","Check","Bank transfer","Other"
+];
+/** Entries saved before income existed have no type: they are expenses. */
+const isIncome = e => !!e && e.type === "income";
+
+const LABELS = {
+  expense: {
+    item: "What was it", itemPh: "2x4s for the platform deck",
+    vendor: "Vendor", vendorPh: "Home Depot",
+    method: "How it was paid", done: "Paid", pending: "Planned or ordered",
+    receipt: "Receipt photo", title: ["New expense", "Edit expense"],
+    save: ["Add expense", "Save changes"], needItem: "Say what the money went to."
+  },
+  income: {
+    item: "What it was for", itemPh: "Friday night ticket sales",
+    vendor: "From", vendorPh: "Ticketing platform, sponsor, donor",
+    method: "How it came in", done: "Received", pending: "Expected",
+    receipt: "Photo (deposit slip, check)", title: ["New income", "Edit income"],
+    save: ["Add income", "Save changes"], needItem: "Say what the money came from."
+  }
+};
 
 /* =========================================================
    Small helpers
@@ -480,7 +541,8 @@ const state = {
   view: "expenses",
   writable: true,
   loaded: false,
-  filters: { q:"", cat:"", person:"", method:"", kind:"" },
+  filters: { q:"", cat:"", person:"", method:"", kind:"", type:"" },
+  open: { budgetMore:false, goalMore:false },
   editingExpense: null,
   editingShow: null
 };
@@ -663,8 +725,11 @@ const store = {
     let raw = null;
     try { raw = JSON.parse(localStorage.getItem(LS_KEY) || "null"); } catch (e) { raw = null; }
     const d = raw || {};
-    state.shows = new Map(Object.entries(d.shows || {}));
-    state.expenses = new Map(Object.entries(d.expenses || {}));
+    // ids come from the keys, same as the shared-server loader, so a
+    // record that lost its id field can never go missing from the view
+    const toMap = o => new Map(Object.entries(o || {}).map(([id, v]) => [id, Object.assign({}, v, { id })]));
+    state.shows = toMap(d.shows);
+    state.expenses = toMap(d.expenses);
     state.config = {
       categories: (d.config && Array.isArray(d.config.categories) && d.config.categories.length)
         ? d.config.categories : DEFAULT_CATEGORIES.slice(),
@@ -689,22 +754,22 @@ const store = {
     if (this.mode === "db") { await this.db.doc("shows/" + id).set(body); return; }
     if (this.mode === "net") {
       adoptRemote(await net.call("POST", { op:"put", kind:"shows", id, record: body }));
-      render(); return;
+      scheduleRender(); return;
     }
-    state.shows.set(id, Object.assign({ id }, body)); this.saveLocal(); render();
+    state.shows.set(id, Object.assign({ id }, body)); this.saveLocal(); scheduleRender();
   },
   async delShow(id){
     const kids = [...state.expenses.values()].filter(e => e.showId === id);
     if (this.mode === "net") {
       adoptRemote(await net.call("POST", { op:"delShow", id }));
-      render(); return;
+      scheduleRender(); return;
     }
     if (this.mode === "db") {
       for (const k of kids) { await this.db.doc("expenses/" + k.id).delete(); }
       await this.db.doc("shows/" + id).delete();
     } else {
       kids.forEach(k => state.expenses.delete(k.id));
-      state.shows.delete(id); this.saveLocal(); render();
+      state.shows.delete(id); this.saveLocal(); scheduleRender();
     }
   },
   async putExpense(id, data){
@@ -712,17 +777,17 @@ const store = {
     if (this.mode === "db") { await this.db.doc("expenses/" + id).set(body); return; }
     if (this.mode === "net") {
       adoptRemote(await net.call("POST", { op:"put", kind:"expenses", id, record: body }));
-      render(); return;
+      scheduleRender(); return;
     }
-    state.expenses.set(id, Object.assign({ id }, body)); this.saveLocal(); render();
+    state.expenses.set(id, Object.assign({ id }, body)); this.saveLocal(); scheduleRender();
   },
   async delExpense(id){
     if (this.mode === "db") { await this.db.doc("expenses/" + id).delete(); return; }
     if (this.mode === "net") {
       adoptRemote(await net.call("POST", { op:"del", kind:"expenses", id }));
-      render(); return;
+      scheduleRender(); return;
     }
-    state.expenses.delete(id); this.saveLocal(); render();
+    state.expenses.delete(id); this.saveLocal(); scheduleRender();
   },
   async putConfig(){
     if (this.mode === "db") { await this.db.doc("config/app").set({
@@ -734,7 +799,7 @@ const store = {
       }});
       return;
     }
-    this.saveLocal(); render();
+    this.saveLocal(); scheduleRender();
   },
 
   /* ---- receipts ---- */
@@ -808,6 +873,32 @@ async function shrinkImage(file){
 /* =========================================================
    Derived numbers
    ========================================================= */
+let renderTimer = 0;
+function scheduleRender(){
+  if (renderTimer) return;
+  renderTimer = setTimeout(() => { renderTimer = 0; render(); }, 0);
+}
+
+function signedMoney(v, opts){
+  return (v > 0.004 ? "+" : "") + money(v, opts);
+}
+
+/** The production's income goal, or the sum of its category goals. */
+function incomeGoalFor(show){
+  const g = Number(show.incomeGoal) || 0;
+  if (g > 0) return g;
+  return fromCents(sumC(Object.values(show.incomeGoals || {}).map(v => cents(v))));
+}
+
+function groupedOptions(groups, sel, blank){
+  return '<option value="">' + esc(blank) + "</option>" +
+    groups.map(([label, items]) =>
+      '<optgroup label="' + esc(label) + '">' +
+      items.map(i => '<option value="' + esc(i) + '"' + (i === sel ? " selected" : "") + ">" +
+        esc(i) + "</option>").join("") +
+      "</optgroup>").join("");
+}
+
 function activeShow(){
   if (state.activeShowId && state.shows.has(state.activeShowId)) {
     return state.shows.get(state.activeShowId);
@@ -824,10 +915,12 @@ function sortExpenses(list){
   });
 }
 /** Cash totals ignore in-kind; in-kind is tracked on its own. */
+/** Cash totals ignore in-kind; in-kind is tracked on its own. */
 function totals(list){
-  let spent = 0, planned = 0, inkind = 0, owed = 0;
+  let spent = 0, planned = 0, inkind = 0, owed = 0, inc = 0, incExp = 0;
   for (const e of list) {
     const c = cents(e.amount);
+    if (isIncome(e)) { if (e.planned) incExp += c; else inc += c; continue; }
     if (e.method === INKIND) { inkind += c; continue; }
     if (e.planned) planned += c; else spent += c;
     if (!e.planned && e.method === REIMBURSABLE && !e.reimbursed) owed += c;
@@ -835,7 +928,11 @@ function totals(list){
   return {
     spent: fromCents(spent), planned: fromCents(planned),
     inkind: fromCents(inkind), owed: fromCents(owed),
-    committed: fromCents(spent + planned)
+    committed: fromCents(spent + planned),
+    income: fromCents(inc), incomeExpected: fromCents(incExp),
+    incomeAll: fromCents(inc + incExp),
+    net: fromCents(inc - spent),
+    projectedNet: fromCents(inc + incExp - spent - planned)
   };
 }
 function byCategory(list){
@@ -850,7 +947,7 @@ function byCategory(list){
 function owedByPerson(list){
   const map = new Map();
   for (const e of list) {
-    if (e.planned || e.method !== REIMBURSABLE || e.reimbursed) continue;
+    if (isIncome(e) || e.planned || e.method !== REIMBURSABLE || e.reimbursed) continue;
     const k = (e.paidBy || "").trim() || "Unnamed";
     if (!map.has(k)) map.set(k, []);
     map.get(k).push(e);
@@ -866,18 +963,22 @@ function owedByPerson(list){
 /* =========================================================
    Bar drawing
    ========================================================= */
-function barHTML(spent, planned, budget, opts){
+function barHTML(done, planned, target, opts){
   const o = opts || {};
-  const scale = Math.max(budget, spent + planned, 0.01);
-  const sPct = Math.min(100, (spent / scale) * 100);
+  const income = o.kind === "income";
+  const scale = Math.max(target, done + planned, 0.01);
+  const sPct = Math.min(100, (done / scale) * 100);
   const pPct = Math.min(100 - sPct, (planned / scale) * 100);
-  const over = budget > 0 && spent > budget + 0.004;
-  const mark = budget > 0 && budget < spent + planned
-    ? '<span class="mark" style="left:' + ((budget / scale) * 100).toFixed(2) + '%"></span>'
+  const over = !income && target > 0 && done > target + 0.004;
+  const mark = target > 0 && target < done + planned
+    ? '<span class="mark" style="left:' + ((target / scale) * 100).toFixed(2) + '%"></span>'
     : "";
-  return '<div class="bar' + (o.tall ? " tall" : "") + '" role="img" aria-label="' +
-    esc(money(spent) + " spent of " + (budget > 0 ? money(budget) + " budget" : "no budget set")) + '">' +
-    '<span class="seg spent' + (over ? " over" : "") + '" style="width:' + sPct.toFixed(2) + '%"></span>' +
+  const label = income
+    ? money(done) + " received of " + (target > 0 ? money(target) + " goal" : "no goal set")
+    : money(done) + " spent of " + (target > 0 ? money(target) + " budget" : "no budget set");
+  return '<div class="bar' + (o.tall ? " tall" : "") + '" role="img" aria-label="' + esc(label) + '">' +
+    '<span class="seg ' + (income ? "earned" : "spent") + (over ? " over" : "") +
+      '" style="width:' + sPct.toFixed(2) + '%"></span>' +
     '<span class="seg planned" style="left:' + sPct.toFixed(2) + '%;width:' + pPct.toFixed(2) + '%"></span>' +
     mark +
     "</div>";
@@ -894,15 +995,15 @@ function renderHero(){
     el.innerHTML =
       '<div class="empty">' +
         '<div class="hd">No production yet</div>' +
-        '<p>Add a show, set its budget, then log what you spend.</p>' +
+        '<p>Add a show, set its budget, then log what goes out and what comes in.</p>' +
         '<button class="btn" data-act="new-show">Add a production</button>' +
       "</div>";
     return;
   }
 
-  const list = showExpenses(show.id);
-  const t = totals(list);
+  const t = totals(showExpenses(show.id));
   const budget = Number(show.budget) || 0;
+  const goal = incomeGoalFor(show);
   const remaining = budget - t.committed;
   const pct = budget > 0 ? Math.round((t.committed / budget) * 100) : 0;
   const dLeft = daysUntil(show.opensOn);
@@ -915,13 +1016,69 @@ function renderHero(){
   }
 
   let when = "";
-  if (show.opensOn) {
-    when = dLeft === null ? "" :
-      dLeft > 1 ? "Opens in " + dLeft + " days" :
+  if (show.opensOn && dLeft !== null) {
+    when = dLeft > 1 ? "Opens in " + dLeft + " days" :
       dLeft === 1 ? "Opens tomorrow" :
       dLeft === 0 ? "Opens today" :
       "Opened " + fmtDate(show.opensOn, "long");
   }
+
+  const costs =
+    '<div class="meter">' +
+      '<div class="meter-cap">Costs</div>' +
+      '<div class="meter-nums">' +
+        '<div class="big">' + money(t.committed, { whole:true }) +
+          "<sub>committed" + (t.planned > 0 ? ", " + money(t.planned, { whole:true }) + " planned" : "") + "</sub></div>" +
+        '<div class="of">' + (budget > 0 ? "budget<b>" + money(budget, { whole:true }) + "</b>" : "no budget set") + "</div>" +
+      "</div>" +
+      barHTML(t.spent, t.planned, budget, { tall:true }) +
+    "</div>";
+
+  const income = (t.incomeAll > 0 || goal > 0)
+    ? '<div class="meter sm">' +
+        '<div class="meter-cap">Income</div>' +
+        '<div class="meter-nums">' +
+          '<div class="big pos">' + money(t.income, { whole:true }) +
+            "<sub>received" + (t.incomeExpected > 0 ? ", " + money(t.incomeExpected, { whole:true }) + " expected" : "") + "</sub></div>" +
+          '<div class="of">' + (goal > 0 ? "goal<b>" + money(goal, { whole:true }) + "</b>" : "no goal set") + "</div>" +
+        "</div>" +
+        barHTML(t.income, t.incomeExpected, goal, { kind:"income", tall:true }) +
+      "</div>"
+    : '<p class="hint meter-empty">No income logged yet. Use <b>Income</b> for ticket sales, concessions and sponsorships.</p>';
+
+  const legend =
+    '<div class="legend">' +
+      '<span><i style="background:var(--cyan)"></i>Paid</span>' +
+      (t.incomeAll > 0 || goal > 0 ? '<span><i style="background:var(--lime)"></i>Received</span>' : "") +
+      '<span><i class="hatch"></i>Planned or expected</span>' +
+      (budget > 0 || goal > 0 ? "<span>▾ budget or goal</span>" : "") +
+    "</div>";
+
+  const stat = (label, value, cls) =>
+    '<div class="stat"><dt>' + label + '</dt><dd class="' + (cls || "") + '">' + value + "</dd></div>";
+  const netCls = t.net > 0.004 ? "pos" : t.net < -0.004 ? "neg" : "";
+
+  const stats =
+    '<dl class="stats" style="margin-top:12px">' +
+      stat("Paid out", money(t.spent)) +
+      stat("Income received", money(t.income), t.income > 0 ? "pos" : "") +
+      stat("Net so far", signedMoney(t.net), netCls) +
+      (budget > 0
+        ? stat(remaining < 0 ? "Over budget" : "Left to spend", money(Math.abs(remaining)), remaining < 0 ? "neg" : "")
+        : stat("Cost budget", "Not set")) +
+      stat("Owed to people", money(t.owed), t.owed > 0 ? "neg" : "") +
+      stat("Expected income", money(t.incomeExpected)) +
+    "</dl>";
+
+  const notes = [];
+  if (t.committed > 0 || t.incomeAll > 0) {
+    const need = t.committed - t.incomeAll;
+    const counting = t.incomeExpected > 0 ? " (counting expected income)" : "";
+    notes.push(need > 0.004
+      ? "Needs <b>" + money(need) + "</b> more income to cover committed costs" + counting + "."
+      : "Covers committed costs with <b>" + money(-need) + "</b> to spare" + counting + ".");
+  }
+  if (t.inkind > 0) notes.push("Plus " + money(t.inkind) + " donated in kind, tracked apart from cash.");
 
   el.innerHTML =
     '<div class="hero-head">' +
@@ -929,34 +1086,9 @@ function renderHero(){
       '<span class="hero-meta">' + esc([show.season, when].filter(Boolean).join("  •  ")) + "</span>" +
       flag +
     "</div>" +
-
-    '<div class="meter">' +
-      '<div class="meter-nums">' +
-        '<div class="big">' + money(t.committed, { whole:true }) +
-          "<sub>committed" + (t.planned > 0 ? ", " + money(t.planned, { whole:true }) + " of it planned" : "") + "</sub></div>" +
-        '<div class="of">' + (budget > 0 ? "budget" : "no budget set") +
-          (budget > 0 ? "<b>" + money(budget, { whole:true }) + "</b>" : "") + "</div>" +
-      "</div>" +
-      barHTML(t.spent, t.planned, budget, { tall:true }) +
-      '<div class="legend">' +
-        '<span><i style="background:var(--cyan)"></i>Paid</span>' +
-        '<span><i style="background:var(--track);border:1px solid var(--ink-soft)"></i>Planned or ordered</span>' +
-        (budget > 0 ? "<span>▾ budget line</span>" : "") +
-      "</div>" +
-    "</div>" +
-
-    '<dl class="stats">' +
-      '<div class="stat"><dt>Paid out</dt><dd>' + money(t.spent) + "</dd></div>" +
-      '<div class="stat"><dt>Planned</dt><dd>' + money(t.planned) + "</dd></div>" +
-      '<div class="stat"><dt>' + (remaining < 0 ? "Over budget" : "Left to spend") + "</dt><dd class=\"" +
-        (remaining < 0 ? "neg" : "") + '">' + money(Math.abs(remaining)) + "</dd></div>" +
-      '<div class="stat"><dt>Owed to people</dt><dd class="' + (t.owed > 0 ? "neg" : "") + '">' +
-        money(t.owed) + "</dd></div>" +
-    "</dl>" +
-    (t.inkind > 0
-      ? '<p class="hint" style="margin:10px 0 0">Plus ' + money(t.inkind) +
-        " donated in kind, tracked separately from cash.</p>"
-      : "");
+    '<div class="meters">' + costs + income + "</div>" +
+    legend + stats +
+    (notes.length ? '<p class="hint" style="margin:10px 0 0">' + notes.join(" ") + "</p>" : "");
 }
 
 /* =========================================================
@@ -965,6 +1097,13 @@ function renderHero(){
 function renderViews(){
   const host = $("#views");
   const show = activeShow();
+
+  // keep focus and caret on whatever the user was in, across the rebuild
+  const active = document.activeElement;
+  const keepId = active && active.id && host.contains(active) ? active.id : null;
+  let caret = null;
+  if (keepId) { try { caret = [active.selectionStart, active.selectionEnd]; } catch (e) { caret = null; } }
+
   if (!show && state.view !== "shows") { host.innerHTML = ""; return; }
 
   if (state.view === "expenses") host.innerHTML = viewExpenses(show);
@@ -974,10 +1113,17 @@ function renderViews(){
 
   if (state.view === "expenses") {
     const f = state.filters;
-    const s = $("#q"); if (s) s.value = f.q;
     const setv = (id, v) => { const el = $(id); if (el) el.value = v; };
-    setv("#fCat", f.cat); setv("#fPerson", f.person);
+    setv("#q", f.q); setv("#fCat", f.cat); setv("#fPerson", f.person);
     setv("#fMethod", f.method); setv("#fKind", f.kind);
+  }
+
+  if (keepId) {
+    const again = document.getElementById(keepId);
+    if (again && again !== document.activeElement) {
+      try { again.focus({ preventScroll:true }); } catch (e) { again.focus(); }
+      if (caret && caret[0] !== null) { try { again.setSelectionRange(caret[0], caret[1]); } catch (e) {} }
+    }
   }
 }
 
@@ -990,12 +1136,14 @@ function filterExpenses(list){
   const f = state.filters;
   const q = f.q.trim().toLowerCase();
   return list.filter(e => {
+    if (f.type === "income" && !isIncome(e)) return false;
+    if (f.type === "expense" && isIncome(e)) return false;
     if (f.cat && e.category !== f.cat) return false;
     if (f.person && (e.paidBy || "") !== f.person) return false;
     if (f.method && e.method !== f.method) return false;
     if (f.kind === "planned" && !e.planned) return false;
     if (f.kind === "paid" && e.planned) return false;
-    if (f.kind === "owed" && !(e.method === REIMBURSABLE && !e.reimbursed && !e.planned)) return false;
+    if (f.kind === "owed" && !(!isIncome(e) && e.method === REIMBURSABLE && !e.reimbursed && !e.planned)) return false;
     if (q) {
       const hay = [e.item, e.vendor, e.category, e.paidBy, e.notes].join(" ").toLowerCase();
       if (hay.indexOf(q) === -1) return false;
@@ -1006,20 +1154,30 @@ function filterExpenses(list){
 
 function countLabel(shown, total){
   return shown === total
-    ? total + (total === 1 ? " expense" : " expenses")
+    ? total + (total === 1 ? " entry" : " entries")
     : shown + " of " + total;
+}
+
+function headTotals(list){
+  const t = totals(list);
+  const parts = [];
+  if (t.committed > 0 || t.incomeAll === 0) parts.push("<b>" + money(t.committed) + "</b> out");
+  if (t.incomeAll > 0) parts.push('<b class="pos">+' + money(t.incomeAll) + "</b> in");
+  return parts.join(" &nbsp;");
 }
 
 function expenseListHTML(show, all, list){
   if (!all.length) {
     return '<div class="empty">' +
       '<div class="hd">Nothing logged yet</div>' +
-      "<p>Add the first receipt for " + esc(show.name) + ".</p>" +
-      '<button class="btn" data-act="new-expense">Add expense</button>' +
-      "</div>";
+      "<p>Log the first receipt or ticket sales for " + esc(show.name) + ".</p>" +
+      '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">' +
+        '<button class="btn" data-act="new-expense">Add expense</button>' +
+        '<button class="btn inc" data-act="new-income">Add income</button>' +
+      "</div></div>";
   }
   if (!list.length) {
-    return '<div class="empty"><p>No expenses match those filters.</p>' +
+    return '<div class="empty"><p>Nothing matches those filters.</p>' +
       '<button class="btn ghost" data-act="clear-filters">Clear filters</button></div>';
   }
   let html = '<ul class="rows">';
@@ -1027,17 +1185,21 @@ function expenseListHTML(show, all, list){
   for (const e of list) {
     if (e.date !== lastDate) {
       lastDate = e.date;
-      const dayTotal = fromCents(sumC(
-        list.filter(x => x.date === e.date && x.method !== INKIND).map(x => cents(x.amount))
-      ));
-      html += '<li class="daygroup"><span>' + esc(fmtDate(e.date, "long") || "No date") +
-        "</span><b>" + money(dayTotal) + "</b></li>";
+      const day = list.filter(x => x.date === e.date);
+      const out = fromCents(sumC(day.filter(x => !isIncome(x) && x.method !== INKIND).map(x => cents(x.amount))));
+      const inn = fromCents(sumC(day.filter(isIncome).map(x => cents(x.amount))));
+      html += '<li class="daygroup"><span>' + esc(fmtDate(e.date, "long") || "No date") + "</span><span>" +
+        (inn > 0 ? '<b class="pos">+' + money(inn) + "</b>" : "") +
+        (inn > 0 && out > 0 ? " &nbsp;" : "") +
+        (out > 0 || inn === 0 ? "<b>" + money(out) + "</b>" : "") +
+        "</span></li>";
     }
     html += "<li>" + expenseRow(e) + "</li>";
   }
   return html + "</ul>";
 }
 
+/** Repaint only the list and its counters, so the search field keeps focus. */
 /** Repaint only the list and its counters, so the search field keeps focus. */
 function refreshList(){
   const show = activeShow();
@@ -1049,58 +1211,69 @@ function refreshList(){
   const c = document.getElementById("expCount");
   if (c) c.textContent = countLabel(list.length, all.length);
   const tot = document.getElementById("expTotal");
-  if (tot) tot.innerHTML = "<b>" + money(totals(list).committed) + "</b>";
+  if (tot) tot.innerHTML = headTotals(list);
 }
 
 function viewExpenses(show){
   const all = sortExpenses(showExpenses(show.id));
   const list = filterExpenses(all);
-  const t = totals(list);
-  const people = peopleList();
+  const f = state.filters;
+  const seg = (v, label) =>
+    '<button type="button" data-ftype="' + v + '" aria-pressed="' + (f.type === v) + '">' + label + "</button>";
 
   const head =
     '<div class="toolbar noprint">' +
-      '<div class="search"><input type="search" id="q" placeholder="Search item, vendor, note" value="' + esc(state.filters.q) + '"></div>' +
+      '<div class="search"><input type="search" id="q" placeholder="Search item, vendor, note" value="' + esc(f.q) + '"></div>' +
+      '<div class="seg-ctl typefilter" id="ledgerType" role="group" aria-label="Show">' +
+        seg("", "All") + seg("expense", "Costs") + seg("income", "Income") +
+      "</div>" +
       '<div class="filters">' +
-        '<select id="fCat" aria-label="Category">' + optionList(state.config.categories, state.filters.cat, "All categories") + "</select>" +
-        '<select id="fPerson" aria-label="Paid by">' + optionList(people, state.filters.person, "Anyone") + "</select>" +
-        '<select id="fMethod" aria-label="Method">' + optionList(METHODS, state.filters.method, "Any method") + "</select>" +
+        '<select id="fCat" aria-label="Category">' +
+          groupedOptions([["Costs", state.config.categories], ["Income", DEFAULT_INCOME_CATEGORIES]], f.cat, "All categories") +
+        "</select>" +
+        '<select id="fPerson" aria-label="Paid by">' + optionList(peopleList(), f.person, "Anyone") + "</select>" +
+        '<select id="fMethod" aria-label="Method">' +
+          groupedOptions([["Costs", METHODS], ["Income", INCOME_METHODS]], f.method, "Any method") +
+        "</select>" +
         '<select id="fKind" aria-label="Status">' +
           '<option value="">Everything</option>' +
-          '<option value="paid"' + (state.filters.kind === "paid" ? " selected" : "") + ">Paid only</option>" +
-          '<option value="planned"' + (state.filters.kind === "planned" ? " selected" : "") + ">Planned only</option>" +
-          '<option value="owed"' + (state.filters.kind === "owed" ? " selected" : "") + ">Awaiting reimbursement</option>" +
+          '<option value="paid"' + (f.kind === "paid" ? " selected" : "") + ">Paid or received</option>" +
+          '<option value="planned"' + (f.kind === "planned" ? " selected" : "") + ">Planned or expected</option>" +
+          '<option value="owed"' + (f.kind === "owed" ? " selected" : "") + ">Awaiting reimbursement</option>" +
         "</select>" +
       "</div>" +
     "</div>";
 
   return '<section class="panel">' +
-    '<div class="panel-head">' +
+    '<div class="panel-head" style="flex-wrap:wrap">' +
       '<h2 id="expCount">' + countLabel(list.length, all.length) + "</h2>" +
       '<span class="spacer"></span>' +
-      '<span class="catline-nums" id="expTotal"><b>' + money(t.committed) + "</b></span>" +
+      '<span class="catline-nums" id="expTotal">' + headTotals(list) + "</span>" +
     "</div>" +
     head +
     '<div class="panel-body flush" id="expList">' + expenseListHTML(show, all, list) + "</div>" +
   "</section>" +
   '<section class="panel noprint"><div class="panel-body" style="display:flex;gap:8px;flex-wrap:wrap">' +
-    '<button class="btn ghost sm" data-act="export-expenses">Export expenses (CSV)</button>' +
+    '<button class="btn ghost sm" data-act="export-expenses">Export ledger (CSV)</button>' +
     '<button class="btn ghost sm" data-act="export-summary">Export budget summary (CSV)</button>' +
     '<button class="btn ghost sm" data-act="print">Print report</button>' +
   "</div></section>";
 }
 
 function expenseRow(e){
+  const inc = isIncome(e);
   const tags = [];
-  if (e.planned) tags.push('<span class="tag plan">planned</span>');
-  if (e.method === INKIND) tags.push('<span class="tag kind">in kind</span>');
-  else if (e.method === REIMBURSABLE && !e.reimbursed && !e.planned) tags.push('<span class="tag owed">owed</span>');
-  if (e.receipt) tags.push('<span class="tag">receipt</span>');
+  if (e.planned) tags.push('<span class="tag plan">' + (inc ? "expected" : "planned") + "</span>");
+  if (!inc && e.method === INKIND) tags.push('<span class="tag kind">in kind</span>');
+  else if (!inc && e.method === REIMBURSABLE && !e.reimbursed && !e.planned) tags.push('<span class="tag owed">owed</span>');
+  if (e.receipt) tags.push('<span class="tag">' + (inc ? "photo" : "receipt") + "</span>");
 
-  const sub = [e.category, e.vendor, e.paidBy ? "paid by " + e.paidBy : ""].filter(Boolean).join("  •  ");
-  return '<button class="row" data-open="' + esc(e.id) + '">' +
+  const sub = inc
+    ? [e.category, e.vendor ? "from " + e.vendor : "", e.method].filter(Boolean).join("  •  ")
+    : [e.category, e.vendor, e.paidBy ? "paid by " + e.paidBy : ""].filter(Boolean).join("  •  ");
+  return '<button class="row' + (inc ? " is-income" : "") + '" data-open="' + esc(e.id) + '">' +
     '<span class="what">' + esc(e.item || "Untitled") + "</span>" +
-    '<span class="amt">' + money(e.amount) + "</span>" +
+    '<span class="amt' + (inc ? " pos" : "") + '">' + (inc ? "+" : "") + money(e.amount) + "</span>" +
     '<span class="sub">' + esc(sub) + "</span>" +
     '<span class="tags">' + tags.join("") + "</span>" +
   "</button>";
@@ -1108,15 +1281,21 @@ function expenseRow(e){
 
 function viewBudget(show){
   const list = showExpenses(show.id);
-  const map = byCategory(list);
-  const budgets = show.categoryBudgets || {};
-  const names = new Set([...state.config.categories, ...map.keys(), ...Object.keys(budgets)]);
+  const costs = list.filter(e => !isIncome(e));
+  const income = list.filter(isIncome);
+  const edit = state.writable ? "" : " disabled";
 
-  const rows = [...names].map(name => {
+  /* ---- costs ---- */
+  const map = byCategory(costs);
+  const budgets = show.categoryBudgets || {};
+  const names = [...new Set([...state.config.categories, ...map.keys(), ...Object.keys(budgets)])];
+  const active = names.filter(n => (map.get(n) || []).length || Number(budgets[n]) > 0);
+  const idle = names.filter(n => active.indexOf(n) === -1);
+
+  const rows = active.map(name => {
     const items = map.get(name) || [];
     const t = totals(items);
     const b = Number(budgets[name]) || 0;
-    if (!items.length && !b) return null;
     const over = b > 0 && t.spent > b + 0.004;
     const left = b - t.committed;
     return '<div class="catline">' +
@@ -1134,18 +1313,73 @@ function viewBudget(show){
       '<div class="budgetcell noprint">' +
         '<label for="b-' + slug(name) + '">Budget</label>' +
         '<input type="number" inputmode="decimal" step="1" min="0" id="b-' + slug(name) + '" ' +
-          'data-budget-for="' + esc(name) + '" value="' + (b > 0 ? b : "") + '" placeholder="0"' +
-          (state.writable ? "" : " disabled") + ">" +
+          'data-budget-for="' + esc(name) + '" value="' + (b > 0 ? b : "") + '" placeholder="0"' + edit + ">" +
       "</div>" +
     "</div>";
-  }).filter(Boolean);
+  });
+
+  const idleCosts = idle.length && state.writable
+    ? '<details class="more noprint" id="budgetMore"' + (state.open.budgetMore ? " open" : "") + ">" +
+        "<summary>Budget " + idle.length + " more categor" + (idle.length === 1 ? "y" : "ies") + "</summary>" +
+        idle.map(n =>
+          '<div class="catrow"><label for="b-' + slug(n) + '">' + esc(n) + "</label>" +
+          '<input type="number" inputmode="decimal" step="1" min="0" id="b-' + slug(n) + '" ' +
+            'data-budget-for="' + esc(n) + '" placeholder="0"></div>').join("") +
+      "</details>"
+    : "";
 
   const allocated = fromCents(sumC(Object.values(budgets).map(v => cents(v))));
   const total = Number(show.budget) || 0;
   const unallocated = total - allocated;
 
+  /* ---- income ---- */
+  const imap = byCategory(income);
+  const goals = show.incomeGoals || {};
+  const inames = [...new Set([...DEFAULT_INCOME_CATEGORIES, ...imap.keys(), ...Object.keys(goals)])];
+  const iactive = inames.filter(n => (imap.get(n) || []).length || Number(goals[n]) > 0);
+  const iidle = inames.filter(n => iactive.indexOf(n) === -1);
+
+  const irows = iactive.map(name => {
+    const items = imap.get(name) || [];
+    const t = totals(items);
+    const g = Number(goals[name]) || 0;
+    const left = g - t.incomeAll;
+    return '<div class="catline">' +
+      '<div class="catline-top">' +
+        '<span class="catline-name">' + esc(name) + "</span>" +
+        '<span class="catline-nums"><b class="pos">' + money(t.incomeAll) + "</b>" +
+          (g > 0 ? " / " + money(g, { whole:true }) : " / no goal") + "</span>" +
+      "</div>" +
+      barHTML(t.income, t.incomeExpected, g, { kind:"income" }) +
+      '<div class="catline-top" style="margin:6px 0 0">' +
+        '<span class="hint">' + items.length + (items.length === 1 ? " entry" : " entries") +
+          (t.incomeExpected > 0 ? ", " + money(t.incomeExpected) + " still expected" : "") + "</span>" +
+        '<span class="hint">' + (g > 0 ? (left > 0.004 ? money(left) + " to goal" : "goal met") : "") + "</span>" +
+      "</div>" +
+      '<div class="budgetcell noprint">' +
+        '<label for="g-' + slug(name) + '">Goal</label>' +
+        '<input type="number" inputmode="decimal" step="1" min="0" id="g-' + slug(name) + '" ' +
+          'data-goal-for="' + esc(name) + '" value="' + (g > 0 ? g : "") + '" placeholder="0"' + edit + ">" +
+      "</div>" +
+    "</div>";
+  });
+
+  const idleIncome = iidle.length && state.writable
+    ? '<details class="more noprint" id="goalMore"' + (state.open.goalMore ? " open" : "") + ">" +
+        "<summary>Set goals for " + iidle.length + " more categor" + (iidle.length === 1 ? "y" : "ies") + "</summary>" +
+        iidle.map(n =>
+          '<div class="catrow"><label for="g-' + slug(n) + '">' + esc(n) + "</label>" +
+          '<input type="number" inputmode="decimal" step="1" min="0" id="g-' + slug(n) + '" ' +
+            'data-goal-for="' + esc(n) + '" placeholder="0"></div>').join("") +
+      "</details>"
+    : "";
+
+  const it = totals(income);
+  const goalTotal = incomeGoalFor(show);
+  const catGoalSum = fromCents(sumC(Object.values(goals).map(v => cents(v))));
+
   return '<section class="panel">' +
-    '<div class="panel-head"><h2>Budget by category</h2><span class="spacer"></span>' +
+    '<div class="panel-head"><h2>Costs by category</h2><span class="spacer"></span>' +
       '<button class="btn ghost sm noprint" data-act="edit-show">Edit production</button></div>' +
     '<div class="panel-body" style="border-bottom:1px solid var(--line)">' +
       '<div class="catline-top" style="margin:0">' +
@@ -1155,12 +1389,31 @@ function viewBudget(show){
       (total > 0
         ? '<p class="hint" style="margin:6px 0 0">' +
           (unallocated >= 0
-            ? money(unallocated) + " of the show budget is not assigned to a category yet."
-            : "Category budgets exceed the show budget by " + money(-unallocated) + ".") + "</p>"
-        : '<p class="hint" style="margin:6px 0 0">Set a total budget on the production to compare against.</p>') +
+            ? money(unallocated) + " of the cost budget is not assigned to a category yet."
+            : "Category budgets exceed the cost budget by " + money(-unallocated) + ".") + "</p>"
+        : '<p class="hint" style="margin:6px 0 0">Set a cost budget on the production to compare against.</p>') +
     "</div>" +
     '<div class="panel-body flush">' +
-      (rows.length ? rows.join("") : '<div class="empty"><p>Set a budget on a category, or log an expense, and it shows up here.</p></div>') +
+      (rows.length ? rows.join("") : '<div class="empty"><p>No category budgets or costs yet.</p></div>') +
+      idleCosts +
+    "</div>" +
+  "</section>" +
+
+  '<section class="panel">' +
+    '<div class="panel-head"><h2>Income by category</h2></div>' +
+    '<div class="panel-body" style="border-bottom:1px solid var(--line)">' +
+      '<div class="catline-top" style="margin:0">' +
+        '<span class="hint">Brought in so far</span>' +
+        '<span class="catline-nums"><b class="pos">' + money(it.income) + "</b>" +
+          (goalTotal > 0 ? " / " + money(goalTotal, { whole:true }) + " goal" : "") + "</span>" +
+      "</div>" +
+      (it.incomeExpected > 0 ? '<p class="hint" style="margin:6px 0 0">Plus ' + money(it.incomeExpected) + " expected.</p>" : "") +
+      (Number(show.incomeGoal) > 0 && catGoalSum > 0 && Math.abs(catGoalSum - Number(show.incomeGoal)) > 0.004
+        ? '<p class="hint" style="margin:6px 0 0">Category goals add up to ' + money(catGoalSum) + ".</p>" : "") +
+    "</div>" +
+    '<div class="panel-body flush">' +
+      (irows.length ? irows.join("") : '<div class="empty"><p>No income goals or income yet.</p></div>') +
+      idleIncome +
     "</div>" +
   "</section>";
 }
@@ -1210,6 +1463,7 @@ function viewShows(){
     const t = totals(showExpenses(s.id));
     const b = Number(s.budget) || 0;
     const over = b > 0 && t.committed > b + 0.004;
+    const netCls = t.net > 0.004 ? "pos" : t.net < -0.004 ? "neg" : "";
     return '<div class="catline">' +
       '<div class="catline-top">' +
         '<span class="catline-name">' + esc(s.name) +
@@ -1218,6 +1472,8 @@ function viewShows(){
           (b > 0 ? " / " + money(b, { whole:true }) : "") + "</span>" +
       "</div>" +
       barHTML(t.spent, t.planned, b) +
+      '<p class="hint" style="margin:6px 0 0">Income ' + money(t.income, { whole:true }) +
+        '  •  Net <span class="' + netCls + '">' + signedMoney(t.net, { whole:true }) + "</span></p>" +
       '<div class="catline-top" style="margin:8px 0 0">' +
         '<span class="hint">' + esc([s.season, s.opensOn ? "opens " + fmtDate(s.opensOn, "long") : ""].filter(Boolean).join("  •  ")) + "</span>" +
         '<span class="noprint" style="display:flex;gap:6px">' +
@@ -1242,9 +1498,13 @@ function peopleList(){
   for (const e of state.expenses.values()) if (e.paidBy) set.add(e.paidBy);
   return [...set].sort((a, b) => a.localeCompare(b));
 }
-function vendorList(){
+function vendorList(type){
   const set = new Set();
-  for (const e of state.expenses.values()) if (e.vendor) set.add(e.vendor);
+  for (const e of state.expenses.values()) {
+    if (!e.vendor) continue;
+    if ((type === "income") !== isIncome(e)) continue;
+    set.add(e.vendor);
+  }
   return [...set].sort((a, b) => a.localeCompare(b));
 }
 
@@ -1288,68 +1548,82 @@ function closeSheet(){
   state.editingShow = null;
 }
 
-function expenseSheet(existing){
+function expenseSheet(existing, kind){
   const show = activeShow();
   const ui = readUI();
-  const e = existing || {
-    id: uid(), showId: show.id, date: todayISO(), item: "", vendor: "",
-    category: ui.lastCat || "", amount: "", paidBy: ui.lastPerson || "",
-    method: ui.lastMethod || "PACA card", planned: false, reimbursed: false,
-    notes: "", receipt: null, createdAt: Date.now()
+  const type = existing ? (isIncome(existing) ? "income" : "expense") : (kind === "income" ? "income" : "expense");
+  const e = existing ? Object.assign({}, existing) : {
+    id: uid(), showId: show.id, type, date: todayISO(), item: "", vendor: "",
+    category: type === "income" ? (ui.lastIncomeCat || "") : (ui.lastCat || ""),
+    amount: "", paidBy: type === "income" ? "" : (ui.lastPerson || ""),
+    method: type === "income" ? (ui.lastIncomeMethod || INCOME_METHODS[0]) : (ui.lastMethod || "PACA card"),
+    planned: false, reimbursed: false, notes: "", receipt: null, createdAt: Date.now()
   };
+  e.type = type;
   state.editingExpense = e;
 
+  const L = LABELS[type];
+  const inc = type === "income";
+  const cats = inc ? DEFAULT_INCOME_CATEGORIES : state.config.categories;
+  const methods = inc ? INCOME_METHODS : METHODS;
   const src = e.receipt ? store.receiptSrc(e.receipt) : null;
+  const k = existing ? 1 : 0;
+  const tbtn = (v, label) =>
+    '<button type="button" data-etype="' + v + '" aria-pressed="' + (type === v) + '">' + label + "</button>";
 
   return '<div class="sheet-head">' +
-      '<h2 id="sheetTitle">' + (existing ? "Edit expense" : "New expense") + "</h2>" +
+      '<h2 id="sheetTitle">' + L.title[k] + "</h2>" +
       '<button class="icobtn" data-act="close" aria-label="Close">' +
         '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' +
     "</div>" +
     '<form class="sheet-body" id="expForm" novalidate>' +
+      '<div class="seg-ctl kindswitch" id="entryType" role="group" aria-label="Entry type">' +
+        tbtn("expense", "Money out") + tbtn("income", "Money in") +
+      "</div>" +
+
       '<div class="f"><label for="fAmount">Amount</label>' +
         '<input class="money-in" type="number" inputmode="decimal" step="0.01" min="0" id="fAmount" ' +
         'value="' + esc(e.amount) + '" placeholder="0.00" required></div>' +
 
-      '<div class="f"><label for="fItem">What was it</label>' +
-        '<input type="text" id="fItem" value="' + esc(e.item) + '" placeholder="2x4s for the platform deck" required></div>' +
+      '<div class="f"><label for="fItem" id="lblItem">' + L.item + "</label>" +
+        '<input type="text" id="fItem" value="' + esc(e.item) + '" placeholder="' + esc(L.itemPh) + '" required></div>' +
 
       '<div class="f2">' +
         '<div class="f"><label for="fDate">Date</label>' +
           '<input type="date" id="fDate" value="' + esc(e.date) + '"></div>' +
         '<div class="f"><label for="fCategory">Category</label>' +
-          '<select id="fCategory">' + optionList(state.config.categories, e.category, "Pick one") + "</select></div>" +
+          '<select id="fCategory">' + optionList(cats, e.category, "Pick one") + "</select></div>" +
       "</div>" +
 
-      '<div class="f2">' +
-        '<div class="f"><label for="fVendor">Vendor</label>' +
-          '<input type="text" id="fVendor" list="vendors" value="' + esc(e.vendor) + '" placeholder="Home Depot"></div>' +
-        '<div class="f"><label for="fPaidBy">Paid by</label>' +
+      '<div class="f2' + (inc ? " solo" : "") + '" id="whoRow">' +
+        '<div class="f"><label for="fVendor" id="lblVendor">' + L.vendor + "</label>" +
+          '<input type="text" id="fVendor" list="vendors" value="' + esc(e.vendor) + '" placeholder="' + esc(L.vendorPh) + '"></div>' +
+        '<div class="f" id="paidByWrap"' + (inc ? " hidden" : "") + '><label for="fPaidBy">Paid by</label>' +
           '<input type="text" id="fPaidBy" list="people" value="' + esc(e.paidBy) + '" placeholder="Name"></div>' +
       "</div>" +
-      '<datalist id="vendors">' + vendorList().map(v => '<option value="' + esc(v) + '">').join("") + "</datalist>" +
+      '<datalist id="vendors">' + vendorList(type).map(v => '<option value="' + esc(v) + '">').join("") + "</datalist>" +
       '<datalist id="people">' + peopleList().map(v => '<option value="' + esc(v) + '">').join("") + "</datalist>" +
 
-      '<div class="f"><label for="fMethodIn">How it was paid</label>' +
-        '<select id="fMethodIn">' + METHODS.map(m =>
+      '<div class="f"><label for="fMethodIn" id="lblMethod">' + L.method + "</label>" +
+        '<select id="fMethodIn">' + methods.map(m =>
           '<option value="' + esc(m) + '"' + (m === e.method ? " selected" : "") + ">" + esc(m) + "</option>").join("") +
         "</select></div>" +
 
       '<div class="f"><label>Status</label>' +
         '<div class="seg-ctl" id="fPlanned">' +
-          '<button type="button" data-planned="0" aria-pressed="' + (!e.planned) + '">Paid</button>' +
-          '<button type="button" data-planned="1" aria-pressed="' + (!!e.planned) + '">Planned or ordered</button>' +
+          '<button type="button" data-planned="0" aria-pressed="' + (!e.planned) + '">' + L.done + "</button>" +
+          '<button type="button" data-planned="1" aria-pressed="' + (!!e.planned) + '">' + L.pending + "</button>" +
         "</div></div>" +
 
-      '<label class="chk" id="reimbWrap"' + (e.method === REIMBURSABLE ? "" : " hidden") + ">" +
+      '<label class="chk" id="reimbWrap"' + (!inc && e.method === REIMBURSABLE ? "" : " hidden") + ">" +
         '<input type="checkbox" id="fReimbursed"' + (e.reimbursed ? " checked" : "") + "> Already reimbursed</label>" +
 
       '<div class="f"><label for="fNotes">Notes</label>' +
         '<textarea id="fNotes" placeholder="Receipt number, what it is for, who approved it">' + esc(e.notes || "") + "</textarea></div>" +
 
-      '<div class="f"><label>Receipt photo</label>' +
+      '<div class="f"><label id="lblReceipt">' + L.receipt + "</label>" +
         '<div class="receipt" id="receiptBox">' +
-          (src ? '<img src="' + esc(src) + '" alt="Receipt">' : "") +
+          (src ? '<img src="' + esc(src) + '" alt="Attached photo">' : "") +
           '<input type="file" id="fReceipt" accept="image/*" capture="environment" style="flex:1;min-width:150px">' +
           (e.receipt ? '<button type="button" class="btn ghost sm" data-act="drop-receipt">Remove</button>' : "") +
         "</div>" +
@@ -1361,14 +1635,59 @@ function expenseSheet(existing){
     '<div class="sheet-foot">' +
       (existing ? '<button class="btn danger" data-act="delete-expense">Delete</button>' : "") +
       '<button class="btn ghost" data-act="close">Cancel</button>' +
-      '<button class="btn" data-act="save-expense">' + (existing ? "Save changes" : "Add expense") + "</button>" +
+      '<button class="btn' + (inc ? " inc" : "") + '" id="saveEntry" data-act="save-expense">' + L.save[k] + "</button>" +
     "</div>";
+}
+
+/** Flip an open entry form between money out and money in, in place,
+ *  so nothing already typed is lost. */
+function applyEntryType(type){
+  const e = state.editingExpense;
+  if (!e || (type !== "income" && type !== "expense")) return;
+  e.type = type;
+  const L = LABELS[type];
+  const inc = type === "income";
+  const ui = readUI();
+  const k = state.expenses.has(e.id) ? 1 : 0;
+  const set = (sel, fn) => { const el = $(sel); if (el) fn(el); };
+
+  set("#sheetTitle", el => { el.textContent = L.title[k]; });
+  set("#saveEntry", el => { el.textContent = L.save[k]; el.classList.toggle("inc", inc); });
+  set("#lblItem", el => { el.textContent = L.item; });
+  set("#fItem", el => { el.placeholder = L.itemPh; });
+  set("#lblVendor", el => { el.textContent = L.vendor; });
+  set("#fVendor", el => { el.placeholder = L.vendorPh; });
+  set("#lblMethod", el => { el.textContent = L.method; });
+  set("#lblReceipt", el => { el.textContent = L.receipt; });
+  set('#fPlanned [data-planned="0"]', el => { el.textContent = L.done; });
+  set('#fPlanned [data-planned="1"]', el => { el.textContent = L.pending; });
+  set("#paidByWrap", el => { el.hidden = inc; });
+  set("#whoRow", el => { el.classList.toggle("solo", inc); });
+  set("#vendors", el => { el.innerHTML = vendorList(type).map(v => '<option value="' + esc(v) + '">').join(""); });
+
+  const cats = inc ? DEFAULT_INCOME_CATEGORIES : state.config.categories;
+  set("#fCategory", el => {
+    const last = inc ? ui.lastIncomeCat : ui.lastCat;
+    const keep = cats.indexOf(el.value) !== -1 ? el.value : (cats.indexOf(last) !== -1 ? last : "");
+    el.innerHTML = optionList(cats, keep, "Pick one");
+    el.value = keep;
+  });
+  const methods = inc ? INCOME_METHODS : METHODS;
+  set("#fMethodIn", el => {
+    const last = inc ? ui.lastIncomeMethod : ui.lastMethod;
+    const keep = methods.indexOf(el.value) !== -1 ? el.value : (methods.indexOf(last) !== -1 ? last : methods[0]);
+    el.innerHTML = methods.map(m => '<option value="' + esc(m) + '">' + esc(m) + "</option>").join("");
+    el.value = keep;
+    syncReimbRow(inc ? "" : keep);
+  });
+  document.querySelectorAll("#entryType button").forEach(b =>
+    b.setAttribute("aria-pressed", String(b.dataset.etype === type)));
 }
 
 function showSheet(existing){
   const s = existing || {
-    id: uid(), name: "", season: "", budget: "", opensOn: "",
-    categoryBudgets: {}, archived: false, createdAt: Date.now()
+    id: uid(), name: "", season: "", budget: "", incomeGoal: "", opensOn: "",
+    categoryBudgets: {}, incomeGoals: {}, archived: false, createdAt: Date.now()
   };
   state.editingShow = s;
 
@@ -1386,9 +1705,15 @@ function showSheet(existing){
         '<div class="f"><label for="sOpens">Opening night</label>' +
           '<input type="date" id="sOpens" value="' + esc(s.opensOn) + '"></div>' +
       "</div>" +
-      '<div class="f"><label for="sBudget">Total budget</label>' +
-        '<input class="money-in" type="number" inputmode="decimal" step="1" min="0" id="sBudget" ' +
-        'value="' + esc(s.budget) + '" placeholder="0"></div>' +
+      '<div class="f2">' +
+        '<div class="f"><label for="sBudget">Cost budget</label>' +
+          '<input class="money-in" type="number" inputmode="decimal" step="1" min="0" id="sBudget" ' +
+          'value="' + esc(s.budget || "") + '" placeholder="0"></div>' +
+        '<div class="f"><label for="sGoal">Income goal</label>' +
+          '<input class="money-in" type="number" inputmode="decimal" step="1" min="0" id="sGoal" ' +
+          'value="' + esc(s.incomeGoal || "") + '" placeholder="0"></div>' +
+      "</div>" +
+      '<p class="hint" style="margin:-4px 0 0">Leave the income goal blank to use the category goals on the Budget tab.</p>' +
       '<label class="chk"><input type="checkbox" id="sArchived"' + (s.archived ? " checked" : "") +
         "> Closed out, keep for the record</label>" +
       '<div id="showErr"></div>' +
@@ -1406,30 +1731,31 @@ function showSheet(existing){
 async function saveExpense(){
   const e = state.editingExpense;
   if (!e) return;
+  const inc = e.type === "income";
+  const L = LABELS[inc ? "income" : "expense"];
   const amount = Number($("#fAmount").value);
   const item = $("#fItem").value.trim();
   const err = $("#expErr");
 
   if (!(amount > 0)) { err.innerHTML = '<p class="err">Enter an amount greater than zero.</p>'; $("#fAmount").focus(); return; }
-  if (!item) { err.innerHTML = '<p class="err">Say what the money went to.</p>'; $("#fItem").focus(); return; }
+  if (!item) { err.innerHTML = '<p class="err">' + L.needItem + "</p>"; $("#fItem").focus(); return; }
 
+  const pressed = $("#fPlanned button[aria-pressed='true']");
   const rec = Object.assign({}, e, {
+    type: inc ? "income" : "expense",
     amount: Math.round(amount * 100) / 100,
     item,
     date: $("#fDate").value || todayISO(),
-    category: $("#fCategory").value || "Other",
+    category: $("#fCategory").value || (inc ? "Other income" : "Other"),
     vendor: $("#fVendor").value.trim(),
-    paidBy: $("#fPaidBy").value.trim(),
+    paidBy: inc ? "" : $("#fPaidBy").value.trim(),
     method: $("#fMethodIn").value,
-    planned: (function(){
-      const b = $("#fPlanned button[aria-pressed='true']");
-      return !!b && b.dataset.planned === "1";
-    })(),
-    reimbursed: $("#fReimbursed").checked,
+    planned: !!pressed && pressed.dataset.planned === "1",
+    reimbursed: !inc && $("#fReimbursed").checked,
     notes: $("#fNotes").value.trim(),
     updatedAt: Date.now()
   });
-  if (rec.method !== REIMBURSABLE) rec.reimbursed = false;
+  if (inc || rec.method !== REIMBURSABLE) { rec.reimbursed = false; delete rec.reimbursedOn; }
 
   const file = $("#fReceipt").files && $("#fReceipt").files[0];
   if (file) {
@@ -1439,21 +1765,25 @@ async function saveExpense(){
       const saved = await store.saveReceipt(small);
       rec.receipt = saved.ref;
     } catch (ex) {
-      err.innerHTML = '<p class="err">' + esc(ex.message || "That photo did not save.") + " The expense was not saved.</p>";
+      err.innerHTML = '<p class="err">' + esc(ex.message || "That photo did not save.") + " Nothing was saved.</p>";
       return;
     }
   }
 
-  writeUI({ lastCat: rec.category, lastPerson: rec.paidBy, lastMethod: rec.method });
-  if (rec.paidBy && (state.config.people || []).indexOf(rec.paidBy) === -1) {
-    state.config.people = (state.config.people || []).concat([rec.paidBy]);
-    store.putConfig().catch(() => {});
+  if (inc) {
+    writeUI({ lastIncomeCat: rec.category, lastIncomeMethod: rec.method });
+  } else {
+    writeUI({ lastCat: rec.category, lastPerson: rec.paidBy, lastMethod: rec.method });
+    if (rec.paidBy && (state.config.people || []).indexOf(rec.paidBy) === -1) {
+      state.config.people = (state.config.people || []).concat([rec.paidBy]);
+      store.putConfig().catch(() => {});
+    }
   }
 
   try {
     await store.putExpense(rec.id, rec);
     closeSheet();
-    toast(money(rec.amount) + " logged");
+    toast((inc ? "+" : "") + money(rec.amount) + " logged");
   } catch (ex) {
     err.innerHTML = '<p class="err">' + esc(writeMsg(ex)) + "</p>";
   }
@@ -1471,8 +1801,10 @@ async function saveShow(){
     season: $("#sSeason").value.trim(),
     opensOn: $("#sOpens").value || "",
     budget: Math.round((Number($("#sBudget").value) || 0) * 100) / 100,
+    incomeGoal: Math.round((Number($("#sGoal").value) || 0) * 100) / 100,
     archived: $("#sArchived").checked,
     categoryBudgets: s.categoryBudgets || {},
+    incomeGoals: s.incomeGoals || {},
     updatedAt: Date.now()
   });
 
@@ -1485,6 +1817,17 @@ async function saveShow(){
   } catch (ex) {
     err.innerHTML = '<p class="err">' + esc(writeMsg(ex)) + "</p>";
   }
+}
+
+async function setIncomeGoal(name, value){
+  const show = activeShow();
+  if (!show) return;
+  const g = Object.assign({}, show.incomeGoals || {});
+  const v = Math.round((Number(value) || 0) * 100) / 100;
+  if (v > 0) g[name] = v; else delete g[name];
+  const rec = Object.assign({}, show, { incomeGoals: g, updatedAt: Date.now() });
+  try { await store.putShow(show.id, rec); }
+  catch (ex) { toast(writeMsg(ex)); }
 }
 
 function writeMsg(ex){
@@ -1566,33 +1909,46 @@ function slug(s){
 function exportExpenses(){
   const show = activeShow(); if (!show) return;
   const list = sortExpenses(filterExpenses(showExpenses(show.id)));
-  const rows = [["Production","Date","Item","Vendor","Category","Amount","Status","Paid by","Method","Reimbursed","Reimbursed on","Notes"]];
+  const rows = [["Production","Date","Type","Item","Vendor or source","Category","Amount","Actual cash",
+    "Status","Paid by","Method","Reimbursed","Reimbursed on","Notes"]];
   for (const e of list) {
+    const inc = isIncome(e);
+    const amt = Number(e.amount) || 0;
+    // the one column you can SUM for real cash movement: planned,
+    // expected and in-kind entries stay blank
+    const cash = (e.planned || (!inc && e.method === INKIND)) ? "" : (inc ? amt : -amt).toFixed(2);
     rows.push([
-      show.name, e.date || "", e.item || "", e.vendor || "", e.category || "",
-      (Number(e.amount) || 0).toFixed(2),
-      e.planned ? "Planned" : "Paid",
-      e.paidBy || "", e.method || "",
-      e.method === REIMBURSABLE ? (e.reimbursed ? "Yes" : "No") : "",
+      show.name, e.date || "", inc ? "Income" : "Expense", e.item || "", e.vendor || "", e.category || "",
+      amt.toFixed(2), cash,
+      inc ? (e.planned ? "Expected" : "Received") : (e.planned ? "Planned" : "Paid"),
+      inc ? "" : (e.paidBy || ""), e.method || "",
+      (!inc && e.method === REIMBURSABLE) ? (e.reimbursed ? "Yes" : "No") : "",
       e.reimbursedOn || "", e.notes || ""
     ]);
   }
   const t = totals(list);
+  const line = (label, v) => rows.push(["", "", "", label, "", "", v.toFixed(2)]);
   rows.push([]);
-  rows.push(["", "", "Paid out", "", "", t.spent.toFixed(2)]);
-  rows.push(["", "", "Planned", "", "", t.planned.toFixed(2)]);
-  rows.push(["", "", "Committed", "", "", t.committed.toFixed(2)]);
-  if (t.inkind > 0) rows.push(["", "", "Donated in kind", "", "", t.inkind.toFixed(2)]);
-  offerFile(slug(show.name) + "-expenses.csv", csv(rows));
+  line("Paid out", t.spent);
+  line("Planned costs", t.planned);
+  line("Income received", t.income);
+  if (t.incomeExpected > 0) line("Income expected", t.incomeExpected);
+  line("Net (received minus paid)", t.net);
+  line("Projected net (with planned and expected)", t.projectedNet);
+  if (t.inkind > 0) line("Donated in kind", t.inkind);
+  offerFile(slug(show.name) + "-ledger.csv", csv(rows));
 }
 
 function exportSummary(){
   const show = activeShow(); if (!show) return;
   const list = showExpenses(show.id);
-  const map = byCategory(list);
+  const costs = list.filter(e => !isIncome(e));
+  const income = list.filter(isIncome);
+
+  const map = byCategory(costs);
   const budgets = show.categoryBudgets || {};
   const names = [...new Set([...state.config.categories, ...map.keys(), ...Object.keys(budgets)])];
-  const rows = [["Category","Budget","Paid","Planned","Committed","Remaining","In kind"]];
+  const rows = [["Cost category","Budget","Paid","Planned","Committed","Remaining","In kind"]];
   for (const n of names) {
     const items = map.get(n) || [];
     const t = totals(items);
@@ -1601,11 +1957,33 @@ function exportSummary(){
     rows.push([n, b.toFixed(2), t.spent.toFixed(2), t.planned.toFixed(2),
       t.committed.toFixed(2), (b - t.committed).toFixed(2), t.inkind.toFixed(2)]);
   }
-  const t = totals(list);
+  const ct = totals(costs);
   const b = Number(show.budget) || 0;
+  rows.push(["Total costs", b.toFixed(2), ct.spent.toFixed(2), ct.planned.toFixed(2),
+    ct.committed.toFixed(2), (b - ct.committed).toFixed(2), ct.inkind.toFixed(2)]);
+
   rows.push([]);
-  rows.push([show.name + " total", b.toFixed(2), t.spent.toFixed(2), t.planned.toFixed(2),
-    t.committed.toFixed(2), (b - t.committed).toFixed(2), t.inkind.toFixed(2)]);
+  const imap = byCategory(income);
+  const goals = show.incomeGoals || {};
+  const inames = [...new Set([...DEFAULT_INCOME_CATEGORIES, ...imap.keys(), ...Object.keys(goals)])];
+  rows.push(["Income category","Goal","Received","Expected","Total","Still to goal"]);
+  for (const n of inames) {
+    const items = imap.get(n) || [];
+    const t = totals(items);
+    const g = Number(goals[n]) || 0;
+    if (!items.length && !g) continue;
+    rows.push([n, g.toFixed(2), t.income.toFixed(2), t.incomeExpected.toFixed(2),
+      t.incomeAll.toFixed(2), Math.max(0, g - t.incomeAll).toFixed(2)]);
+  }
+  const it = totals(income);
+  const goal = incomeGoalFor(show);
+  rows.push(["Total income", goal.toFixed(2), it.income.toFixed(2), it.incomeExpected.toFixed(2),
+    it.incomeAll.toFixed(2), Math.max(0, goal - it.incomeAll).toFixed(2)]);
+
+  const all = totals(list);
+  rows.push([]);
+  rows.push(["Net so far (received minus paid)", all.net.toFixed(2)]);
+  rows.push(["Projected net (with planned and expected)", all.projectedNet.toFixed(2)]);
   offerFile(slug(show.name) + "-budget-summary.csv", csv(rows));
 }
 
@@ -1710,6 +2088,18 @@ document.addEventListener("click", ev => {
     return;
   }
 
+  const ft = ev.target.closest("[data-ftype]");
+  if (ft) {
+    state.filters.type = ft.dataset.ftype;
+    document.querySelectorAll("[data-ftype]").forEach(b =>
+      b.setAttribute("aria-pressed", String(b === ft)));
+    refreshList();
+    return;
+  }
+
+  const et = ev.target.closest("#entryType button");
+  if (et) { applyEntryType(et.dataset.etype); return; }
+
   const seg = ev.target.closest("#fPlanned button");
   if (seg) {
     document.querySelectorAll("#fPlanned button").forEach(b =>
@@ -1722,7 +2112,8 @@ document.addEventListener("click", ev => {
   const a = act.dataset.act;
 
   if (a === "close") { closeSheet(); return; }
-  if (a === "new-expense") { if (activeShow()) openSheet(expenseSheet(null)); return; }
+  if (a === "new-expense") { if (activeShow()) openSheet(expenseSheet(null, "expense")); return; }
+  if (a === "new-income") { if (activeShow()) openSheet(expenseSheet(null, "income")); return; }
   if (a === "save-expense") { saveExpense(); return; }
   if (a === "delete-expense") {
     const e = state.editingExpense;
@@ -1754,7 +2145,7 @@ document.addEventListener("click", ev => {
     const s = state.editingShow;
     if (!s) return;
     const n = showExpenses(s.id).length;
-    if (!armed(act, "Delete show and " + n + " expense" + (n === 1 ? "" : "s"))) return;
+    if (!armed(act, "Delete show and " + n + (n === 1 ? " entry" : " entries"))) return;
     store.delShow(s.id).then(() => {
       if (state.activeShowId === s.id) state.activeShowId = null;
       closeSheet(); render(); toast("Production deleted");
@@ -1771,7 +2162,7 @@ document.addEventListener("click", ev => {
   }
   if (a === "settle") { settlePerson(act.dataset.person, act); return; }
   if (a === "clear-filters") {
-    state.filters = { q:"", cat:"", person:"", method:"", kind:"" };
+    state.filters = { q:"", cat:"", person:"", method:"", kind:"", type:"" };
     renderViews(); return;
   }
   if (a === "export-expenses") { exportExpenses(); return; }
@@ -1780,12 +2171,19 @@ document.addEventListener("click", ev => {
   if (a === "print") { window.print(); return; }
 });
 
+// <details> toggle does not bubble, so listen on the way down
+document.addEventListener("toggle", ev => {
+  const d = ev.target;
+  if (!d || !d.id) return;
+  if (d.id === "budgetMore") state.open.budgetMore = d.open;
+  if (d.id === "goalMore") state.open.goalMore = d.open;
+}, true);
+
 $("#scrim").addEventListener("click", ev => { if (ev.target.id === "scrim") closeSheet(); });
 document.addEventListener("keydown", ev => {
   if (ev.key === "Escape" && !$("#scrim").hidden) closeSheet();
 });
 
-$("#fab").addEventListener("click", () => { if (activeShow()) openSheet(expenseSheet(null)); });
 
 $("#showPick").addEventListener("change", ev => {
   state.activeShowId = ev.target.value;
@@ -1815,6 +2213,7 @@ document.addEventListener("change", ev => {
   if (t.id === "fKind") { state.filters.kind = t.value; refreshList(); return; }
   if (t.id === "fMethodIn") { syncReimbRow(t.value); return; }
   if (t.dataset && t.dataset.budgetFor) { setCategoryBudget(t.dataset.budgetFor, t.value); return; }
+  if (t.dataset && t.dataset.goalFor) { setIncomeGoal(t.dataset.goalFor, t.value); return; }
 });
 
 /* =========================================================
