@@ -16,6 +16,7 @@ eleventyExcludeFromCollections: true
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
+  --bar-h:56px;
   --purple:#2B0B3E;
   --bone:#F4EDE0;
   --magenta:#ED2375;
@@ -74,7 +75,7 @@ eleventyExcludeFromCollections: true
   --hatch:rgba(244,237,224,.34);
 }
 *,*::before,*::after{box-sizing:border-box}
-html{height:100%;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);-webkit-text-size-adjust:100%}
+html{height:100%;scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--bar-h) + 8px);-webkit-text-size-adjust:100%}
 body{
   margin:0;min-height:100%;
   background:var(--bg);
@@ -96,25 +97,32 @@ a{color:inherit}
   border-bottom:1px solid rgba(244,237,224,.14);
 }
 .topbar-in{
-  max-width:1100px;margin:0 auto;padding:10px 14px;
+  max-width:1100px;margin:0 auto;padding:0 14px;height:var(--bar-h);
   display:flex;align-items:center;gap:10px;
+  container:topbar / inline-size;
 }
-.brand{display:flex;align-items:baseline;gap:8px;min-width:0}
-.brand b{
-  font-family:Anton,"Barlow Condensed",Impact,sans-serif;font-weight:400;
-  font-size:22px;letter-spacing:.02em;line-height:1;color:var(--bone);
-}
-.brand span{
-  font-family:"Barlow Condensed",sans-serif;font-size:14px;letter-spacing:.06em;
+/* The brand never shrinks, so nothing in it can spill under the picker.
+   On narrow bars the label steps aside. A long show name may truncate in
+   the picker, which is fine: the hero right below prints it in full. */
+.brand{display:flex;align-items:center;gap:10px;flex:none}
+.brand-mark{display:block;width:38px;height:38px;flex:none}
+.brand-sub{
+  font-family:"Barlow Condensed",sans-serif;font-size:15px;letter-spacing:.06em;
   color:var(--chrome-soft);white-space:nowrap;
 }
+@container topbar (max-width:440px){.brand-sub{display:none}}
 .spacer{flex:1}
-@media (max-width:430px){.brand span{display:none}.showpick{max-width:52vw}}
 .showpick{
-  background:rgba(244,237,224,.1);color:var(--chrome-ink);
+  width:auto;flex:0 1 auto;min-width:0;max-width:340px;
+  background-color:rgba(244,237,224,.1);color:var(--chrome-ink);
+  background-image:linear-gradient(45deg,transparent 50%,var(--chrome-soft) 50%),
+                   linear-gradient(135deg,var(--chrome-soft) 50%,transparent 50%);
   border:1px solid rgba(244,237,224,.24);border-radius:3px;
-  padding:7px 10px;max-width:46vw;font-size:15px;
+  padding:7px 32px 7px 10px;font-size:15px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
+/* some desktop browsers paint the open list with the select's own colours */
+.showpick option{color:#1C0629;background:#F4EDE0}
 .icobtn{
   background:transparent;border:1px solid rgba(244,237,224,.24);border-radius:3px;
   color:var(--chrome-ink);width:36px;height:36px;display:grid;place-items:center;flex:none;
@@ -259,7 +267,7 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
   padding:7px 14px;background:var(--panel-2);border-bottom:1px solid var(--line);
   font-family:"Barlow Condensed",sans-serif;font-size:14px;letter-spacing:.05em;color:var(--ink-soft);
   display:flex;justify-content:space-between;gap:10px;position:sticky;
-  top:calc(env(safe-area-inset-top,0px) + 57px);z-index:3;
+  top:calc(env(safe-area-inset-top,0px) + var(--bar-h) + 1px);z-index:3;
 }
 .daygroup b{font-family:"Spline Sans Mono",monospace;font-weight:600;color:var(--ink)}
 
@@ -373,7 +381,10 @@ details.more[open] summary::before{content:"\2212  "}
 
 <header class="topbar">
   <div class="topbar-in">
-    <div class="brand"><b>PACA</b><span>Production expenses</span></div>
+    <div class="brand">
+      <img class="brand-mark" width="38" height="38" alt="PACA" src="data:image/png;base64,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">
+      <span class="brand-sub">Production expenses</span>
+    </div>
     <div class="spacer"></div>
     <select id="showPick" class="showpick" aria-label="Choose a production"></select>
     <button class="icobtn" id="themeBtn" title="Switch theme" aria-label="Switch theme">
