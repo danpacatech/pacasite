@@ -12,6 +12,7 @@ summary: The Irish… and How They Got That Way is an irreverent musical histor
 image: /assets/uploads/irish2.png
 ticket_url: https://tickets.eriereader.com/events/the-irish-and-how-they-got-that-way
 price: $20
+playbill: /assets/uploads/irish-program.pdf
 ---
 *The Irish… and How They Got That Way* is an irreverent musical history of Ireland through the tumultuous 20th and 21st centuries seen through the eyes of Pulitzer Prize winning author, Frank McCourt (*Angela’s Ashes, ‘Tis, Teacher Man*) whose razor sharp wit, coupled with his trademark satirical irony and boundless love for the Irish People are all underscored by humor, heartache and a glorious score that spans 100+ years from “Danny Boy,” “Galway Bay” and “The Rare Old Times” to “Too-Ra-Loo-Ra-Loo-Ra” and U2’s “I Still Haven’t Found What I Am Looking For.”
 
