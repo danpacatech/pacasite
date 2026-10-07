@@ -3,10 +3,10 @@ title: The Goat, or Who Is Sylvia?
 discipline: Theatre
 featured: true
 status: upcoming
-date_label: Oct 9-24
-date_start: 2026-10-09T19:30
+date_label: Oct 15-24
+date_start: 2026-10-15T19:30
 date_end: 2026-10-24T21:30
-showtime: 7:30 PM (10-11 is 2:00)
+showtime: 7:30 PM (10-18 is 2:00)
 summary: Martin Gray has everything. He is fifty, he has just won the Pritzker
   Prize, he is about to be profiled on national television, and he is still in
   love with his wife. He also has a secret, and when he finally says it out loud
