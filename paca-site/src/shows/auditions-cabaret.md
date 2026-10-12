@@ -2,7 +2,7 @@
 title: "AUDITIONS: Cabaret"
 discipline: Auditions
 featured: false
-status: upcoming
+status: past
 date_label: October 11, 2026
 date_start: 2026-10-11T18:00
 date_end: 2026-10-11T22:00
