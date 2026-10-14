@@ -2,7 +2,7 @@
 title: "Beginner Basket Class with Dan Bainbridge: The Sequel"
 discipline: Other
 featured: false
-status: upcoming
+status: past
 date_label: October 13, 2026
 date_start: 2026-10-13T18:00
 date_end: 2026-10-13T20:00
