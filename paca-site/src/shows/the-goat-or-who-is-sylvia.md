@@ -1,7 +1,7 @@
 ---
 title: The Goat, or Who Is Sylvia?
 discipline: Theatre
-featured: true
+featured: false
 status: upcoming
 date_label: Oct 15-24
 date_start: 2026-10-15T19:30
