@@ -15,6 +15,7 @@ image: /assets/uploads/goat-poster.png
 ticket_url: https://tickets.eriereader.com/events/the-goat-or-who-is-sylvia
 price: $20
 bios_live: false
+bios_url: /past/the-goat-bios/
 ---
 Martin Gray has everything. He is fifty, he has just won the Pritzker Prize, he is about to be profiled on national television, and he is still in love with his wife. He also has a secret, and when he finally says it out loud to his oldest friend, the letter that follows detonates his household.
 
@@ -27,4 +28,6 @@ For mature audiences.
 
 **THE GOAT, OR WHO IS SYLVIA?**
 by Edward Albee
-Directed by Mark TanenbaumPresented by arrangement with Concord Theatricals on behalf of Dramatists Play Service, Inc.
+Directed by Mark Tanenbaum
+
+Presented by arrangement with Concord Theatricals on behalf of Dramatists Play Service, Inc.

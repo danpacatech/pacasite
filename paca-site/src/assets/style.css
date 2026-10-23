@@ -345,7 +345,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 }
 [data-theme="winter"]{
   --ink:#eef3f8; --ink-2:#ffffff; --ink-3:#e1ebf4;
-  --cream:#16222e; --paper:#d7e3ef; --fog:#5a6b7c; --fog-2:#8aa0b3;
+  --cream:#16222e; --paper:#2b3a49; --fog:#5a6b7c; --fog-2:#8aa0b3;
   --purple:#3a5a7a; --magenta:#2f7fc4; --yellow:#9fd3ec;
   --cyan:#1f9fd6; --orange:#5aa9d6; --lime:#7fb5cf;
   --line:rgba(20,45,75,.14); --line-strong:rgba(20,45,75,.28);
@@ -355,7 +355,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 }
 [data-theme="summer"]{
   --ink:#fff7ec; --ink-2:#ffffff; --ink-3:#fdeeda;
-  --cream:#241a10; --paper:#f3e2c8; --fog:#7a6a52; --fog-2:#a08a6a;
+  --cream:#241a10; --paper:#3e2f1f; --fog:#7a6a52; --fog-2:#a08a6a;
   --purple:#7c3aed; --magenta:#ff4f87; --yellow:#ffce00;
   --cyan:#06b6d4; --orange:#ff8a00; --lime:#62c422;
   --line:rgba(60,40,20,.14); --line-strong:rgba(60,40,20,.28);
@@ -372,7 +372,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 }
 [data-theme="halloween"]{
   --ink:#08060a; --ink-2:#100a14; --ink-3:#180f1e;
-  --cream:#f3ecf7; --paper:#221830; --fog:#9a8aad; --fog-2:#6a5a7d;
+  --cream:#f3ecf7; --paper:#ddd3e6; --fog:#9a8aad; --fog-2:#6a5a7d;
   --purple:#6a0dad; --magenta:#ff7518; --yellow:#d6ff3a;
   --cyan:#9d4edd; --orange:#ff9a3c; --lime:#39ff14;
   --line:rgba(255,180,120,.12); --line-strong:rgba(255,180,120,.26);
@@ -453,7 +453,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 }
 [data-theme="goat"]{ /* The Goat, Albee, cold clinical light with a wound of red */
   --ink:#e9e9ec; --ink-2:#fafafb; --ink-3:#dedee3;
-  --cream:#1a1a1f; --paper:#cfcfd6; --fog:#6b6b75; --fog-2:#9a9aa3;
+  --cream:#1a1a1f; --paper:#33333b; --fog:#6b6b75; --fog-2:#9a9aa3;
   --purple:#6a5f78; --magenta:#b3122a; --yellow:#b9a96a;
   --cyan:#5f7f88; --orange:#9a6b5a; --lime:#7f8a72;
   --line:rgba(20,20,30,.14); --line-strong:rgba(20,20,30,.28);
