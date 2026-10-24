@@ -11,6 +11,7 @@ summary: "First came the original, then came The Sequel. Now Dan Bainbridge of
   DBB Basketry returns for the third installment. "
 image: /assets/uploads/beginner-basket-weave-harder-nov17.jpg
 ticket_url: https://tickets.eriereader.com/events/beginner-basket-class-with-dan-bainbridge-the-sequel-11-17-2026
+price: $20
 bios_live: false
 ---
 **Beginner Basket Class Part III: Weave Harder, with Dan Bainbridge**
