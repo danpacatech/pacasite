@@ -1,7 +1,7 @@
 ---
 title: Halloween Party
 discipline: Party
-featured: true
+featured: false
 status: upcoming
 date_label: 10-31
 date_start: 2026-10-31T19:30
