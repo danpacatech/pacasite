@@ -181,9 +181,155 @@
     font-family:'Spline Sans Mono',monospace;
     font-weight:700;
     font-size:12px;
+    flex:1;
+    min-width:0;
+  }
+  .seat-line{
+    display:block;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+  }
+  /* combined tickets: one line per row. fitSeatText() shrinks the font if a party runs long,
+     and a party spread over many rows flows its rows together, split by dots */
+  .seat-value.multi{ line-height:1.15; }
+  .seat-value.flow{ overflow:hidden; }
+  .seat-value.flow .seat-line{ display:inline; }
+  .seat-value.flow .seat-line:not(:last-child)::after{ content:' \00B7'; }
+  .seat-value.wrap .seat-line{ white-space:normal; }
+
+  /* combine toggle (screen only, the whole panel is hidden in print) */
+  .check{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin:4px 0 14px;
+    font-size:15px;
+    font-weight:600;
+    line-height:1.25;
+    cursor:pointer;
+  }
+  .check input{
+    width:18px;
+    height:18px;
+    margin:1px 0 0;
+    flex-shrink:0;
+    accent-color:var(--accent);
+  }
+  .check .hint{
+    display:block;
+    font-size:13px;
+    font-weight:500;
+    opacity:0.7;
+  }
+
+  /* what to print: seat tickets or the GA entry checklist (screen only) */
+  .mode{
+    display:flex;
+    margin:0 0 22px;
+    border:1.5px solid var(--ink);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  .mode label{ flex:1; position:relative; cursor:pointer; }
+  .mode input{ position:absolute; inset:0; margin:0; opacity:0; cursor:pointer; }
+  .mode span{
+    display:block;
+    padding:10px 8px;
+    text-align:center;
+    font-size:16px;
+    font-weight:600;
+    letter-spacing:0.02em;
+    background:#fff;
+    color:var(--ink);
+  }
+  .mode label + label span{ border-left:1.5px solid var(--ink); }
+  .mode input:checked + span{ background:var(--ink); color:var(--paper); }
+  .mode input:focus-visible + span{ outline:2px solid var(--accent); outline-offset:-5px; }
+
+  /* ---------- GA entry checklist: letter pages, 30 names each ---------- */
+  .list-inner{
+    position:absolute;
+    left:0.5in; top:0.5in;
+    width:7.5in; height:10in;
+  }
+  .list-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:0.3in;
+    height:0.62in;
+    padding-bottom:0.08in;
+    border-bottom:2px solid var(--ink);
+    margin-bottom:0.04in;
+  }
+  .list-title{ min-width:0; }
+  .list-event{
+    font-family:'Anton', sans-serif;
+    font-size:22px;
+    line-height:1.1;
+    letter-spacing:0.01em;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .list-date{ font-size:14px; font-weight:600; margin-top:2px; }
+  .list-meta{
+    flex-shrink:0;
+    text-align:right;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    line-height:1.45;
+  }
+  .list-kind{ color:var(--accent); }
+  .list-table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .list-table th{
+    height:0.24in;
+    padding:0 0.08in;
+    font-size:9px;
+    font-weight:600;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    text-align:left;
+    opacity:0.7;
+  }
+  .list-table td{
+    height:0.3in;
+    padding:0 0.08in;
+    border-bottom:0.75px solid #c9c1d0;
+    vertical-align:middle;
+  }
+  .list-table tbody tr:nth-child(even) td{ background:#f7f2e9; }
+  .list-table .c-check{ width:0.42in; }
+  .list-table .c-qty{ width:0.7in; text-align:center; }
+  .list-table .c-note{ width:2.6in; }
+  .list-table td.c-name{
+    font-size:16px;
+    font-weight:600;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .list-table td.c-qty{
+    font-family:'Spline Sans Mono', monospace;
+    font-weight:700;
+    font-size:15px;
+  }
+  .box{
+    display:block;
+    width:0.17in;
+    height:0.17in;
+    margin:0 auto;
+    border:1.5px solid var(--ink);
+    border-radius:2px;
   }
 
   /* cut guides live only in the outer margin, never on a ticket */
@@ -208,16 +354,21 @@
 <body>
 
 <div id="panel">
-  <h1>Seat ticket generator</h1>
-  <p class="sub">Upload a CSV, map the name and seat columns, then print. 30 per page on a zero-gutter grid, sorted alphabetically by name.</p>
+  <div class="mode" role="radiogroup" aria-label="What to print">
+    <label><input type="radio" name="mode" value="tickets" checked><span>Seat tickets</span></label>
+    <label><input type="radio" name="mode" value="list"><span>GA entry checklist</span></label>
+  </div>
+
+  <h1 id="title">Seat ticket generator</h1>
+  <p class="sub" id="sub">Upload a CSV, map the name and seat columns, then print. 30 per page on a zero-gutter grid, sorted alphabetically by name.</p>
 
   <div class="row">
     <div class="field">
-      <label>Event (required, printed on every ticket)</label>
+      <label>Event (required, <span class="printed-on">printed on every ticket</span>)</label>
       <input type="text" id="eventName" placeholder="e.g. The 1904 Olympic Marathon" required>
     </div>
     <div class="field">
-      <label>Date (required, printed on every ticket)</label>
+      <label>Date (required, <span class="printed-on">printed on every ticket</span>)</label>
       <input type="text" id="eventDate" placeholder="e.g. Oct 17, 2026" required>
     </div>
   </div>
@@ -226,7 +377,7 @@
   <div class="field file-drop">
     <label>CSV file</label>
     <input type="file" id="csvFile" accept=".csv,text/csv">
-    <div class="count-note">Or paste CSV text below instead of uploading.</div>
+    <div class="count-note">Or paste CSV text (or cells copied from a spreadsheet) below instead of uploading.</div>
     <textarea id="csvText" placeholder="Name,Seat&#10;Jane Doe,Row 3 Seat 5&#10;John Smith,Row 3 Seat 6"></textarea>
   </div>
 
@@ -237,11 +388,22 @@
       <label>Name column</label>
       <select id="nameCol"></select>
     </div>
-    <div class="field">
+    <div class="field" id="seatField">
       <label>Seat column</label>
       <select id="seatCol"></select>
     </div>
+    <div class="field" id="qtyField" style="display:none;">
+      <label>Quantity column</label>
+      <select id="qtyCol"></select>
+    </div>
   </div>
+
+  <label class="check" for="combineSeats" id="combineWrap">
+    <input type="checkbox" id="combineSeats" checked>
+    <span>Combine each guest's seats onto one ticket
+      <span class="hint">Bob Smith in Row 1, Seats 1, 2 and 3 prints one ticket reading <span style="white-space:nowrap;">"Row 1: 1, 2, 3"</span> instead of three.</span>
+    </span>
+  </label>
 
   <button id="generateBtn" disabled>Generate tickets</button>
   <button id="printBtn" style="display:none;">Print / Save as PDF</button>
@@ -255,10 +417,13 @@
 <script>
 let parsedRows = [];
 let headers = [];
+let mode = 'tickets';   // 'tickets' = seat tickets, 'list' = GA entry checklist
 
 function parseCSV(text){
-  const lines = text.replace(/\r/g,'').split('\n').filter(l => l.trim().length>0);
+  const lines = text.replace(/^﻿/, '').replace(/\r/g,'').split('\n').filter(l => l.trim().length>0);
   if(lines.length === 0) return {headers:[], rows:[]};
+  // cells copied straight out of a spreadsheet arrive tab separated
+  const delim = lines[0].split('\t').length > lines[0].split(',').length ? '\t' : ',';
   const parseLine = (line) => {
     const out = [];
     let cur = '';
@@ -268,7 +433,7 @@ function parseCSV(text){
       if(c === '"'){
         if(inQuotes && line[i+1] === '"'){ cur += '"'; i++; }
         else inQuotes = !inQuotes;
-      } else if(c === ',' && !inQuotes){
+      } else if(c === delim && !inQuotes){
         out.push(cur); cur = '';
       } else {
         cur += c;
@@ -299,8 +464,10 @@ function setStatus(msg, kind){
 
 function handleCSVLoaded(text){
   const {headers: hdrs, rows} = parseCSV(text);
-  if(hdrs.length < 2 || rows.length === 0){
-    setStatus('Could not find at least two columns and one data row. Check the CSV.', 'err');
+  if(hdrs.length < (mode === 'list' ? 1 : 2) || rows.length === 0){
+    setStatus(mode === 'list'
+      ? 'Could not find a header row and at least one data row. Check the CSV.'
+      : 'Could not find at least two columns and one data row. Check the CSV.', 'err');
     document.getElementById('mapRow').style.display = 'none';
     document.getElementById('generateBtn').disabled = true;
     return;
@@ -310,16 +477,19 @@ function handleCSVLoaded(text){
 
   const nameSel = document.getElementById('nameCol');
   const seatSel = document.getElementById('seatCol');
+  const qtySel = document.getElementById('qtyCol');
   nameSel.innerHTML = '';
   seatSel.innerHTML = '';
+  qtySel.innerHTML = '<option value="-1">None (each row counts as 1)</option>';
   hdrs.forEach((h, i) => {
-    const o1 = document.createElement('option'); o1.value = i; o1.textContent = h || '(column '+(i+1)+')';
-    const o2 = document.createElement('option'); o2.value = i; o2.textContent = h || '(column '+(i+1)+')';
-    nameSel.appendChild(o1);
-    seatSel.appendChild(o2);
+    [nameSel, seatSel, qtySel].forEach(sel => {
+      const o = document.createElement('option'); o.value = i; o.textContent = h || '(column '+(i+1)+')';
+      sel.appendChild(o);
+    });
   });
   nameSel.value = guessColumn(hdrs, ['name']);
   seatSel.value = guessColumn(hdrs, ['seat']);
+  qtySel.value = guessQtyColumn(hdrs, rows, parseInt(nameSel.value, 10));
 
   document.getElementById('mapRow').style.display = 'flex';
   document.getElementById('generateBtn').disabled = false;
@@ -360,8 +530,142 @@ function checkEventFields(){
 document.getElementById('eventName').addEventListener('input', checkEventFields);
 document.getElementById('eventDate').addEventListener('input', checkEventFields);
 
-document.getElementById('generateBtn').addEventListener('click', () => {
+// ---------- combined tickets: one ticket per guest with all of their seats ----------
+// Words that name a seating area but not a seat ("Table 4", "Row 2"); those print as written.
+const AREA_WORDS = /^(row|pew|table|tbl|section|sec|box|bench|booth|tier|level|balcony|area|zone)$/i;
+
+// "Row 3 Seat 5" -> {row:"Row 3", num:5}. Also reads "Row 3, Seat 5", "Pew A Seat 2",
+// "A2", "3-5" and "R3S5". Anything else returns null and prints exactly as written.
+function parseSeat(s){
+  const m = s.match(/^(.*?)[\s,;:\/#.\-]*seats?(?![a-z])[\s.:#\-]*(\d+)$/i)
+         || s.match(/^(.*?\d)\s*s\s*(\d+)$/i)
+         || s.match(/^(.*?)[\s,;:\/#.\-]*(\d+)$/);
+  if(!m) return null;
+  const row = m[1].replace(/[\s,;:\/#.\-]+$/, '').trim();
+  if(/seat/i.test(row) || AREA_WORDS.test(row)) return null;
+  return { row: row, num: parseInt(m[2], 10) };
+}
+
+function rowLabel(row){
+  if(!row) return '';
+  if(/^([A-Za-z]{1,2}|\d{1,3})$/.test(row)) return 'Row ' + row;   // "A2", "3-5"
+  const r = row.match(/^r\s*(\d{1,3})$/i);                          // "R3S5"
+  if(r) return 'Row ' + r[1];
+  return row.replace(/^(row|pew|table|section|sec|box)\s*(?=\d)/i, '$1 ');
+}
+
+// Up to 4 seats in a row are listed one by one; bigger blocks shorten runs of 3+ (1-10).
+function seatNumbers(nums){
+  if(nums.length <= 4) return nums.join(', ');
+  const parts = [];
+  for(let i = 0; i < nums.length; ){
+    let j = i;
+    while(j + 1 < nums.length && nums[j + 1] === nums[j] + 1) j++;
+    if(j - i >= 2) parts.push(nums[i] + '-' + nums[j]);
+    else for(let k = i; k <= j; k++) parts.push(String(nums[k]));
+    i = j + 1;
+  }
+  return parts.join(', ');
+}
+
+// One guest's seats -> one printed line per row, e.g. ["Row 1: 1, 2, 3", "Row 2: 4, 5"]
+function combinedSeatLines(seats){
+  const rows = new Map();
+  const asWritten = [];
+  const seen = new Set();
+  seats.forEach(raw => {
+    const s = (raw || '').replace(/\s+/g, ' ').trim();
+    if(!s) return;
+    const p = parseSeat(s);
+    if(p){
+      const label = rowLabel(p.row);
+      const key = label.toLowerCase();
+      if(!rows.has(key)) rows.set(key, { label: label, nums: new Set() });
+      rows.get(key).nums.add(p.num);
+    } else if(!seen.has(s.toLowerCase())){
+      seen.add(s.toLowerCase());
+      asWritten.push(s);
+    }
+  });
+  return Array.from(rows.values())
+    .sort((a, b) => a.label.localeCompare(b.label, undefined, { sensitivity:'base', numeric:true }))
+    .map(r => {
+      const nums = seatNumbers(Array.from(r.nums).sort((a, b) => a - b));
+      return r.label ? r.label + ': ' + nums : nums;
+    })
+    .concat(asWritten);
+}
+
+function buildTickets(entries, combine){
+  if(!combine){
+    return entries.map(e => ({ name: e.name, count: 1, lines: e.seat ? [e.seat] : [] }));
+  }
+  const guests = new Map();
+  const unnamed = [];
+  entries.forEach(e => {
+    if(!e.name){ unnamed.push({ name: '', seats: [e.seat] }); return; }   // blank names never merge
+    const key = e.name.replace(/\s+/g, ' ').toLowerCase();
+    if(!guests.has(key)) guests.set(key, { name: e.name, seats: [] });
+    guests.get(key).seats.push(e.seat);
+  });
+  return Array.from(guests.values()).concat(unnamed).map(g => ({
+    name: g.name,
+    count: g.seats.length,
+    lines: g.seats.length > 1 ? combinedSeatLines(g.seats) : (g.seats[0] ? [g.seats[0]] : [])
+  }));
+}
+
+// Shrink the seat text on any ticket where it would spill out of its 2.5 x 1 in cell.
+function fitSeatText(root){
+  root.querySelectorAll('.ticket').forEach(t => {
+    const body = t.querySelector('.body');
+    const val = t.querySelector('.seat-value');
+    if(!body || !val) return;
+    val.classList.remove('flow', 'wrap');
+    const cs = getComputedStyle(t);
+    const room = t.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    const lines = Array.from(val.querySelectorAll('.seat-line'));
+    const over = () => body.offsetHeight > room + 0.5 ||
+      (val.classList.contains('flow') ? val.scrollWidth > val.clientWidth
+                                      : lines.some(l => l.scrollWidth > l.clientWidth));
+    const shrink = (min) => {
+      let size = 12;
+      val.style.fontSize = '';
+      while(over() && size > min){
+        size -= 0.5;
+        val.style.fontSize = size + 'px';
+      }
+    };
+    shrink(lines.length > 1 ? 9 : 7);            // one line per row, down to 9px
+    if(over() && lines.length > 1){              // many rows: run them together and wrap
+      val.classList.add('flow');
+      shrink(7);
+    }
+    if(over()){                                  // last resort: let long text wrap anywhere
+      val.classList.add('wrap');
+      shrink(7);
+    }
+  });
+}
+
+const combineBox = document.getElementById('combineSeats');
+try{
+  const saved = localStorage.getItem('pacaTixCombine');
+  if(saved !== null) combineBox.checked = saved === '1';
+}catch(e){}
+combineBox.addEventListener('change', () => {
+  try{ localStorage.setItem('pacaTixCombine', combineBox.checked ? '1' : '0'); }catch(e){}
+  if(document.getElementById('sheet').children.length) generate();
+});
+
+document.getElementById('generateBtn').addEventListener('click', generate);
+
+function generate(){
   if(!checkEventFields()){
+    return;
+  }
+  if(mode === 'list'){
+    generateChecklist();
     return;
   }
   const nameIdx = parseInt(document.getElementById('nameCol').value, 10);
@@ -369,9 +673,11 @@ document.getElementById('generateBtn').addEventListener('click', () => {
   const eventName = document.getElementById('eventName').value.trim();
   const eventDate = document.getElementById('eventDate').value.trim();
 
-  const tickets = parsedRows
+  const entries = parsedRows
     .map(r => ({ name: (r[nameIdx]||'').trim(), seat: (r[seatIdx]||'').trim() }))
-    .filter(t => t.name || t.seat)
+    .filter(t => t.name || t.seat);
+
+  const tickets = buildTickets(entries, combineBox.checked)
     .sort((a, b) => {
       if(!a.name && !b.name) return 0;
       if(!a.name) return 1;
@@ -421,14 +727,17 @@ document.getElementById('generateBtn').addEventListener('click', () => {
     chunk.forEach((t) => {
       const ticket = document.createElement('div');
       ticket.className = 'ticket';
+      const lines = t.lines.length ? t.lines : ['\u2014'];
       ticket.innerHTML =
         '<img class="logo" src="' + LOGO + '" alt="PACA">' +
         '<div class="body">' +
           '<div class="show-line">' + escapeHTML(eventName) + ', ' + escapeHTML(eventDate) + '</div>' +
           '<div class="guest-name">' + escapeHTML(t.name || '\u2014') + '</div>' +
           '<div class="seat-row">' +
-            '<span class="seat-label">Seat</span>' +
-            '<span class="seat-value">' + escapeHTML(t.seat || '\u2014') + '</span>' +
+            '<span class="seat-label">' + (t.count > 1 ? t.count + ' Seats' : 'Seat') + '</span>' +
+            '<span class="seat-value' + (lines.length > 1 ? ' multi' : '') + '">' +
+              lines.map(l => '<span class="seat-line">' + escapeHTML(l) + '</span>').join(' ') +
+            '</span>' +
           '</div>' +
         '</div>';
       grid.appendChild(ticket);
@@ -440,9 +749,182 @@ document.getElementById('generateBtn').addEventListener('click', () => {
   }
 
   document.getElementById('printBtn').style.display = tickets.length ? 'inline-block' : 'none';
+  const pages = Math.ceil(tickets.length / perPage);
   document.getElementById('countNote').textContent =
-    `${tickets.length} ticket${tickets.length===1?'':'s'} across ${Math.ceil(tickets.length/perPage)} page${Math.ceil(tickets.length/perPage)===1?'':'s'} (30 per page).`;
+    `${tickets.length} ticket${tickets.length===1?'':'s'}` +
+    (entries.length > tickets.length ? ` for ${entries.length} seats` : '') +
+    ` across ${pages} page${pages===1?'':'s'} (30 per page).`;
+
+  // fit once the ticket fonts are in, so the measurements match the printed sheet
+  const fontsIn = (document.fonts && document.fonts.load)
+    ? Promise.all([
+        document.fonts.load('700 12px "Spline Sans Mono"'),
+        document.fonts.load('600 7px "Barlow Condensed"')
+      ]).then(() => document.fonts.ready).catch(() => {})
+    : Promise.resolve();
+  fontsIn.then(() => fitSeatText(sheet));
+}
+
+// ---------- GA entry checklist: alphabetical names with ticket counts ----------
+const LIST_ROWS = 30;   // names per letter page
+
+// "3", "3.0", "3 tickets", "3x" -> 3. Anything else -> null.
+function parseQty(s){
+  const m = String(s || '').trim().match(/^(\d{1,3})(?:\.0+)?\s*(?:x|tix|tickets?|seats?)?$/i);
+  return m ? parseInt(m[1], 10) : null;
+}
+
+// Find the column holding ticket counts: a quantity-sounding header over whole numbers.
+// No match means each row counts as one ticket (exports with one row per ticket).
+function guessQtyColumn(hdrs, rows, nameIdx){
+  const numeric = hdrs.map((h, i) => {
+    if(i === nameIdx) return false;
+    const vals = rows.map(r => (r[i] || '').trim()).filter(Boolean);
+    return vals.length > 0 && vals.filter(v => parseQty(v) !== null).length >= vals.length * 0.8;
+  });
+  const notQty = /\b(type|price|cost|amount|fees?|paid|id|date|time|status|order|email|phone|name)\b|\$/i;
+  const tiers = [
+    /\b(qty|quant|quantity)\b/i,
+    /\b(tickets?|tix|count|admits?|admissions?|party|guests|seats|attendees)\b/i
+  ];
+  for(const re of tiers){
+    const hit = hdrs.findIndex((h, i) => numeric[i] && re.test(h) && !notQty.test(h));
+    if(hit !== -1) return hit;
+  }
+  if(hdrs.length === 2 && numeric[1 - nameIdx]) return 1 - nameIdx;
+  return -1;
+}
+
+// One entry per name (repeat names added together), sorted A to Z.
+function buildChecklist(nameIdx, qtyIdx){
+  const guests = new Map();
+  const skipped = { noName: 0, zero: 0, unreadable: 0 };
+  parsedRows.forEach(r => {
+    if(r.every(c => !c.trim())) return;                      // empty line such as ",,"
+    const name = (r[nameIdx] || '').replace(/\s+/g, ' ').trim();
+    if(/^(grand\s+|sub)?totals?:?$/i.test(name)) return;     // a totals row at the end of an export
+    if(!name){ skipped.noName++; return; }
+    let qty = 1;
+    if(qtyIdx >= 0){
+      const q = parseQty(r[qtyIdx]);
+      if(q === null) skipped.unreadable++;
+      else qty = q;
+    }
+    if(qty === 0){ skipped.zero++; return; }
+    const key = name.toLowerCase();
+    if(!guests.has(key)) guests.set(key, { name: name, qty: 0 });
+    guests.get(key).qty += qty;
+  });
+  const list = Array.from(guests.values())
+    .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity:'base', numeric:true }));
+  return { list, skipped };
+}
+
+function generateChecklist(){
+  const nameIdx = parseInt(document.getElementById('nameCol').value, 10);
+  const qtyIdx = parseInt(document.getElementById('qtyCol').value, 10);
+  const eventName = document.getElementById('eventName').value.trim();
+  const eventDate = document.getElementById('eventDate').value.trim();
+  const { list, skipped } = buildChecklist(nameIdx, qtyIdx);
+  const guests = list.reduce((sum, g) => sum + g.qty, 0);
+  const pages = Math.ceil(list.length / LIST_ROWS);
+  const plural = (n, word) => n + ' ' + word + (n === 1 ? '' : 's');
+
+  const sheet = document.getElementById('sheet');
+  sheet.innerHTML = '';
+  for(let p = 0; p < pages; p++){
+    const pageEl = document.createElement('div');
+    pageEl.className = 'sheet-page';
+    pageEl.innerHTML =
+      '<div class="list-inner">' +
+        '<div class="list-head">' +
+          '<div class="list-title">' +
+            '<div class="list-event">' + escapeHTML(eventName) + '</div>' +
+            '<div class="list-date">' + escapeHTML(eventDate) + '</div>' +
+          '</div>' +
+          '<div class="list-meta">' +
+            '<div class="list-kind">Entry checklist</div>' +
+            '<div>' + plural(guests, 'guest') + ', ' + plural(list.length, 'name') + '</div>' +
+            '<div>Page ' + (p + 1) + ' of ' + pages + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<table class="list-table">' +
+          '<thead><tr><th class="c-check"></th><th class="c-name">Name</th><th class="c-qty">Qty</th><th class="c-note">Notes</th></tr></thead>' +
+          '<tbody>' +
+            list.slice(p * LIST_ROWS, (p + 1) * LIST_ROWS).map(g =>
+              '<tr><td class="c-check"><span class="box"></span></td>' +
+              '<td class="c-name">' + escapeHTML(g.name) + '</td>' +
+              '<td class="c-qty">' + g.qty + '</td>' +
+              '<td class="c-note"></td></tr>').join('') +
+          '</tbody>' +
+        '</table>' +
+      '</div>';
+    sheet.appendChild(pageEl);
+  }
+
+  document.getElementById('printBtn').style.display = list.length ? 'inline-block' : 'none';
+  document.getElementById('countNote').textContent = list.length
+    ? `${plural(list.length, 'name')}, ${plural(guests, 'guest')} on ${plural(pages, 'page')} (30 names per page).`
+    : 'No names to list. Check the name column.';
+
+  const notes = [];
+  if(skipped.unreadable) notes.push(`${plural(skipped.unreadable, 'row')} had no readable quantity and ${skipped.unreadable === 1 ? 'was' : 'were'} counted as 1.`);
+  if(skipped.zero) notes.push(`Left off ${plural(skipped.zero, 'row')} with a quantity of 0.`);
+  if(skipped.noName) notes.push(`Left off ${plural(skipped.noName, 'row')} with no name.`);
+  if(notes.length) setStatus(notes.join(' '), 'err');
+}
+
+// ---------- switching between seat tickets and the GA entry checklist ----------
+const MODE_TEXT = {
+  tickets: {
+    title: 'Seat ticket generator',
+    sub: 'Upload a CSV, map the name and seat columns, then print. 30 per page on a zero-gutter grid, sorted alphabetically by name.',
+    printedOn: 'printed on every ticket',
+    placeholder: 'Name,Seat\nJane Doe,Row 3 Seat 5\nJohn Smith,Row 3 Seat 6',
+    button: 'Generate tickets'
+  },
+  list: {
+    title: 'GA entry checklist',
+    sub: 'For general admission shows. Upload or paste the CSV, check the name and quantity columns, then print an alphabetical door list with a checkbox and ticket count for each name. Repeat names are added together.',
+    printedOn: 'printed at the top of each page',
+    placeholder: 'Name,Qty\nBob Smith,3\nJane Doe,2',
+    button: 'Generate checklist'
+  }
+};
+
+function setMode(m){
+  mode = (m === 'list') ? 'list' : 'tickets';
+  const t = MODE_TEXT[mode];
+  document.querySelectorAll('input[name="mode"]').forEach(r => { r.checked = (r.value === mode); });
+  document.getElementById('title').textContent = t.title;
+  document.getElementById('sub').textContent = t.sub;
+  document.querySelectorAll('.printed-on').forEach(s => { s.textContent = t.printedOn; });
+  document.getElementById('csvText').placeholder = t.placeholder;
+  document.getElementById('generateBtn').textContent = t.button;
+  document.getElementById('seatField').style.display = (mode === 'tickets') ? '' : 'none';
+  document.getElementById('qtyField').style.display = (mode === 'list') ? '' : 'none';
+  document.getElementById('combineWrap').style.display = (mode === 'tickets') ? '' : 'none';
+  try{ localStorage.setItem('pacaTixMode', mode); }catch(e){}
+
+  // re-read whatever is loaded for the new mode, and redraw if something was already on screen
+  const sheet = document.getElementById('sheet');
+  const hadOutput = sheet.children.length > 0;
+  sheet.innerHTML = '';
+  document.getElementById('printBtn').style.display = 'none';
+  document.getElementById('countNote').textContent = '';
+  const text = document.getElementById('csvText').value;
+  if(text.trim()){
+    handleCSVLoaded(text);
+    if(hadOutput && !document.getElementById('generateBtn').disabled) generate();
+  }
+}
+
+document.querySelectorAll('input[name="mode"]').forEach(r => {
+  r.addEventListener('change', () => { if(r.checked) setMode(r.value); });
 });
+let savedMode = 'tickets';
+try{ savedMode = localStorage.getItem('pacaTixMode') || 'tickets'; }catch(e){}
+setMode(savedMode);
 
 document.getElementById('printBtn').addEventListener('click', () => window.print());
 
