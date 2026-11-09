@@ -13,6 +13,7 @@ summary: "Cady Heron spent her childhood homeschooled on an African savanna.
 image: /assets/uploads/paca-poster-20260909-0644-3x.png
 ticket_url: https://tickets.eriereader.com/events/mean-girls-jr
 price: $20
+playbill: /assets/uploads/mgpbv2.pdf
 bios_live: false
 ---
 Cady Heron spent her childhood homeschooled on an African savanna. Nothing about that prepared her for the wild and vicious ways of her strange new home: suburban Illinois, and the halls of North Shore High School.Cady falls in with Janis and Damian, gets recruited into the Plastics by queen bee Regina George, and joins a plan to bring the whole popularity pecking order down from the inside. Then she starts to enjoy being at the top of it. This adaptation of the Broadway hit comes from book writer Tina Fey, composer Jeff Richmond, and lyricist Nell Benjamin, tailored for young performers and performed here by a teen cast.Four performances only. Bring the whole family.
