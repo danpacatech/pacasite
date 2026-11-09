@@ -2,7 +2,7 @@
 title: Halloween Party
 discipline: Party
 featured: false
-status: upcoming
+status: past
 date_label: 10-31
 date_start: 2026-10-31T19:30
 date_end: 2026-11-01T01:00
