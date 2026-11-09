@@ -1,6 +1,7 @@
 ---
 name: Vincent Murphy
 order: 1
+photo: /assets/uploads/img_5098.jpg
 bio: is a relatively new addition to both Erie and it's acting scene. He was
   recently seen bringing fear to Eeriebyss Factory of Terror as a fill in for
   William Afton in the Five Nights at Freddy's section. However he really found
