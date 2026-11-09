@@ -1,6 +1,7 @@
 ---
 name: Lisa Rawson
 order: 1
+photo: /assets/uploads/img_5097.jpg
 bio: is the playwright of "Lost, Then Found In The Middle Of Gnowarre" which is
   her second comedy. She's a PACA rookie, but has performed in various Erie
   theatres for many years. Believing that we all need reasons to laugh more, she
