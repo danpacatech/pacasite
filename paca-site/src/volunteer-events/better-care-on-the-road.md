@@ -1,5 +1,5 @@
 ---
-name: Better Care on the Road
+name: Proper Care on the Road
 date: 2026-11-21
 time: 7:30
 active: true
