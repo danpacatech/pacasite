@@ -1,8 +1,8 @@
 ---
 title: Mean Girls, JR
 discipline: Theatre
-featured: true
-status: upcoming
+featured: false
+status: past
 date_label: Nov 6-8
 date_start: 2026-11-06T19:30
 date_end: 2026-11-08T20:00
