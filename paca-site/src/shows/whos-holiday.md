@@ -3,10 +3,10 @@ title: Who's Holiday
 discipline: Theatre
 featured: false
 status: upcoming
-date_label: December 17-20
+date_label: December 17-19
 date_start: 2026-12-17T19:30
-date_end: 2026-12-20T17:00
-showtime: December 17-19,  7:30 PM, December 20, 2:00 PM
+date_end: 2026-12-19T17:00
+showtime: December 17-19,  7:30 PM
 summary: |-
   You saw her last when she was just two
   Celebrate the holidays with Cindy Lou Who
