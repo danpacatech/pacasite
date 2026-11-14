@@ -1,7 +1,7 @@
 ---
 title: Lost, Then Found in the Middle of Gnowarre
 discipline: Theatre
-featured: true
+featured: false
 status: upcoming
 date_start: 2026-11-12T19:30
 date_end: 2026-11-15T17:00
