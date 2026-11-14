@@ -1,7 +1,7 @@
 ---
 title: Duo Amal
 discipline: Music
-featured: false
+featured: true
 status: upcoming
 date_label: Nov. 28-30
 date_start: 2026-11-28T19:30
