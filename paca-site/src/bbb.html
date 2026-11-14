@@ -73,7 +73,7 @@ input:focus,textarea:focus{outline:2px solid var(--magenta);outline-offset:1px;
 .hint{font-size:13px;opacity:.6;margin-top:6px;line-height:1.4}
 
 /* show count */
-.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:420px}
+.seg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-width:560px}
 .seg button{-webkit-appearance:none;appearance:none;cursor:pointer;
   font-family:'Anton';font-size:22px;letter-spacing:.02em;line-height:1;
   padding:14px 0 12px;border-radius:2px;color:var(--bone);background:transparent;
@@ -82,6 +82,7 @@ input:focus,textarea:focus{outline:2px solid var(--magenta);outline-offset:1px;
   letter-spacing:.16em;text-transform:uppercase;opacity:.75;margin-top:5px}
 .seg button[aria-pressed="true"]{background:var(--magenta);border-color:var(--magenta)}
 .seg button:hover{border-color:var(--magenta)}
+@media(max-width:400px){.seg button small{letter-spacing:.07em}}
 
 /* one show */
 .show{border:1px solid var(--line);border-radius:2px;padding:16px;margin-top:14px}
@@ -166,6 +167,7 @@ details .grid{padding-bottom:18px}
   <section>
     <div class="shead"><span class="num">01</span><h2>Shows on the board</h2></div>
     <div class="seg" id="seg" role="group" aria-label="Number of shows">
+      <button type="button" data-n="1" aria-pressed="false">1<small>Horizontal</small></button>
       <button type="button" data-n="2" aria-pressed="false">2<small>Columns</small></button>
       <button type="button" data-n="3" aria-pressed="false">3<small>Columns</small></button>
       <button type="button" data-n="4" aria-pressed="false">4<small>Grid</small></button>
@@ -282,6 +284,12 @@ const T = {
   gapBar:32, gapTitleSub:40, gapKick:26, gapSubTag:33,
   tileGap:100, tileMax:2098, keyline:7
 };
+/* one show, horizontal. copyMin is the narrowest the copy column gets beside full-height art and bandMin the
+   shortest the copy band gets under art that runs across the top; sideMin and acrossMin are the smallest tiles
+   as shares of the live height. grow is how far the copy may scale up, titleK how much bigger than that the
+   title runs, bar how much bigger the dates bar is than in the other layouts */
+const SOLO = {copyMin:1500, bandMin:860, sideMin:.5, acrossMin:.4, grow:1.6, titleK:1.5, bar:1.3,
+              barMin:1200, barMax:2000, barPad:150};
 
 const DEFAULT_SHOWS = [
   {kicker:"Lost, Then Found\nIn the Middle of", title:"Gnowarre", sub:"A Comedy by\nLisa Rawson", tag:"", dates:"Nov 12 - 15"},
@@ -407,10 +415,11 @@ function smallLines(ctx, text, maxW, f){
   return out;
 }
 
-/* lay out one show's copy at scale f; heights are measured cap to cap */
-function planShow(ctx, sh, w, f){
+/* lay out one show's copy at scale f (the title at ft, which is f unless one show has the board);
+   heights are measured cap to cap */
+function planShow(ctx, sh, w, f, ft = f){
   const kick = smallLines(ctx, sh.kicker || "", w, f);
-  const title = titleLayout(ctx, sh.title || "", w, f);
+  const title = titleLayout(ctx, sh.title || "", w, ft);
   const subs = smallLines(ctx, sh.sub || "", w, f);
   const tagT = (sh.tag || "").trim().toUpperCase();
   const items = [];
@@ -467,6 +476,7 @@ function background(ctx){
 
 /* ---------------- layouts ---------------- */
 function layout(n){
+  if (n === 1) return {mode:"single", n, slots:[]};     /* sized from the art in soloArea */
   if (n === 4){
     const cellW = 2244, gapX = SHOWS_W - cellW*2, gapY = 90, cellH = (LH - gapY)/2;
     const tileW = 1307, textGap = 64;
@@ -506,14 +516,14 @@ function drawTile(ctx, s, sh, x, y, w, h){
     drawCap(ctx, "ADD SHOW ART", ix + iw/2, iy + ih/2 - CAP.BC*px/2, "BC", 700, px, .16, "center");
   }
 }
-function drawBar(ctx, sh, x, top, w, pad, i){
-  ctx.fillStyle = MAGENTA; ctx.fillRect(x, top, w, T.datesH);
+function drawBar(ctx, sh, x, top, w, pad, i, h = T.datesH, px0 = T.datesPx){
+  ctx.fillStyle = MAGENTA; ctx.fillRect(x, top, w, h);
   const d = (sh.dates || "").toUpperCase().trim();
   if (!d) return;
-  const px = fitPx(ctx, d, "Anton", "", T.datesPx, T.datesTrack, w - pad*2);
-  if (px < T.datesPx*.85) warnings.push("Dates " + (i+1) + " shrunk to fit");
+  const px = fitPx(ctx, d, "Anton", "", px0, T.datesTrack, w - pad*2);
+  if (px < px0*.85) warnings.push("Dates " + (i+1) + " shrunk to fit");
   ctx.fillStyle = BONE;
-  drawCap(ctx, d, x + w/2, top + (T.datesH - CAP.Anton*px)/2, "Anton", "", px, T.datesTrack, "center");
+  drawCap(ctx, d, x + w/2, top + (h - CAP.Anton*px)/2, "Anton", "", px, T.datesTrack, "center");
 }
 function notePlan(plan, i){
   if (plan.title.lines.length && plan.title.px < T.titleMin*plan.title.max) warnings.push("Title " + (i+1) + " shrunk to fit");
@@ -531,10 +541,60 @@ function noteCrop(sh, w, h, i){
   if (c > .12) warnings.push("Show " + (i+1) + " art is cropped " + Math.round(c*100) + "%, the Across and Down sliders pick what shows");
 }
 
+/* one show. Tall, square and slightly wide art stands at the left at the full live height, with the copy
+   centered beside it and the dates along the foot; art wider than the shows area itself (a web banner) runs the
+   full width across the top, with the copy underneath at the left and the dates at the right. Whichever crops
+   the art less wins. The copy then grows into its room, the title most, or shrinks if it has to. */
+function soloArea(ctx, s, sh, geo){
+  const gap = T.tileGap, a = sh.img ? sh.img.width/sh.img.height : 1;
+  const sideW = Math.round(Math.max(SOLO.sideMin*LH, Math.min(SHOWS_W - gap - SOLO.copyMin, a*LH)));
+  const topH = Math.round(Math.max(SOLO.acrossMin*LH, Math.min(LH - gap - SOLO.bandMin, SHOWS_W/a)));
+  const across = !!sh.img && cropOf(sh, SHOWS_W, topH) < cropOf(sh, sideW, LH);
+  const barH = Math.round(T.datesH*SOLO.bar), barPx = Math.round(T.datesPx*SOLO.bar);
+  let tile, bar, x, w, top, bottom;
+  if (!across){
+    tile = {x:SHOWS_X, y:LY, w:sideW, h:LH};
+    x = SHOWS_X + sideW + gap; w = SHOWS_X + SHOWS_W - x;
+    bar = {x, y:LY + LH - barH, w};
+    top = LY; bottom = bar.y - T.gapBar;
+  } else {
+    tile = {x:SHOWS_X, y:LY, w:SHOWS_W, h:topH};
+    const d = (sh.dates || "").toUpperCase().trim();
+    const bw = Math.round(Math.max(SOLO.barMin, Math.min(SOLO.barMax,
+                 (d ? emW(ctx, d, "Anton", "", T.datesTrack)*barPx : 0) + SOLO.barPad*2)));
+    bar = {x:SHOWS_X + SHOWS_W - bw, y:LY + LH - barH, w:bw};
+    x = SHOWS_X; w = bar.x - gap - x;
+    top = LY + topH + gap; bottom = LY + LH;
+  }
+  const room = bottom - top;
+  const at = k => planShow(ctx, sh, w, k, k*SOLO.titleK);    /* the title gets the extra size */
+  let f = 1, plan = at(1);
+  if (plan.h > room){
+    while (plan.h > room && f > .6){ f = Math.round((f - .04)*100)/100; plan = at(f); }
+  } else {
+    while (f < SOLO.grow){
+      const nf = Math.round((f + .05)*100)/100, np = at(nf);
+      if (np.h > room) break;
+      f = nf; plan = np;
+    }
+  }
+  if (f < 1) warnings.push("Lots of copy, so the show text is set " + Math.round((1 - f)*100) + "% smaller");
+  if (plan.h > room) warnings.push("Too much copy for one show, trim a title or a credit");
+  drawTile(ctx, s, sh, tile.x, tile.y, tile.w, tile.h);
+  drawBar(ctx, sh, bar.x, bar.y, bar.w, 75, 0, barH, barPx);
+  drawPlan(ctx, plan, x, across ? Math.max(top, bottom - plan.h) : top + Math.max(0, room - plan.h)/2);
+  notePlan(plan, 0);
+  noteCrop(sh, tile.w, tile.h, 0);
+  geo.slots.push({w:tile.w, h:tile.h});
+  geo.textScale = f; geo.across = across;
+}
+
 function showsArea(ctx, s){
   const L = layout(state.n), shows = state.shows.slice(0, state.n);
   const geo = {mode:L.mode, n:L.n, slots:[]};
-  if (L.mode === "columns"){
+  if (L.mode === "single"){
+    soloArea(ctx, s, shows[0], geo);
+  } else if (L.mode === "columns"){
     /* Art first: the tiles take the height at which the art fills the column uncropped (capped as before),
        then the copy fills what is left. Long copy takes up to a fifth of the art's height before the copy
        itself gets smaller; spare room lets the copy grow up to a quarter. */
@@ -728,6 +788,7 @@ const PS = board.width / W;
 let queued = false;
 
 const LAYOUT_WORD = {
+  1:"One show across the board, the art at full height with the copy and dates beside it. The tile follows the shape of the art and the title grows into the room left over. Wide art, like a web banner, runs across the top with the copy underneath.",
   2:"Two columns, art on top, copy and dates underneath. The art tiles follow the shape of the art where they can.",
   3:"Three columns, art on top, copy and dates underneath. The art tiles follow the shape of the art, and the copy grows into any spare room.",
   4:"Two by two grid, art on the left of each show, copy and dates beside it. Square poster art fits the tiles best."};
@@ -743,7 +804,7 @@ function paint(){
   msg.textContent = notes.length ? notes.join(" · ") : "All copy inside the live area · ready to export";
   const sl = lastGeo.slots[0];
   document.getElementById("layoutHint").textContent =
-    LAYOUT_WORD[state.n] + " Art tiles right now: " + sl.w + " × " + sl.h + " px.";
+    LAYOUT_WORD[state.n] + (state.n === 1 ? " Art tile right now: " : " Art tiles right now: ") + sl.w + " × " + sl.h + " px.";
   panels.forEach((p, i) => {
     const g = lastGeo.slots[i];
     if (g) p.slot.textContent = "Tile is " + g.w + " × " + g.h + " px";
@@ -937,7 +998,7 @@ async function load(){
   if (raw){
     try{
       const d = JSON.parse(raw);
-      if ([2,3,4].includes(d.n)) state.n = d.n;
+      if ([1,2,3,4].includes(d.n)) state.n = d.n;
       if (Array.isArray(d.shows)) d.shows.slice(0, 4).forEach((s, i) => Object.assign(state.shows[i], s));
       if (typeof d.credits === "string") state.credits = d.credits;
       if (d.brand) Object.assign(state.brand, d.brand);
