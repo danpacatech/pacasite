@@ -31,9 +31,9 @@ header img{width:42px;height:42px;flex:0 0 42px;border-radius:50%;background:#ff
 h3{font-family:Anton,sans-serif;font-weight:400;font-size:15px;letter-spacing:.02em;margin:0 0 10px;
   text-transform:uppercase}
 
-#stage{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:12px}
-#sheet{width:100%;height:auto;max-height:56vh;object-fit:contain;object-position:top;
-  display:block;cursor:pointer;touch-action:manipulation}
+#stage{background:#e9e0d0;border:1px solid var(--line);border-radius:10px;padding:14px 10px 10px;margin-bottom:12px}
+#sheet{display:block;margin:0 auto;background:#fff;cursor:pointer;touch-action:manipulation;
+  box-shadow:0 0 0 1px rgba(43,11,62,.10),0 2px 12px rgba(43,11,62,.18)}
 .pager{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:8px;
   font-family:SplineMono,monospace;font-size:11px;color:#6b5c78}
 .pager button{padding:3px 12px;font-size:14px;min-width:auto}
@@ -455,9 +455,11 @@ function render(){
   notes=[];
   if(page>=pages()) page=pages()-1;
   const cv=$('sheet');
-  const w=cv.parentElement.clientWidth-20;
-  drawSheet(cv,Math.max(96,Math.min(150,w/PW*2)),page,false);
-  cv.style.width='100%';
+  // The canvas box is exactly the 8.5 x 11 page, never letterboxed, so the paper edge
+  // shows and taps land on the card under the finger.
+  const dw=Math.floor(Math.min(cv.parentElement.clientWidth-20,window.innerHeight*.56*PW/PH));
+  drawSheet(cv,Math.max(96,Math.min(150,dw/PW*2)),page,false);
+  cv.style.width=dw+'px'; cv.style.height=Math.round(dw*PH/PW)+'px';
   $('pageno').textContent='sheet '+(page+1)+' of '+pages();
   preflight();
   save();
