@@ -80,6 +80,15 @@ button.sm{padding:6px 10px;font-size:13px;min-height:34px}
 .opt{display:flex;align-items:center;gap:9px;padding:7px 0;font-size:15px}
 .opt input[type=checkbox]{width:20px;height:20px;flex:0 0 20px;accent-color:var(--mag)}
 .hint{font-size:13px;color:#7b6c86;line-height:1.5;margin:8px 0 0}
+.seg{display:flex;margin:0 0 12px;border:1px solid var(--purple);border-radius:10px;overflow:hidden;background:#fff}
+.seg button{flex:1;min-width:0;border:0;border-radius:0;min-height:56px;padding:8px 6px;background:#fff;
+  color:var(--purple);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;line-height:1}
+.seg button+button{border-left:1px solid var(--purple)}
+.seg button b{font:400 15px Anton,sans-serif;letter-spacing:.03em;text-transform:uppercase;font-weight:400}
+.seg button span{font:9.5px SplineMono,monospace;letter-spacing:.04em;opacity:.75}
+.seg button.on{background:var(--purple);color:var(--bone)}
+body:not(.stock-card) .cardonly{display:none}
+body.stock-card .sheetonly{display:none}
 #dock{position:sticky;bottom:0;margin:0 -12px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));
   background:rgba(239,232,219,.96);border-top:1px solid var(--line);display:flex;gap:8px;z-index:5}
 #dock button{flex:1}
@@ -101,9 +110,14 @@ button.sm{padding:6px 10px;font-size:13px;min-height:34px}
   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAMAAABlApw1AAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAAABgFBMVEWObpbqz+D6t2rzncRz0/bIyMjL32GiialYKWX4oDv36grk6Zud5fq8qcHu7u5BvvC1zx41wvV2dnZ1T4A/Pz8uAD0AnuuZmZm/2EP+/v4AAABIFFb////tJHXsHXEBqe261DA8BUv+8AT3ig31+ND15+/6+vpBC1D3mCv6ypH12ObD2kzuR4vuOYLwVpX197P09PTyd6r4+PjZ6I776dDQ43ItuPD2p8j3t9L+8i772K3zh7Tr6+v39/eeg6Wv5fnl7KtuRnnTx9b+9U74xdv+9m74qE3m5uby8vJQxPKM2Pb++I96VYRlOnDxaaKqqqr6wHsXse7J7PrW8vvtMX1YKWS9vb31lbvx8fGslbL3kRvxY51ozPTGtsq3o7zY2NgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACRZIDrAAAAYHRSTlP//////wn//////////07///8C/wT//wX//gD/Av///////////9P///////////9v/67///////////8sjP///////////xVN////////A////////wb/Nv///////wxCsXzcAAAWsElEQVR42s1dCVsaydYuojFumSQzc+f7UMGg3aAIggjiAoI7GmMiRsX9//+LW0t3de1VzZK59Twzj0GQervOe85bp6pOgbkhtQXYyE93jV6n3GxW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" alt="PACA">
   <div>
     <div class="h1">PLB · Label Builder</div>
-    <div class="h2">4 × 2.5 IN · 8-UP ON LETTER · 300 PPI</div>
+    <div class="h2" id="sub">4 × 2.5 IN · 8-UP ON LETTER · 300 PPI</div>
   </div>
 </header>
+
+<div class="seg" id="stockseg">
+  <button data-s="sheet" class="on"><b>Cut sheet</b><span>4 × 2.5 in · 8-up</span></button>
+  <button data-s="card"><b>Tear-apart cards</b><span>3.5 × 2 in · 10-up</span></button>
+</div>
 
 <div id="stage">
   <canvas id="sheet"></canvas>
@@ -133,9 +147,24 @@ button.sm{padding:6px 10px;font-size:13px;min-height:34px}
   <label>Show name, printed small in the bottom margin</label>
   <input id="slug" placeholder="Resident Artists Fall 2026" maxlength="60">
   <div class="opt"><input type="checkbox" id="bone" checked><span>Print the bone field. Turn off to save toner on cream stock.</span></div>
-  <div class="opt"><input type="checkbox" id="guides"><span>Faint hairlines on the cut lines, for scissors.</span></div>
-  <p class="hint">Crop marks always print. Nothing is drawn within 0.10 in of a trim line, so a
+  <div class="opt"><input type="checkbox" id="guides"><span class="sheetonly">Faint hairlines on the cut lines, for scissors.</span><span class="cardonly">Faint outlines on the perforations, for a plain-paper proof.</span></div>
+  <p class="hint sheetonly">Crop marks always print. Nothing is drawn within 0.10 in of a trim line, so a
   slightly off cut leaves paper rather than the next label's ink.</p>
+  <p class="hint cardonly">Fits any card stock that says Avery template 8371 on the box (5371, 8371, 28371
+  and more): 10-up, 2 × 3.5 in, 0.5 in top margin, 0.75 in sides. No crop marks: the cards tear apart. Nothing is
+  drawn within 0.10 in of a perforation, so a slightly off feed leaves paper at the edge, not ink.</p>
+</div>
+
+<div class="card cardonly">
+  <h3>Printer alignment</h3>
+  <div class="g2">
+    <div><label for="shiftx">Shift left / right</label><select id="shiftx"></select></div>
+    <div><label for="shifty">Shift up / down</label><select id="shifty"></select></div>
+  </div>
+  <div class="bar" style="margin-top:12px"><button class="g sm" id="dotest">Print alignment test</button></div>
+  <p class="hint">The perforations can't move, so the print has to land on them. Print the test on plain
+  paper at Actual size, line it up behind a sheet of cards, and hold both to a window. Where each
+  perforation crosses a ruler is the shift to pick here. Kept in this browser, so set it once per printer.</p>
 </div>
 
 <div class="card">
@@ -162,8 +191,20 @@ button.sm{padding:6px 10px;font-size:13px;min-height:34px}
 <div id="print"></div>
 
 <script>
-const IN=1, PW=8.5, PH=11, LW=4, LH=2.5, COLS=2, ROWS=4;
-const MX=(PW-COLS*LW)/2, MY=(PH-ROWS*LH)/2, INSET=.10, PAD=.17, PER=COLS*ROWS;
+const IN=1, PW=8.5, PH=11, INSET=.10;
+// Stocks. Margins are centered, which lands both on spec: the cut sheet is 0.25 / 0.5 in,
+// and the cards match Avery 5371 / 8371 / 28371 (0.75 in sides, 0.5 in top and bottom).
+// K scales type and spacing so the 4 x 2.5 label design fits a 3.5 x 2 card.
+const STOCKS={
+  sheet:{LW:4,  LH:2.5,COLS:2,ROWS:4,PAD:.17,K:1,  file:'paca-labels',
+    sub:'4 \u00d7 2.5 IN \u00b7 8-UP ON LETTER \u00b7 300 PPI'},
+  card: {LW:3.5,LH:2,  COLS:2,ROWS:5,PAD:.14,K:.84,file:'paca-cards',
+    sub:'3.5 \u00d7 2 IN \u00b7 10-UP TEAR-APART \u00b7 300 PPI'}
+};
+let stock='sheet', ST=STOCKS.sheet, LW, LH, COLS, ROWS, MX, MY, PAD, PER;
+// Printer shift for card stock, in 1/32 in. Positive is right / down.
+const RJ=8;
+let nx=0, ny=0;
 const BONE='#F4EDE0', PURPLE='#2B0B3E', MAG='#ED2375';
 const KEY='paca-plb-v1';
 const FIELDS=['inventory','artist','title','year','medium','dimensions','price'];
@@ -214,61 +255,62 @@ function wrap(c,txt,fam,size,maxW,maxLines){
 }
 
 function drawLabel(c,x,y,row,idx){
+  const k=ST.K;
   const fL=u(x+INSET), fR=u(x+LW-INSET), fT=u(y+INSET), fB=u(y+LH-INSET);
   const L=fL+u(PAD), R=fR-u(PAD), W=R-L;
 
   if($('bone').checked){c.fillStyle=BONE;c.fillRect(fL,fT,fR-fL,fB-fT)}
-  c.fillStyle=MAG; c.fillRect(fL,fT,fR-fL,u(.055));
+  c.fillStyle=MAG; c.fillRect(fL,fT,fR-fL,u(.055*k));
 
-  let cur=fT+u(.055)+u(.22);
+  let cur=fT+u(.055*k)+u(.22*k);
   c.textAlign='left';
 
   const artist=(row.artist||'').trim();
   if(artist){
-    const s2=fit(c,artist,'Anton',pt(17),W);
-    if(s2<pt(13)) notes.push('Label '+(idx+1)+': artist name shrunk to fit');
+    const s2=fit(c,artist,'Anton',pt(17*k),W,pt(7*k));
+    if(s2<pt(13*k)) notes.push('Label '+(idx+1)+': artist name shrunk to fit');
     c.font=s2+'px Anton'; c.fillStyle=PURPLE;
     c.fillText(artist,L,cur+s2*.72);
-    cur+=s2*.72+u(.10);
+    cur+=s2*.72+u(.10*k);
   }
 
   const title=(row.title||'').trim();
   if(title){
-    let ts=pt(12.5), r=wrap(c,title,'FrauncesIt',ts,W,2);
-    if(r.lines.length>1){ts=pt(11.5); r=wrap(c,title,'FrauncesIt',ts,W,2)}
+    let ts=pt(12.5*k), r=wrap(c,title,'FrauncesIt',ts,W,2);
+    if(r.lines.length>1){ts=pt(11.5*k); r=wrap(c,title,'FrauncesIt',ts,W,2)}
     if(r.cut) notes.push('Label '+(idx+1)+': title trimmed with an ellipsis');
     c.font='italic '+ts+'px FrauncesIt'; c.fillStyle=PURPLE;
     for(const ln of r.lines){c.fillText(ln,L,cur+ts*.75); cur+=ts*1.18}
-    cur+=u(.09);
+    cur+=u(.09*k);
   }
 
   c.fillStyle='rgba(43,11,62,.82)';
-  for(const k of ['year','medium','dimensions']){
-    let v=(row[k]||'').trim(); if(!v) continue;
+  for(const f of ['year','medium','dimensions']){
+    let v=(row[f]||'').trim(); if(!v) continue;
     v=v.replace(/\s[xX]\s/g,' \u00d7 ');
-    const s3=fit(c,v,'BarlowC',pt(11.5),W);
+    const s3=fit(c,v,'BarlowC',pt(11.5*k),W,pt(7*k));
     c.font=s3+'px BarlowC';
     c.fillText(v,L,cur+s3*.72);
     cur+=s3*1.22;
   }
 
   c.strokeStyle='rgba(43,11,62,.20)'; c.lineWidth=Math.max(.6,.5/72*S);
-  c.beginPath(); c.moveTo(L,fB-u(.45)); c.lineTo(R,fB-u(.45)); c.stroke();
+  c.beginPath(); c.moveTo(L,fB-u(.45*k)); c.lineTo(R,fB-u(.45*k)); c.stroke();
 
   let tx=L;
-  if(logoReady){c.drawImage(logo,L,fB-u(.405),u(.30),u(.30)); tx=L+u(.37)}
+  if(logoReady){c.drawImage(logo,L,fB-u(.405*k),u(.30*k),u(.30*k)); tx=L+u(.37*k)}
 
   const inv=(row.inventory||'').trim();
   if(inv){
-    c.fillStyle='rgba(43,11,62,.62)'; c.font=pt(7)+'px SplineMono';
-    c.fillText('no. '+inv,tx,fB-u(.225));
+    c.fillStyle='rgba(43,11,62,.62)'; c.font=pt(Math.max(6,7*k))+'px SplineMono';
+    c.fillText('no. '+inv,tx,fB-u(.225*k));
   }
   if(row.price!==undefined){
     const pz=money(row.price);
     c.textAlign='right';
-    if(pz==='NFS'){c.fillStyle=PURPLE;c.font=pt(10)+'px Anton'}
-    else{c.fillStyle=MAG;c.font=pt(14)+'px Anton'}
-    c.fillText(pz,R,fB-u(.205));
+    if(pz==='NFS'){c.fillStyle=PURPLE;c.font=pt(10*k)+'px Anton'}
+    else{c.fillStyle=MAG;c.font=pt(14*k)+'px Anton'}
+    c.fillText(pz,R,fB-u(.205*k));
     c.textAlign='left';
   }
 }
@@ -280,14 +322,22 @@ function drawSheet(canvas,ppi,pg,forExport){
   c.setTransform(1,0,0,1,0,0);
   c.fillStyle='#fff'; c.fillRect(0,0,canvas.width,canvas.height);
 
+  const perf=stock==='card';
+  if(perf){
+    if(!forExport) drawPerfs(c);
+    c.translate(u(nx/32),u(ny/32));
+  }
+
   const TICK=.12, GAP=.03;
   c.strokeStyle='#000'; c.lineWidth=Math.max(.7,.25/72*S);
-  for(let i=0;i<=COLS;i++){const x=u(MX+i*LW);
-    c.beginPath();c.moveTo(x,u(MY-GAP));c.lineTo(x,u(MY-GAP-TICK));c.stroke();
-    c.beginPath();c.moveTo(x,u(PH-MY+GAP));c.lineTo(x,u(PH-MY+GAP+TICK));c.stroke()}
-  for(let i=0;i<=ROWS;i++){const y=u(MY+i*LH);
-    c.beginPath();c.moveTo(u(MX-GAP),y);c.lineTo(u(MX-GAP-TICK),y);c.stroke();
-    c.beginPath();c.moveTo(u(PW-MX+GAP),y);c.lineTo(u(PW-MX+GAP+TICK),y);c.stroke()}
+  if(!perf){
+    for(let i=0;i<=COLS;i++){const x=u(MX+i*LW);
+      c.beginPath();c.moveTo(x,u(MY-GAP));c.lineTo(x,u(MY-GAP-TICK));c.stroke();
+      c.beginPath();c.moveTo(x,u(PH-MY+GAP));c.lineTo(x,u(PH-MY+GAP+TICK));c.stroke()}
+    for(let i=0;i<=ROWS;i++){const y=u(MY+i*LH);
+      c.beginPath();c.moveTo(u(MX-GAP),y);c.lineTo(u(MX-GAP-TICK),y);c.stroke();
+      c.beginPath();c.moveTo(u(PW-MX+GAP),y);c.lineTo(u(PW-MX+GAP+TICK),y);c.stroke()}
+  }
 
   if($('guides').checked){
     c.strokeStyle='rgba(0,0,0,.16)';
@@ -313,6 +363,119 @@ function drawSheet(canvas,ppi,pg,forExport){
   }
 }
 
+// On screen only: the card stock's perforations, where they really are (no shift).
+function drawPerfs(c){
+  c.save();
+  c.strokeStyle='rgba(43,11,62,.32)'; c.lineWidth=1; c.setLineDash([u(.045),u(.03)]);
+  for(let i=0;i<=COLS;i++){const x=u(MX+i*LW);c.beginPath();c.moveTo(x,u(MY));c.lineTo(x,u(PH-MY));c.stroke()}
+  for(let i=0;i<=ROWS;i++){const y=u(MY+i*LH);c.beginPath();c.moveTo(u(MX),y);c.lineTo(u(PW-MX),y);c.stroke()}
+  c.restore();
+}
+
+function frac(n){let a=Math.abs(n),b=32;while(a%2===0&&b>1){a/=2;b/=2}return a+'/'+b}
+function shiftText(){
+  const p=[];
+  if(nx) p.push((nx<0?'left ':'right ')+frac(nx)+' in');
+  if(ny) p.push((ny<0?'up ':'down ')+frac(ny)+' in');
+  return p.length?p.join(', '):'none';
+}
+
+// Alignment test for card stock. The rulers stay fixed on the page: tick j sits j/32 in
+// from where a perforation belongs, so the tick a real perforation lands on is the shift
+// to pick, whatever is set now. Magenta marks the current shift. The card outlines and
+// text are drawn with that shift applied, so they show where cards will actually print.
+function tickLen(j){return j===0?.17:j%8===0?.14:j%4===0?.115:j%2===0?.08:.05}
+function hRuler(c,x0,y0,hair){
+  const top=y0-.1, half=RJ/32;
+  c.fillStyle='#fff'; c.fillRect(u(x0-.62),u(top-.07),u(1.24),u(.45));
+  c.strokeStyle='#000'; c.lineWidth=hair;
+  c.beginPath(); c.moveTo(u(x0-half),u(top)); c.lineTo(u(x0+half),u(top)); c.stroke();
+  for(let j=-RJ;j<=RJ;j++){
+    const on=j===nx;
+    c.strokeStyle=on?MAG:'#000'; c.lineWidth=on?hair*2.6:hair;
+    c.beginPath(); c.moveTo(u(x0+j/32),u(top)); c.lineTo(u(x0+j/32),u(top+tickLen(j)+(on?.05:0))); c.stroke();
+  }
+  c.fillStyle='#000'; c.font=pt(6.5)+'px BarlowC'; c.textAlign='center';
+  for(const j of [-8,-4,0,4,8]) c.fillText(j?frac(j):'0',u(x0+j/32),u(top+.32));
+  c.font=pt(5.5)+'px SplineMono';
+  c.textAlign='right'; c.fillText('LEFT',u(x0-half-.06),u(top+.075));
+  c.textAlign='left';  c.fillText('RIGHT',u(x0+half+.06),u(top+.075));
+}
+function vRuler(c,x0,y0,hair){
+  const left=x0-.1, half=RJ/32;
+  c.fillStyle='#fff'; c.fillRect(u(left-.07),u(y0-half-.17),u(.48),u(2*half+.36));
+  c.strokeStyle='#000'; c.lineWidth=hair;
+  c.beginPath(); c.moveTo(u(left),u(y0-half)); c.lineTo(u(left),u(y0+half)); c.stroke();
+  for(let j=-RJ;j<=RJ;j++){
+    const on=j===ny;
+    c.strokeStyle=on?MAG:'#000'; c.lineWidth=on?hair*2.6:hair;
+    c.beginPath(); c.moveTo(u(left),u(y0+j/32)); c.lineTo(u(left+tickLen(j)+(on?.05:0)),u(y0+j/32)); c.stroke();
+  }
+  c.fillStyle='#000'; c.font=pt(6.5)+'px BarlowC'; c.textAlign='left';
+  for(const j of [-8,-4,0,4,8]) c.fillText(j?frac(j):'0',u(left+.24),u(y0+j/32)+pt(6.5)*.34);
+  c.font=pt(5.5)+'px SplineMono'; c.textAlign='center';
+  c.fillText('UP',u(left+.09),u(y0-half-.07));
+  c.fillText('DOWN',u(left+.09),u(y0+half+.13));
+}
+function para(c,txt,x,y,maxW,size,fam,lead){
+  c.font=size+'px '+fam;
+  const words=txt.split(' '); let line='';
+  for(const w of words){
+    const t=line?line+' '+w:w;
+    if(line&&c.measureText(t).width>maxW){c.fillText(line,x,y); y+=size*lead; line=w}
+    else line=t;
+  }
+  if(line){c.fillText(line,x,y); y+=size*lead}
+  return y;
+}
+function drawTest(canvas,ppi){
+  S=ppi;
+  const c=canvas.getContext('2d');
+  canvas.width=Math.round(PW*ppi); canvas.height=Math.round(PH*ppi);
+  c.setTransform(1,0,0,1,0,0);
+  c.fillStyle='#fff'; c.fillRect(0,0,canvas.width,canvas.height);
+  const hair=Math.max(.7,.5/72*S);
+
+  c.save(); c.translate(u(nx/32),u(ny/32));
+  c.strokeStyle='#000'; c.lineWidth=hair;
+  for(let i=0;i<=COLS;i++){const x=u(MX+i*LW);c.beginPath();c.moveTo(x,u(MY-.2));c.lineTo(x,u(PH-MY+.2));c.stroke()}
+  for(let i=0;i<=ROWS;i++){const y=u(MY+i*LH);c.beginPath();c.moveTo(u(MX-.2),y);c.lineTo(u(PW-MX+.2),y);c.stroke()}
+
+  // Title card: left card of the middle row.
+  const tx=MX+INSET+PAD, ty=MY+2*LH+INSET+PAD, tw=LW-2*(INSET+PAD);
+  if(logoReady) c.drawImage(logo,u(tx),u(ty+.02),u(.5),u(.5));
+  c.textAlign='left'; c.fillStyle=PURPLE;
+  c.font=pt(21)+'px Anton'; c.fillText('ALIGNMENT TEST',u(tx+.62),u(ty+.33));
+  c.fillStyle='rgba(43,11,62,.7)'; c.font=pt(6.5)+'px SplineMono';
+  c.fillText('PLB \u00b7 TEAR-APART CARDS \u00b7 3.5 \u00d7 2 IN \u00b7 10-UP',u(tx+.62),u(ty+.5));
+  c.fillStyle=PURPLE;
+  let yy=para(c,'Printed with shift: '+shiftText()+'.',u(tx),u(ty+.88),u(tw),pt(10.5),'BarlowC',1.3);
+  para(c,'The magenta tick on each ruler is that setting. If every perforation lands on magenta, you\'re aligned.',
+    u(tx),yy,u(tw),pt(10.5),'BarlowC',1.3);
+
+  // Steps: right card of the middle row.
+  const sx=MX+LW+INSET+PAD;
+  const steps=[
+    'Print this page at Actual size (100%). Never Fit to page.',
+    'Line it up behind a sheet of cards, edges matched, and hold both to a window. Or print it straight onto a card sheet.',
+    'Read the tick where each perforation crosses a ruler. Small ticks are 1/32 in.',
+    'Pick those values under Printer alignment in PLB, then print again to check.'
+  ];
+  yy=u(ty+.12);
+  steps.forEach((t,i)=>{
+    c.fillStyle=MAG; c.font=pt(10.5)+'px Anton'; c.fillText(String(i+1),u(sx),yy);
+    c.fillStyle=PURPLE; yy=para(c,t,u(sx+.17),yy,u(tw-.17),pt(10),'BarlowC',1.22)+u(.035);
+  });
+  c.fillStyle='rgba(43,11,62,.7)';
+  para(c,'Top and bottom rulers disagree? The page was scaled or fed crooked, which a shift can\'t fix. Sort that out first.',
+    u(sx),yy+u(.03),u(tw),pt(8.5),'BarlowC',1.22);
+  c.restore();
+
+  hRuler(c,MX+LW,MY+LH/2,hair);
+  hRuler(c,MX+LW,PH-MY-LH/2,hair);
+  for(const y of [MY+LH,PH-MY-LH]) for(const x of [MX+LW/2,PW-MX-LW/2]) vRuler(c,x,y,hair);
+}
+
 function render(){
   notes=[];
   if(page>=pages()) page=pages()-1;
@@ -331,11 +494,12 @@ function preflight(){
   if(!n){el.className='';el.textContent='No labels yet. Add one, or import a CSV.';return}
   const noArtist=labels.filter(r=>!(r.artist||'').trim()).length;
   const nfs=labels.filter(r=>money(r.price)==='NFS').length;
-  msgs.push(n+' label'+(n===1?'':'s')+' on '+pages()+' sheet'+(pages()===1?'':'s')+'.');
+  msgs.push(n+' label'+(n===1?'':'s')+' on '+pages()+' sheet'+(pages()===1?'':'s')+(stock==='card'?' of cards':'')+'.');
   if(nfs) msgs.push(nfs+' will print NFS.');
   const empty=pages()*PER-n;
   if(empty) msgs.push(empty+' slot'+(empty===1?'':'s')+' blank on the last sheet.');
   if(noArtist){msgs.push(noArtist+' label'+(noArtist===1?'':'s')+' missing an artist name.');level=2}
+  if(stock==='card'){if(nx||ny) msgs.push('Printer shift '+shiftText()+'.'); msgs.push('Print at Actual size (100%).')}
   const uniq=[...new Set(notes)];
   if(uniq.length){msgs.push(...uniq.slice(0,3)); level=Math.max(level,1)}
   el.className=level===2?'bad':level===1?'warn':'';
@@ -455,6 +619,31 @@ $('clear').onclick=()=>{if(confirm('Delete all labels?')){labels=[];page=0;rowsU
 $('prev').onclick=()=>{if(page>0){page--;render()}};
 $('next').onclick=()=>{if(page<pages()-1){page++;render()}};
 $('bone').onchange=$('guides').onchange=render;
+
+function setStock(s){
+  stock=STOCKS[s]?s:'sheet'; ST=STOCKS[stock];
+  LW=ST.LW; LH=ST.LH; COLS=ST.COLS; ROWS=ST.ROWS; PAD=ST.PAD;
+  MX=(PW-COLS*LW)/2; MY=(PH-ROWS*LH)/2; PER=COLS*ROWS;
+  document.body.classList.toggle('stock-card',stock==='card');
+  $('sub').textContent=ST.sub;
+  document.querySelectorAll('#stockseg button').forEach(b=>b.classList.toggle('on',b.dataset.s===stock));
+}
+$('stockseg').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-s]'); if(!b||b.dataset.s===stock) return;
+  const first=page*PER; setStock(b.dataset.s); page=Math.floor(first/PER); render();
+});
+function fillShift(sel,neg,pos){
+  for(let j=-RJ;j<=RJ;j++){const o=document.createElement('option'); o.value=j;
+    o.textContent=j?(j<0?neg:pos)+' '+frac(j)+' in':'None'; sel.appendChild(o)}
+}
+const clampShift=v=>Math.max(-RJ,Math.min(RJ,Math.round(+v||0)));
+$('shiftx').onchange=$('shifty').onchange=()=>{nx=clampShift($('shiftx').value);ny=clampShift($('shifty').value);render()};
+$('dotest').onclick=()=>{
+  const cv=document.createElement('canvas'); drawTest(cv,300);
+  const box=$('print'); box.innerHTML='';
+  const im=new Image(); im.src=cv.toDataURL('image/png'); box.appendChild(im);
+  setTimeout(()=>window.print(),400);
+};
 $('slug').oninput=render;
 
 function csvParse(text){
@@ -513,7 +702,7 @@ function renderAll(ppi){
 $('dopng').onclick=()=>{
   const cvs=renderAll(300);
   if(cvs[0].width<2400){alert('This browser capped the canvas at '+cvs[0].width+' px wide, below 300 PPI. Export from a desktop browser.');return}
-  cvs.forEach((cv,i)=>cv.toBlob(b=>dl(b,'paca-labels-'+(i+1)+'.png'),'image/png'));
+  cvs.forEach((cv,i)=>cv.toBlob(b=>dl(b,ST.file+'-'+(i+1)+'.png'),'image/png'));
 };
 $('doprint').onclick=()=>{
   const box=$('print'); box.innerHTML='';
@@ -522,15 +711,19 @@ $('doprint').onclick=()=>{
 };
 
 function save(){try{localStorage.setItem(KEY,JSON.stringify({labels,slug:$('slug').value,
-  bone:$('bone').checked,guides:$('guides').checked}))}catch(e){}}
+  bone:$('bone').checked,guides:$('guides').checked,stock,nx,ny}))}catch(e){}}
 function load(){
   try{const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(!s) return false;
     labels=Array.isArray(s.labels)?s.labels.map(r=>({...blank(),...r})):[];
     $('slug').value=s.slug||''; $('bone').checked=s.bone!==false; $('guides').checked=!!s.guides;
+    setStock(s.stock); nx=clampShift(s.nx); ny=clampShift(s.ny);
     return true}catch(e){return false}
 }
 
+fillShift($('shiftx'),'Left','Right'); fillShift($('shifty'),'Up','Down');
+setStock('sheet');
 if(!load()) labels=[blank()];
+$('shiftx').value=nx; $('shifty').value=ny;
 rowsUI();
 (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve())
   .then(()=>Promise.all(['Anton','BarlowC','italic 12px FrauncesIt','SplineMono']
