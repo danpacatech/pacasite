@@ -175,7 +175,7 @@ body.stock-card .sheetonly{display:none}
     <input type="file" id="impfile" accept=".csv,text/csv" hidden>
   </div>
   <label style="margin-top:12px">Or paste rows here and import</label>
-  <textarea id="paste" rows="3" placeholder="inventory,artist,title,year,medium,dimensions,price"></textarea>
+  <textarea id="paste" rows="3" placeholder="inventory,artist,title,year,medium,dimensions,price&#10;1987.47.1,Edgar Degas,The Dance Class,1874,Oil on canvas,32 7/8 x 30 3/8 in.,NFS"></textarea>
   <div class="bar" style="margin-top:8px"><button class="g sm" id="imppaste">Import pasted</button></div>
   <p class="hint">Columns: inventory, artist, title, year, medium, dimensions, price. Blank price
   or the word NFS prints NFS. Everything you type is kept in this browser only.</p>
@@ -219,6 +219,14 @@ const pt=p=>p/72*S;
 const u=v=>v*S;
 
 function blank(){return {inventory:'',artist:'',title:'',year:'',medium:'',dimensions:'',price:''}}
+// A first visit starts with a real label so the layout reads at a glance. From The Met's record:
+// Edgar Degas, The Dance Class, 1874, oil on canvas, object no. 1987.47.1.
+const EXAMPLE={inventory:'1987.47.1',artist:'Edgar Degas',title:'The Dance Class',year:'1874',
+  medium:'Oil on canvas',dimensions:'32 7/8 x 30 3/8 in.',price:'NFS'};
+const example=()=>({...EXAMPLE});
+// Nothing typed but the example's own values, or nothing at all: safe to replace on import.
+const untouchedRow=r=>FIELDS.every(f=>{const v=(r[f]||'').trim();return !v||v===EXAMPLE[f]});
+const isExample=r=>untouchedRow(r)&&FIELDS.some(f=>(r[f]||'').trim());
 function pages(){return Math.max(1,Math.ceil(labels.length/PER))}
 
 function money(v){
@@ -492,6 +500,9 @@ function preflight(){
   const el=$('flight'); const msgs=[]; let level=0;
   const n=labels.length;
   if(!n){el.className='';el.textContent='No labels yet. Add one, or import a CSV.';return}
+  const ex=labels.map((r,i)=>isExample(r)?i+1:0).filter(Boolean);
+  if(ex.length===n){el.className='';el.textContent='Example label: Degas, The Dance Class, from The Met. '+
+    'Tap it to make it yours, or import a CSV to replace it.';return}
   const noArtist=labels.filter(r=>!(r.artist||'').trim()).length;
   const nfs=labels.filter(r=>money(r.price)==='NFS').length;
   msgs.push(n+' label'+(n===1?'':'s')+' on '+pages()+' sheet'+(pages()===1?'':'s')+(stock==='card'?' of cards':'')+'.');
@@ -499,6 +510,8 @@ function preflight(){
   const empty=pages()*PER-n;
   if(empty) msgs.push(empty+' slot'+(empty===1?'':'s')+' blank on the last sheet.');
   if(noArtist){msgs.push(noArtist+' label'+(noArtist===1?'':'s')+' missing an artist name.');level=2}
+  if(ex.length){msgs.push((ex.length===1?'Label ':'Labels ')+ex.join(', ')+(ex.length===1?' is':' are')+
+    ' still the Degas example. Delete it before printing.');level=Math.max(level,1)}
   if(stock==='card'){if(nx||ny) msgs.push('Printer shift '+shiftText()+'.'); msgs.push('Print at Actual size (100%).')}
   const uniq=[...new Set(notes)];
   if(uniq.length){msgs.push(...uniq.slice(0,3)); level=Math.max(level,1)}
@@ -672,7 +685,7 @@ function importCSV(text){
     out.push(o);
   }
   if(!out.length) return alert('No data rows found.');
-  const untouched=labels.every(r=>FIELDS.every(f=>!(r[f]||'').trim()));
+  const untouched=labels.every(untouchedRow);
   labels=untouched?out:labels.concat(out);
   page=0; rowsUI(); render();
 }
@@ -722,7 +735,7 @@ function load(){
 
 fillShift($('shiftx'),'Left','Right'); fillShift($('shifty'),'Up','Down');
 setStock('sheet');
-if(!load()) labels=[blank()];
+if(!load()) labels=[example()];
 $('shiftx').value=nx; $('shifty').value=ny;
 rowsUI();
 (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve())
