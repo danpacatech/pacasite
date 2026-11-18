@@ -80,15 +80,6 @@ button.sm{padding:6px 10px;font-size:13px;min-height:34px}
 .opt{display:flex;align-items:center;gap:9px;padding:7px 0;font-size:15px}
 .opt input[type=checkbox]{width:20px;height:20px;flex:0 0 20px;accent-color:var(--mag)}
 .hint{font-size:13px;color:#7b6c86;line-height:1.5;margin:8px 0 0}
-.seg{display:flex;margin:0 0 12px;border:1px solid var(--purple);border-radius:10px;overflow:hidden;background:#fff}
-.seg button{flex:1;min-width:0;border:0;border-radius:0;min-height:56px;padding:8px 6px;background:#fff;
-  color:var(--purple);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;line-height:1}
-.seg button+button{border-left:1px solid var(--purple)}
-.seg button b{font:400 15px Anton,sans-serif;letter-spacing:.03em;text-transform:uppercase;font-weight:400}
-.seg button span{font:9.5px SplineMono,monospace;letter-spacing:.04em;opacity:.75}
-.seg button.on{background:var(--purple);color:var(--bone)}
-body:not(.stock-card) .cardonly{display:none}
-body.stock-card .sheetonly{display:none}
 #dock{position:sticky;bottom:0;margin:0 -12px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));
   background:rgba(239,232,219,.96);border-top:1px solid var(--line);display:flex;gap:8px;z-index:5}
 #dock button{flex:1}
@@ -110,14 +101,9 @@ body.stock-card .sheetonly{display:none}
   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAMAAABlApw1AAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAAABgFBMVEWObpbqz+D6t2rzncRz0/bIyMjL32GiialYKWX4oDv36grk6Zud5fq8qcHu7u5BvvC1zx41wvV2dnZ1T4A/Pz8uAD0AnuuZmZm/2EP+/v4AAABIFFb////tJHXsHXEBqe261DA8BUv+8AT3ig31+ND15+/6+vpBC1D3mCv6ypH12ObD2kzuR4vuOYLwVpX197P09PTyd6r4+PjZ6I776dDQ43ItuPD2p8j3t9L+8i772K3zh7Tr6+v39/eeg6Wv5fnl7KtuRnnTx9b+9U74xdv+9m74qE3m5uby8vJQxPKM2Pb++I96VYRlOnDxaaKqqqr6wHsXse7J7PrW8vvtMX1YKWS9vb31lbvx8fGslbL3kRvxY51ozPTGtsq3o7zY2NgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACRZIDrAAAAYHRSTlP//////wn//////////07///8C/wT//wX//gD/Av///////////9P///////////9v/67///////////8sjP///////////xVN////////A////////wb/Nv///////wxCsXzcAAAWsElEQVR42s1dCVsaydYuojFumSQzc+f7UMGg3aAIggjiAoI7GmMiRsX9//+LW0t3de1VzZK59Twzj0GQervOe85bp6pOgbkhtQXYyE93jV6n3GxW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" alt="PACA">
   <div>
     <div class="h1">PLB · Label Builder</div>
-    <div class="h2" id="sub">4 × 2.5 IN · 8-UP ON LETTER · 300 PPI</div>
+    <div class="h2">3.5 × 2 IN · 10-UP TEAR-APART · 300 PPI</div>
   </div>
 </header>
-
-<div class="seg" id="stockseg">
-  <button data-s="sheet" class="on"><b>Cut sheet</b><span>4 × 2.5 in · 8-up</span></button>
-  <button data-s="card"><b>Tear-apart cards</b><span>3.5 × 2 in · 10-up</span></button>
-</div>
 
 <div id="stage">
   <canvas id="sheet"></canvas>
@@ -147,15 +133,13 @@ body.stock-card .sheetonly{display:none}
   <label>Show name, printed small in the bottom margin</label>
   <input id="slug" placeholder="Resident Artists Fall 2026" maxlength="60">
   <div class="opt"><input type="checkbox" id="bone" checked><span>Print the bone field. Turn off to save toner on cream stock.</span></div>
-  <div class="opt"><input type="checkbox" id="guides"><span class="sheetonly">Faint hairlines on the cut lines, for scissors.</span><span class="cardonly">Faint outlines on the perforations, for a plain-paper proof.</span></div>
-  <p class="hint sheetonly">Crop marks always print. Nothing is drawn within 0.10 in of a trim line, so a
-  slightly off cut leaves paper rather than the next label's ink.</p>
-  <p class="hint cardonly">Fits any card stock that says Avery template 8371 on the box (5371, 8371, 28371
-  and more): 10-up, 2 × 3.5 in, 0.5 in top margin, 0.75 in sides. No crop marks: the cards tear apart. Nothing is
-  drawn within 0.10 in of a perforation, so a slightly off feed leaves paper at the edge, not ink.</p>
+  <div class="opt"><input type="checkbox" id="guides"><span>Faint outlines on the perforations, for a plain-paper proof.</span></div>
+  <p class="hint">Fits any card stock that says Avery template 8371 on the box (5371, 8371, 28371
+  and more): 10-up, 2 × 3.5 in, 0.5 in top margin, 0.75 in sides. Nothing is drawn within 0.10 in of a
+  perforation, so a slightly off feed leaves paper at the edge, not ink.</p>
 </div>
 
-<div class="card cardonly">
+<div class="card">
   <h3>Printer alignment</h3>
   <div class="g2">
     <div><label for="shiftx">Shift left / right</label><select id="shiftx"></select></div>
@@ -192,17 +176,13 @@ body.stock-card .sheetonly{display:none}
 
 <script>
 const IN=1, PW=8.5, PH=11, INSET=.10;
-// Stocks. Margins are centered, which lands both on spec: the cut sheet is 0.25 / 0.5 in,
-// and the cards match Avery 5371 / 8371 / 28371 (0.75 in sides, 0.5 in top and bottom).
-// K scales type and spacing so the 4 x 2.5 label design fits a 3.5 x 2 card.
-const STOCKS={
-  sheet:{LW:4,  LH:2.5,COLS:2,ROWS:4,PAD:.17,K:1,  file:'paca-labels',
-    sub:'4 \u00d7 2.5 IN \u00b7 8-UP ON LETTER \u00b7 300 PPI'},
-  card: {LW:3.5,LH:2,  COLS:2,ROWS:5,PAD:.14,K:.84,file:'paca-cards',
-    sub:'3.5 \u00d7 2 IN \u00b7 10-UP TEAR-APART \u00b7 300 PPI'}
-};
-let stock='sheet', ST=STOCKS.sheet, LW, LH, COLS, ROWS, MX, MY, PAD, PER;
-// Printer shift for card stock, in 1/32 in. Positive is right / down.
+// Tear-apart business cards on Avery template 8371 (5371, 8371, 28371 and more):
+// 10-up, 3.5 x 2 in, 0.75 in side margins, 0.5 in top and bottom.
+const LW=3.5, LH=2, COLS=2, ROWS=5, PAD=.14, PER=COLS*ROWS;
+const MX=(PW-COLS*LW)/2, MY=(PH-ROWS*LH)/2;
+// K scales the type and spacing of the original 4 x 2.5 label design down to the card.
+const K=.84;
+// Printer shift, in 1/32 in. Positive is right / down.
 const RJ=8;
 let nx=0, ny=0;
 const BONE='#F4EDE0', PURPLE='#2B0B3E', MAG='#ED2375';
@@ -263,7 +243,7 @@ function wrap(c,txt,fam,size,maxW,maxLines){
 }
 
 function drawLabel(c,x,y,row,idx){
-  const k=ST.K;
+  const k=K;
   const fL=u(x+INSET), fR=u(x+LW-INSET), fT=u(y+INSET), fB=u(y+LH-INSET);
   const L=fL+u(PAD), R=fR-u(PAD), W=R-L;
 
@@ -330,22 +310,9 @@ function drawSheet(canvas,ppi,pg,forExport){
   c.setTransform(1,0,0,1,0,0);
   c.fillStyle='#fff'; c.fillRect(0,0,canvas.width,canvas.height);
 
-  const perf=stock==='card';
-  if(perf){
-    if(!forExport) drawPerfs(c);
-    c.translate(u(nx/32),u(ny/32));
-  }
-
-  const TICK=.12, GAP=.03;
-  c.strokeStyle='#000'; c.lineWidth=Math.max(.7,.25/72*S);
-  if(!perf){
-    for(let i=0;i<=COLS;i++){const x=u(MX+i*LW);
-      c.beginPath();c.moveTo(x,u(MY-GAP));c.lineTo(x,u(MY-GAP-TICK));c.stroke();
-      c.beginPath();c.moveTo(x,u(PH-MY+GAP));c.lineTo(x,u(PH-MY+GAP+TICK));c.stroke()}
-    for(let i=0;i<=ROWS;i++){const y=u(MY+i*LH);
-      c.beginPath();c.moveTo(u(MX-GAP),y);c.lineTo(u(MX-GAP-TICK),y);c.stroke();
-      c.beginPath();c.moveTo(u(PW-MX+GAP),y);c.lineTo(u(PW-MX+GAP+TICK),y);c.stroke()}
-  }
+  if(!forExport) drawPerfs(c);
+  c.translate(u(nx/32),u(ny/32));
+  c.lineWidth=Math.max(.7,.25/72*S);
 
   if($('guides').checked){
     c.strokeStyle='rgba(0,0,0,.16)';
@@ -505,14 +472,15 @@ function preflight(){
     'Tap it to make it yours, or import a CSV to replace it.';return}
   const noArtist=labels.filter(r=>!(r.artist||'').trim()).length;
   const nfs=labels.filter(r=>money(r.price)==='NFS').length;
-  msgs.push(n+' label'+(n===1?'':'s')+' on '+pages()+' sheet'+(pages()===1?'':'s')+(stock==='card'?' of cards':'')+'.');
+  msgs.push(n+' label'+(n===1?'':'s')+' on '+pages()+' sheet'+(pages()===1?'':'s')+' of cards.');
   if(nfs) msgs.push(nfs+' will print NFS.');
   const empty=pages()*PER-n;
   if(empty) msgs.push(empty+' slot'+(empty===1?'':'s')+' blank on the last sheet.');
   if(noArtist){msgs.push(noArtist+' label'+(noArtist===1?'':'s')+' missing an artist name.');level=2}
   if(ex.length){msgs.push((ex.length===1?'Label ':'Labels ')+ex.join(', ')+(ex.length===1?' is':' are')+
     ' still the Degas example. Delete it before printing.');level=Math.max(level,1)}
-  if(stock==='card'){if(nx||ny) msgs.push('Printer shift '+shiftText()+'.'); msgs.push('Print at Actual size (100%).')}
+  if(nx||ny) msgs.push('Printer shift '+shiftText()+'.');
+  msgs.push('Print at Actual size (100%).');
   const uniq=[...new Set(notes)];
   if(uniq.length){msgs.push(...uniq.slice(0,3)); level=Math.max(level,1)}
   el.className=level===2?'bad':level===1?'warn':'';
@@ -633,18 +601,6 @@ $('prev').onclick=()=>{if(page>0){page--;render()}};
 $('next').onclick=()=>{if(page<pages()-1){page++;render()}};
 $('bone').onchange=$('guides').onchange=render;
 
-function setStock(s){
-  stock=STOCKS[s]?s:'sheet'; ST=STOCKS[stock];
-  LW=ST.LW; LH=ST.LH; COLS=ST.COLS; ROWS=ST.ROWS; PAD=ST.PAD;
-  MX=(PW-COLS*LW)/2; MY=(PH-ROWS*LH)/2; PER=COLS*ROWS;
-  document.body.classList.toggle('stock-card',stock==='card');
-  $('sub').textContent=ST.sub;
-  document.querySelectorAll('#stockseg button').forEach(b=>b.classList.toggle('on',b.dataset.s===stock));
-}
-$('stockseg').addEventListener('click',e=>{
-  const b=e.target.closest('button[data-s]'); if(!b||b.dataset.s===stock) return;
-  const first=page*PER; setStock(b.dataset.s); page=Math.floor(first/PER); render();
-});
 function fillShift(sel,neg,pos){
   for(let j=-RJ;j<=RJ;j++){const o=document.createElement('option'); o.value=j;
     o.textContent=j?(j<0?neg:pos)+' '+frac(j)+' in':'None'; sel.appendChild(o)}
@@ -715,7 +671,7 @@ function renderAll(ppi){
 $('dopng').onclick=()=>{
   const cvs=renderAll(300);
   if(cvs[0].width<2400){alert('This browser capped the canvas at '+cvs[0].width+' px wide, below 300 PPI. Export from a desktop browser.');return}
-  cvs.forEach((cv,i)=>cv.toBlob(b=>dl(b,ST.file+'-'+(i+1)+'.png'),'image/png'));
+  cvs.forEach((cv,i)=>cv.toBlob(b=>dl(b,'paca-cards-'+(i+1)+'.png'),'image/png'));
 };
 $('doprint').onclick=()=>{
   const box=$('print'); box.innerHTML='';
@@ -724,17 +680,16 @@ $('doprint').onclick=()=>{
 };
 
 function save(){try{localStorage.setItem(KEY,JSON.stringify({labels,slug:$('slug').value,
-  bone:$('bone').checked,guides:$('guides').checked,stock,nx,ny}))}catch(e){}}
+  bone:$('bone').checked,guides:$('guides').checked,nx,ny}))}catch(e){}}
 function load(){
   try{const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(!s) return false;
     labels=Array.isArray(s.labels)?s.labels.map(r=>({...blank(),...r})):[];
     $('slug').value=s.slug||''; $('bone').checked=s.bone!==false; $('guides').checked=!!s.guides;
-    setStock(s.stock); nx=clampShift(s.nx); ny=clampShift(s.ny);
+    nx=clampShift(s.nx); ny=clampShift(s.ny);
     return true}catch(e){return false}
 }
 
 fillShift($('shiftx'),'Left','Right'); fillShift($('shifty'),'Up','Down');
-setStock('sheet');
 if(!load()) labels=[example()];
 $('shiftx').value=nx; $('shifty').value=ny;
 rowsUI();
