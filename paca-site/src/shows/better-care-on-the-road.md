@@ -12,6 +12,7 @@ summary: |-
   Saturday, November 21 · 7:30pm · PACA, 1505 State Street · Free
 image: /assets/uploads/poster-portrait.png
 ticket_url: https://tickets.eriereader.com/events/proper-care-on-the-road-a-first-listen-11-21-2026
+playbill: /assets/uploads/proper-care-on-the-road_print-set_double-sided.pdf
 bios_live: false
 ---
 **FIRST LISTEN: PROPER CARE ON THE ROAD**
