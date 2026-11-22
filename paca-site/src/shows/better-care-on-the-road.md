@@ -2,7 +2,7 @@
 title: Proper Care on the Road
 discipline: Theatre
 featured: false
-status: upcoming
+status: past
 date_start: 2026-11-21T19:30
 date_end: 2026-11-21T21:00
 showtime: 7:30
