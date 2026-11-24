@@ -2,7 +2,7 @@
 title: "Beginner Basket Class Part III: Weave Harder, with Dan Bainbridge"
 discipline: Visual Art
 featured: false
-status: upcoming
+status: past
 date_label: November 17, 2026
 date_start: 2026-11-17T18:00
 date_end: 2026-11-17T20:01
